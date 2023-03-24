@@ -19,3 +19,14 @@ model User {
   email String  @unique
   name  String?
 }
+
+model Schema {
+  /// @TsED.Groups("!creation")
+  id      Int       @default(autoincrement()) @id
+  name    String  
+  schema  Json
+  /// @TsED.Groups("!creation")
+  created DateTime  @default(now())
+  /// @TsED.Groups('!creation')
+  updated DateTime  @default(now())
+}

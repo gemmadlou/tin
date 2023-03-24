@@ -1,14 +1,26 @@
 version: '3.5'
 services:
-  server:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-      args:
-        - http_proxy
-        - https_proxy
-        - no_proxy
-    image: tin/server:latest
+  # server:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #     args:
+  #       - http_proxy
+  #       - https_proxy
+  #       - no_proxy
+  #   image: tin/server:latest
+  #   ports:
+  #     - "8081:8081"
+  database:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
     ports:
-      - "8081:8081"
-
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:
