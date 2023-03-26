@@ -2,26 +2,23 @@
 
 ## Roadmap
 
-| When   | Item         | Started            | Dev*               | Spec | Doc |
-| ------ | ------------ | ------------------ | ------------------ | ---- | --- |
-| 2023H1 | Schemas      | :white_check_mark: | :white_check_mark: |
-| 2023H1 | Imports      |
-| 2023H1 | Mapper       |
-| 2023H1 | Extracts     |
-| 2023H1 | Data Sets    |
-| 2023H1 | SFTP Uploads |
+| When   | Item                    | Started            | Dev*               | Spec | Doc |
+| ------ | ----------------------- | ------------------ | ------------------ | ---- | --- |
+| 2023H1 | Schemas                 | :white_check_mark: | :white_check_mark: |
+| 2023H1 | Imports                 | :white_check_mark: |
+|        | > can extract data rows |
+| 2023H1 | Mapper                  |
+| 2023H1 | Extracts                |
+| 2023H1 | Data Sets               |
+| 2023H1 | SFTP Uploads            |
 
-## Design
+## Scrap pad
 
-```http
-POST /schemas
-GET  /schemas/:id
-POST /schemas/:id
-DELETE /schemas/:id
-GET  /schemas
-```
+> Just design notes, ideas and pseudocode
 
-## Tutorial
+## Tutorials
+
+## End-to-End - creating a schema based filed importer
 
 tbc
 

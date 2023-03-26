@@ -13,7 +13,6 @@ import * as pages from "./controllers/pages/index";
   ...config,
   multer: {
     dest: `./uploads`
-    // see multer options
   },
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8083,

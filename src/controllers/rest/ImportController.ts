@@ -1,40 +1,16 @@
-import { BodyParams, MultipartFile, PlatformMulterFile, Req, Use } from "@tsed/common";
+import { BodyParams, MultipartFile, PathParams, PlatformMulterFile, Req, Use } from "@tsed/common";
 import { Controller, Inject } from "@tsed/di";
-import { Get, Groups, Post, Property, Required, Returns } from "@tsed/schema";
+import { Delete, Get, Groups, Post, Property, Required, Returns, Summary } from "@tsed/schema";
 import { ImportModel, ImportsRepository } from "@tsed/prisma";
 import multer from "multer";
 
-class MultiPartFileSchema {
+class PostRequest {
   @Property()
-  fieldname: string;
-
-  @Property()
-  originalname: string;
-
-  @Property()
-  encoding: string;
-
-  @Property()
-  mimetype: string;
-
-  @Property()
-  destination: string;
-
-  @Property()
-  filename: string;
-
-  @Property()
-  path: string;
-
-  @Property()
-  size: number;
+  @Required()
+  schemaId: number;
 }
 
-class PostRequest {
-  // @Property()
-  // @Required()
-  // file: PlatformMulterFile
-
+class UpdateRequest {
   @Property()
   @Required()
   schemaId: number;
@@ -47,21 +23,27 @@ export class ImportController {
   @Inject()
   protected service: ImportsRepository;
 
-  @Get("/")
-  get() {
-    return "hello";
+  @Get('/:id')
+  @Summary("Get an import")
+  @Returns(200, ImportModel)
+  async get(@PathParams('id') id: number): Promise<ImportModel|null> {
+    return await this.service.findUnique({ where: { id } })
   }
 
+  @Get('/')
+  @Summary("Get all imports")
+  @Returns(200, ImportModel)
+  async getAll(): Promise<ImportModel[]> {
+    return await this.service.findMany()
+  }
 
   @Post("/")
-  @Returns(ImportModel)
+  @Summary("Create a new import")
+  @Returns(201, ImportModel)
   async uploadFile(
-    // @BodyParams() @Groups("creation") model: ImportModel,
-    // @MultipartFileRequired("file") file: MultiPartFileSchema,
     @BodyParams() body: PostRequest,
     @MultipartFile("file") @Required() file: MultipartFile
   ): Promise<ImportModel> {
-    console.log({ body, file })
 
     let data = new ImportModel()
     data.mimetype = file.mimetype;
@@ -71,14 +53,29 @@ export class ImportController {
     data.filepath = file.path
     data.size = file.size
 
-    console.log({data})
-
-    let created = await this.service.create({ data })
-
-    return created;
+    return await this.service.create({ data })
   }
 
-  // This is the configuration for the Multer middleware, which handles file uploads.
-  @Use(multer({ dest: "uploads/" }).single("file"))
-  private fileUploadMiddleware() { }
+  @Post('/:id')
+  @Summary("Update import")
+  @Returns(200, ImportModel)
+  async update(
+    @PathParams('id') id: number, 
+    @BodyParams() body: UpdateRequest,
+  ): Promise<ImportModel> {
+    return await this.service.update({ 
+      where: { id }, 
+      data: {
+        ...body
+      }
+    });
+  }
+
+  @Delete('/:id')
+  @Summary("Delete import")
+  @Returns(204)
+  async delete(@PathParams('id') id: number): Promise<void> {
+    await this.service.delete({ where: { id }});
+    return;
+  }
 }

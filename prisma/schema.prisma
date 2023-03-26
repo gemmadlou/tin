@@ -34,14 +34,25 @@ model Schema {
 
 model Import {
   /// @TsED.Groups("!creation")
-  id           Int      @id @default(autoincrement())
-  schema       Schema   @relation("importsOnSchema", fields: [schemaId], references: [id])
+  id           Int          @id @default(autoincrement())
+  schema       Schema       @relation("importsOnSchema", fields: [schemaId], references: [id])
   schemaId     Int
   originalName String
   filename     String
   filepath     String
   mimetype     String
   size         Int
-  created      DateTime @default(now())
-  updated      DateTime @default(now())
+  created      DateTime     @default(now())
+  updated      DateTime     @default(now())
+  data         ImportData[] @relation("importData")
+}
+
+model ImportData {
+  /// @TsED.Groups("!creation")
+  id       Int      @id @default(autoincrement())
+  import   Import   @relation("importData", fields: [importId], references: [id])
+  importId Int
+  row      Json
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
 }
