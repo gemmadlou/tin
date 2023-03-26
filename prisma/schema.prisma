@@ -53,6 +53,8 @@ model ImportData {
   import   Import   @relation("importData", fields: [importId], references: [id])
   importId Int
   row      Json
+  /// @TsED.Groups('!creation')
   created  DateTime @default(now())
+  /// @TsED.Groups('!creation')
   updated  DateTime @default(now())
 }

@@ -2,7 +2,9 @@ import { BodyParams, MultipartFile, PathParams, PlatformMulterFile, Req, Use } f
 import { Controller, Inject } from "@tsed/di";
 import { Delete, Get, Groups, Post, Property, Required, Returns, Summary } from "@tsed/schema";
 import { ImportModel, ImportsRepository } from "@tsed/prisma";
-import multer from "multer";
+import * as fs from 'fs';
+import XLSX from "xlsx";
+import * as csv from 'fast-csv';
 
 class PostRequest {
   @Property()
@@ -14,6 +16,27 @@ class UpdateRequest {
   @Property()
   @Required()
   schemaId: number;
+}
+
+function readDataFromFile(mimetype: string, filePath: string): Promise<any[]> {
+  if (mimetype.includes('csv')) {
+    const rows: any[] = [];
+    return new Promise((resolve, reject) => {
+      fs.createReadStream(filePath)
+        .pipe(csv.parse({ headers: true }))
+        .on('error', reject)
+        .on('data', row => rows.push(row))
+        .on('end', () => resolve(rows));
+    });
+  }
+  // } else if (filePath.endsWith('.xlsx')) {
+  //   // const workbook = XLSX.readFile(filePath);
+  //   // const sheetName = workbook.SheetNames[0];
+  //   // const worksheet = workbook.Sheets[sheetName];
+  //   // console.log(worksheet)
+  // } else {
+    throw new Error('Unsupported file format');
+  // }
 }
 
 
@@ -53,7 +76,22 @@ export class ImportController {
     data.filepath = file.path
     data.size = file.size
 
-    return await this.service.create({ data })
+    let result = await readDataFromFile(file.mimetype, file.path)
+    return await this.service.create({
+      data: {
+        ...data,
+        data: {
+          create: result.map(i => {
+            return {
+              row: i
+            }
+          }),
+        },
+      },
+      include: {
+        data: true, // Include all posts in the returned object
+      },
+    })
   }
 
   @Post('/:id')
