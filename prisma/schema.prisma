@@ -15,18 +15,33 @@ generator tsed {
 }
 
 model User {
-  id    Int     @default(autoincrement()) @id
+  id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
 }
 
 model Schema {
   /// @TsED.Groups("!creation")
-  id      Int       @default(autoincrement()) @id
-  name    String  
+  id      Int      @id @default(autoincrement())
+  name    String
   schema  Json
   /// @TsED.Groups("!creation")
-  created DateTime  @default(now())
+  created DateTime @default(now())
   /// @TsED.Groups('!creation')
-  updated DateTime  @default(now())
+  updated DateTime @default(now())
+  imports Import[] @relation("importsOnSchema")
+}
+
+model Import {
+  /// @TsED.Groups("!creation")
+  id           Int      @id @default(autoincrement())
+  schema       Schema   @relation("importsOnSchema", fields: [schemaId], references: [id])
+  schemaId     Int
+  originalName String
+  filename     String
+  filepath     String
+  mimetype     String
+  size         Int
+  created      DateTime @default(now())
+  updated      DateTime @default(now())
 }

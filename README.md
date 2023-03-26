@@ -17,6 +17,7 @@
 POST /schemas
 GET  /schemas/:id
 POST /schemas/:id
+DELETE /schemas/:id
 GET  /schemas
 ```
 

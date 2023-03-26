@@ -11,6 +11,10 @@ import * as pages from "./controllers/pages/index";
 
 @Configuration({
   ...config,
+  multer: {
+    dest: `./uploads`
+    // see multer options
+  },
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8083,
   httpsPort: false, // CHANGE
