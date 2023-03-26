@@ -2,9 +2,9 @@
 
 ## Roadmap
 
-| When   | Item         | Started            | Dev* | Spec | Doc |
-| ------ | ------------ | ------------------ | ---- | ---- | --- |
-| 2023H1 | Schemas      | :white_check_mark: |
+| When   | Item         | Started            | Dev*               | Spec | Doc |
+| ------ | ------------ | ------------------ | ------------------ | ---- | --- |
+| 2023H1 | Schemas      | :white_check_mark: | :white_check_mark: |
 | 2023H1 | Imports      |
 | 2023H1 | Mapper       |
 | 2023H1 | Extracts     |
@@ -19,6 +19,10 @@ GET  /schemas/:id
 POST /schemas/:id
 GET  /schemas
 ```
+
+## Tutorial
+
+tbc
 
 ## Getting started
 

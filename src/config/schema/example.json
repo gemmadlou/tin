@@ -1,0 +1,11 @@
+{
+    "name": "hello",
+    "schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://example.com/product.schema.json",
+        "title": "Product",
+        "description": "A product in the catalog",
+        "properties": {},
+        "type": "object"
+    }
+}
