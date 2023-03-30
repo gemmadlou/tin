@@ -5,3 +5,4 @@
 export * from "./HelloWorldController";
 export * from "./SchemaController";
 export * from "./ImportController";
+export * from "./MapperController";

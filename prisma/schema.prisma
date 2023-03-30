@@ -29,7 +29,10 @@ model Schema {
   created DateTime @default(now())
   /// @TsED.Groups('!creation')
   updated DateTime @default(now())
+  /// @TsED.Groups('!creation')
   imports Import[] @relation("importsOnSchema")
+  /// @TsED.Groups('!creation')
+  mappers Mapper[] @relation("mappersOnSchema")
 }
 
 model Import {
@@ -45,6 +48,8 @@ model Import {
   created      DateTime     @default(now())
   updated      DateTime     @default(now())
   data         ImportData[] @relation("importData")
+  map          Mapper?      @relation("importMap", fields: [importMapId], references: [id])
+  importMapId  Int?
 }
 
 model ImportData {
@@ -57,4 +62,15 @@ model ImportData {
   created  DateTime @default(now())
   /// @TsED.Groups('!creation')
   updated  DateTime @default(now())
+}
+
+model Mapper {
+  /// @TsED.Groups("!creation")
+  id       Int      @id @default(autoincrement())
+  /// @TsED.Groups("!creation")
+  imports  Import[] @relation("importMap")
+  config   Json
+  /// @TsED.Groups("!creation")
+  schema   Schema   @relation("mappersOnSchema", fields: [schemaId], references: [id])
+  schemaId Int
 }

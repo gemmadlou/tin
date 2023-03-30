@@ -1,0 +1,12 @@
+{
+    "id": {
+        "fields": [
+            "officeId"
+        ]
+    },
+    "name": {
+        "fields": [
+            "officeName"
+        ]
+    }
+}

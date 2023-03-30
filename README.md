@@ -1,26 +1,134 @@
-# tin
+# Tin
 
-## Roadmap
+Tin is a fun project for me and is **under development**. 
+It will hopefully be an API service to upload and manage all sorts of differently 
+structured data files which can then be mapped, transformed and conformed
+consistently to defined schemas.
 
-| When   | Item                    | Started            | Dev*               | Spec | Doc |
-| ------ | ----------------------- | ------------------ | ------------------ | ---- | --- |
-| 2023H1 | Schemas                 | :white_check_mark: | :white_check_mark: |
-| 2023H1 | Imports                 | :white_check_mark: |
-|        | > can extract data rows |
-| 2023H1 | Mapper                  |
-| 2023H1 | Extracts                |
-| 2023H1 | Data Sets               |
-| 2023H1 | SFTP Uploads            |
+## Roadmap MVP
 
-## Scrap pad
+| When   | Item              | Started            | Dev*               | Doc |
+| ------ | ----------------- | ------------------ | ------------------ | --- |
+| 2023H1 | Schemas           | :white_check_mark: | :white_check_mark: |
+| 2023H1 | Imports           | :white_check_mark: |
+|        | /> CSV            | :white_check_mark: | :white_check_mark: |
+|        | /> XLSX           |
+|        | /> Background job |
+| 2023H1 | Mapper            | :white_check_mark: |
+| 2023H1 | Transform         |
+| 2023H1 | Data Sets         |
+| 2023H1 | SFTP Uploads      |
+
+## Scratch pad
 
 > Just design notes, ideas and pseudocode
+
+Design -> https://bjdash.github.io/JSON-Schema-Builder/
+Validator -> https://www.jsonschemavalidator.net/
+
+```
+# Mapper
+# schema field dot.notation if nested - no arrays
+# Example schema
+{
+  id: {
+    fields: ['OfficeId']
+  },
+  name: {
+    fields: ['OfficeName']
+  },
+  parentId: {
+    fields: ['ParentOfficeId']
+  }
+}
+```
 
 ## Tutorials
 
 ## End-to-End - creating a schema based filed importer
 
-tbc
+...in progress
+
+Step. Creating a schema
+
+```http
+echo '{
+  "name": "office",
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "office",
+    "type": "object",
+    "title": "Office",
+    "properties": {
+        "id": {
+            "description": "Office id",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ]
+        },
+        "name": {
+            "type": "string",
+            "description": "Office name"
+        },
+        "parent": {
+            "description": "Office parent - either id or name",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ]
+        }
+    },
+    "required": [
+        "id",
+        "name"
+    ]
+  }
+}' | jq -c | http post http://0.0.0.0:8083/api/schemas
+```
+
+Step. Creating an import
+
+```http
+http -f post http://0.0.0.0:8083/api/imports \
+  schemaId=1 \
+  importMapId=1 \
+  file@fixtures/offices.csv 
+```
+
+Step. Creating a mapper for an import
+
+```http
+echo '{
+  "schemaId": 1,
+  "imports": [],
+  "config": {
+    "id": {
+      "fields": [
+          "OfficeId"
+      ]
+    },
+    "name": {
+      "fields": [
+        "OfficeName"
+      ]
+    },
+    "parent": {
+      "fields": [
+        "ParentOfficeId"
+      ]
+    }
+  }
+}' | jq | http post http://0.0.0.0:8083/api/mappers
+```
 
 ## Getting started
 
@@ -46,25 +154,4 @@ docker compose build
 
 # start docker image
 docker compose up
-```
-
-## Barrelsby
-
-This project uses [barrelsby](https://www.npmjs.com/package/barrelsby) to generate index files to import the controllers.
-
-Edit `.barreslby.json` to customize it:
-
-```json
-{
-  "directory": [
-    "./src/controllers/rest",
-    "./src/controllers/pages"
-  ],
-  "exclude": [
-    "__mock__",
-    "__mocks__",
-    ".spec.ts"
-  ],
-  "delete": true
-}
 ```
