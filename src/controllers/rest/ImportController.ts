@@ -130,7 +130,7 @@ export class ImportController {
 
   @Post('/:id/transform')
   @Summary("Transform import")
-  @Returns(200, ImportModel)
+  @Returns(201, ImportModel)
   async transform(
     @PathParams('id') id: number, 
     @BodyParams() body: TransformRequest,
@@ -178,6 +178,13 @@ export class ImportController {
       }),
       skipDuplicates: true
     })
+  }
+
+  @Get('/:id/transform')
+  @Summary("Get an transformed data")
+  @Returns(200, ImportModel)
+  async getTransformData(@PathParams('id') id: number): Promise<TransformDataModel[]> {
+    return await this.transformer.findMany({ where: { importId: id } })
   }
 
   @Delete('/:id')

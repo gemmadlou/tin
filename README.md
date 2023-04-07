@@ -217,8 +217,61 @@ echo '{
 
 ### Step 4. Transforming an import through the mapper.
 
+To finally transform the data using the mapper:
+
 ```bash
 http post http://0.0.0.0:8083/api/imports/1/transform mapperId=1
+```
+
+Retrieve the final transformation:
+
+```bash
+http http://0.0.0.0:8083/api/imports/1/transform
+```
+
+View a concise JSON output using jq.
+
+```bash
+http http://0.0.0.0:8083/api/imports/1/transform \
+  | jq '.[].row' \
+  | jq -s 
+```
+
+It should look like this:
+
+```json
+[
+  {
+    "id": "1",
+    "name": "Glasgow",
+    "parent": ""
+  },
+  {
+    "id": "2",
+    "name": "London",
+    "parent": ""
+  },
+  {
+    "id": "3",
+    "name": "Kensington",
+    "parent": "2"
+  },
+  {
+    "id": "4",
+    "name": "Southwark",
+    "parent": "2"
+  },
+  {
+    "id": "5",
+    "name": "Kensington North",
+    "parent": "3"
+  },
+  {
+    "id": "6",
+    "name": "Kensington South",
+    "parent": "3"
+  }
+]
 ```
 
 ## Reusing data maps for new uploads
