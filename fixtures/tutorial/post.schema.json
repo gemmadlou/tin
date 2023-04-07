@@ -1,0 +1,41 @@
+{
+    "name": "office",
+    "schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "office",
+        "type": "object",
+        "title": "Office",
+        "properties": {
+            "id": {
+                "description": "Office id",
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "integer"
+                    }
+                ]
+            },
+            "name": {
+                "type": "string",
+                "description": "Office name"
+            },
+            "parent": {
+                "description": "Office parent - either id or name",
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "required": [
+            "id",
+            "name"
+        ]
+    }
+}

@@ -37,18 +37,19 @@ model Schema {
 
 model Import {
   /// @TsED.Groups("!creation")
-  id           Int          @id @default(autoincrement())
-  schema       Schema       @relation("importsOnSchema", fields: [schemaId], references: [id])
+  id           Int             @id @default(autoincrement())
+  schema       Schema          @relation("importsOnSchema", fields: [schemaId], references: [id])
   schemaId     Int
   originalName String
   filename     String
   filepath     String
   mimetype     String
   size         Int
-  created      DateTime     @default(now())
-  updated      DateTime     @default(now())
-  data         ImportData[] @relation("importData")
-  map          Mapper?      @relation("importMap", fields: [importMapId], references: [id])
+  created      DateTime        @default(now())
+  updated      DateTime        @default(now())
+  data         ImportData[]    @relation("importData")
+  transform    TransformData[] @relation("importTransform")
+  map          Mapper?         @relation("importMap", fields: [importMapId], references: [id])
   importMapId  Int?
 }
 
@@ -73,4 +74,21 @@ model Mapper {
   /// @TsED.Groups("!creation")
   schema   Schema   @relation("mappersOnSchema", fields: [schemaId], references: [id])
   schemaId Int
+  /// @TsED.Groups('!creation')
+  created  DateTime @default(now())
+  /// @TsED.Groups('!creation')
+  updated  DateTime @default(now())
+}
+
+model TransformData {
+  /// @TsED.Groups("!creation")
+  id       Int    @id @default(autoincrement())
+  /// @TsED.Groups('!creation')
+  import   Import @relation("importTransform", fields: [importId], references: [id])
+  importId Int
+  row      Json
+  /// @TsED.Groups('!creation')
+  created  DateTime @default(now())
+  /// @TsED.Groups('!creation')
+  updated  DateTime @default(now())
 }

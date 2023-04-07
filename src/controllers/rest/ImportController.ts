@@ -1,7 +1,7 @@
 import { BodyParams, MultipartFile, PathParams, PlatformMulterFile, Req, Use } from "@tsed/common";
 import { Controller, Inject } from "@tsed/di";
 import { Delete, Get, Groups, Post, Property, Required, Returns, Summary } from "@tsed/schema";
-import { ImportModel, ImportsRepository } from "@tsed/prisma";
+import { ImportDataModel, ImportDataRepository, ImportModel, ImportsRepository, MappersRepository, TransformDataModel, TransformDataRepository } from "@tsed/prisma";
 import * as fs from 'fs';
 import XLSX from "xlsx";
 import * as csv from 'fast-csv';
@@ -16,6 +16,12 @@ class UpdateRequest {
   @Property()
   @Required()
   schemaId: number;
+}
+
+class TransformRequest {
+  @Property()
+  @Required()
+  mapperId: number;
 }
 
 function readDataFromFile(mimetype: string, filePath: string): Promise<any[]> {
@@ -45,12 +51,28 @@ export class ImportController {
 
   @Inject()
   protected service: ImportsRepository;
+  
+  @Inject()
+  protected data: ImportDataRepository
+  
+  @Inject()
+  protected mapper: MappersRepository
+  
+  @Inject()
+  protected transformer: TransformDataRepository
 
   @Get('/:id')
   @Summary("Get an import")
   @Returns(200, ImportModel)
   async get(@PathParams('id') id: number): Promise<ImportModel|null> {
     return await this.service.findUnique({ where: { id } })
+  }
+
+  @Get('/:id/data')
+  @Summary("Get an import data")
+  @Returns(200, ImportModel)
+  async getData(@PathParams('id') id: number): Promise<ImportDataModel[]> {
+    return await this.data.findMany({ where: { importId: id } })
   }
 
   @Get('/')
@@ -87,10 +109,7 @@ export class ImportController {
             }
           }),
         },
-      },
-      include: {
-        data: true, // Include all posts in the returned object
-      },
+      }
     })
   }
 
@@ -107,6 +126,58 @@ export class ImportController {
         ...body
       }
     });
+  }
+
+  @Post('/:id/transform')
+  @Summary("Transform import")
+  @Returns(200, ImportModel)
+  async transform(
+    @PathParams('id') id: number, 
+    @BodyParams() body: TransformRequest,
+  ): Promise<TransformDataModel[]> {
+
+    let datas = await this.data.findMany({ where: { importId: id } })
+    let mapper = await this.mapper.findUnique({ where: { id: body.mapperId }})
+
+    // Delete previous transforms
+    await this.transformer.collection.deleteMany({
+      where: {
+        importId: id
+      },
+    })
+
+    // Transform into schema
+    let transformed = datas.map((data: ImportDataModel) => {
+      let dict = {}
+      
+      // Map each field
+      for (let field in mapper?.config) {
+        let fields = mapper?.config[field].fields
+
+        // Join multiple fields together
+        let found = fields
+          .reduce((a: any[], b: any) => {
+            return a.concat(data.row[b])
+          }, [])
+          .join(" ");
+        
+        dict[field] = found
+        
+      }
+
+      return dict
+
+    })
+
+    return await this.transformer.collection.createMany({
+      data: transformed.map((row: object) => {
+        return {
+          importId: id,
+          row
+        }
+      }),
+      skipDuplicates: true
+    })
   }
 
   @Delete('/:id')
