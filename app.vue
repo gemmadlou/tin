@@ -57,6 +57,23 @@
       </div>
     </form>
   </div>
+
+  <div class="p-10">
+    <h2>Uploads list</h2>
+
+    <div class="overflow-x-auto">
+      <table class="table table-zebra">
+        <tbody>
+          <tr v-for="upload in uploads">
+            <th>{{ upload.id }}</th>
+            <td>{{ upload.filename }}</td>
+            <td>{{ upload.filepath }}</td>
+            <td><button class="btn btn-outline btn-xs btn-disabled">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -79,7 +96,7 @@ let upload = ref({
     file: null
   },
   success: '',
-  error: ''
+  error: '',
 })
 
 const createSchema = async (event: any) => {
@@ -121,5 +138,7 @@ const uploadFile = async () => {
   });
 
 }
+
+let uploads = (await useFetch('/api/uploads')).data.value
 
 </script>
