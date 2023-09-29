@@ -42,10 +42,26 @@
       </table>
     </div>
   </div>
+
+  <div class="p-10">
+    <h2>Uploads</h2>
+    <form @submit.prevent="uploadFile">
+      <div class="form-control w-full max-w-xs mb-2">
+        <label class="label">
+          <span class="label-text">Pick a data file eg. csv</span>
+        </label>
+        <input type="file" v-on:change="onFileChange" class="file-input file-input-bordered w-full max-w-xs" />
+      </div>
+      <div>
+        <button type="submit" class="btn">Upload</button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
+import { VueElement } from 'nuxt/dist/app/compat/capi';
 
 let schema = ref({
   form: {
@@ -57,9 +73,17 @@ let schema = ref({
   error: ''
 })
 
+let upload = ref({
+  form: {
+    id: false,
+    file: null
+  },
+  success: '',
+  error: ''
+})
+
 const createSchema = async (event: any) => {
   let data = schema.value.form
-  console.log({ data, schema, event })
   data.json = JSON.stringify(JSON.parse(data.json))
 
   let response = await axios('/api/schema', {
@@ -73,15 +97,29 @@ const createSchema = async (event: any) => {
 }
 
 const editSchema = async (schemaData: any) => {
-  console.log({schemaData})
   schema.value = {...schema, form: schemaData}
   console.log({ schema })
 }
 
-const getSchemas = async () => {
-  return await useFetch('/api/schema')
+let schemas = (await useFetch('/api/schema')).data.value
+
+interface InputFileEvent extends Event {
+    target: HTMLInputElement;
 }
 
-let schemas = (await getSchemas()).data.value
-console.log({ schemas })
+const onFileChange = (e : InputFileEvent) => {
+  upload.value.form.file = e.target.files || null;
+}
+
+const uploadFile = async () => {
+
+  let data = upload.value.form
+  console.log({ data: data.file })
+
+  let response = await axios.postForm('/api/uploads', {
+    files:  data.file
+  });
+
+}
+
 </script>

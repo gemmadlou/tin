@@ -33,8 +33,9 @@ mysqldump -h 0.0.0.0 --port 30066 --compact --column-statistics=0 tin > database
 
 Migrate db:
 
-```sql
-
+```bash
+export MYSQL_PWD=tin
+mysql -h 0.0.0.0 --port 30066  < database/migrate.sql
 ```
 
 ## Development Server
