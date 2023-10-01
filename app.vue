@@ -68,12 +68,24 @@
             <th>{{ upload.id }}</th>
             <td>{{ upload.filename }}</td>
             <td>{{ upload.filepath }}</td>
+            <td><button @click="viewExtract(upload)" class="btn btn-outline btn-xs">View</button></td>
             <td><button @click="extractUpload(upload)" class="btn btn-outline btn-xs">Extract</button></td>
             <td><button class="btn btn-outline btn-xs btn-disabled">Delete</button></td>
           </tr>
         </tbody>
       </table>
     </div>
+  </div>
+
+  <div v-if="extracts.data.length > 0" class="p-10">
+    <h2>Extracted data </h2>
+    <table>
+      <tr v-for="extract in extracts.data">
+        <td>{{ extract.file_id }}</td>
+        <td>{{ extract.row_id }}</td>
+        <td v-for="json in extract.json">{{ json }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -148,12 +160,24 @@ const uploadFile = async () => {
 let uploads = (await useFetch('/api/uploads')).data.value
 
 const extractUpload = async (upload : Upload) => {
-  console.log( upload.id)
+
   let response = await axios.post('/api/extracts', {
     fileId: upload.id
   })
+}
 
-  console.log({ response })
+type Extract = {
+  file_id: Number,
+  row_id: Number,
+  json: string
+}
+
+let extracts = reactive({
+  data: []
+})
+
+const viewExtract = async (upload: Upload) => {
+  extracts.data = (await useFetch(`/api/extracts/${upload.id}`)).data.value
 }
 
 </script>
