@@ -68,6 +68,7 @@
             <th>{{ upload.id }}</th>
             <td>{{ upload.filename }}</td>
             <td>{{ upload.filepath }}</td>
+            <td><button @click="extractUpload(upload)" class="btn btn-outline btn-xs">Extract</button></td>
             <td><button class="btn btn-outline btn-xs btn-disabled">Delete</button></td>
           </tr>
         </tbody>
@@ -128,10 +129,15 @@ const onFileChange = (e : InputFileEvent) => {
   upload.value.form.file = e.target.files || null;
 }
 
+type Upload = {
+  created: String,
+  id: Number,
+  filename: String,
+  filepath: String
+}
 const uploadFile = async () => {
 
   let data = upload.value.form
-  console.log({ data: data.file })
 
   let response = await axios.postForm('/api/uploads', {
     files:  data.file
@@ -140,5 +146,14 @@ const uploadFile = async () => {
 }
 
 let uploads = (await useFetch('/api/uploads')).data.value
+
+const extractUpload = async (upload : Upload) => {
+  console.log( upload.id)
+  let response = await axios.post('/api/extracts', {
+    fileId: upload.id
+  })
+
+  console.log({ response })
+}
 
 </script>

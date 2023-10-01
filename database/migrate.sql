@@ -13,4 +13,11 @@ CREATE TABLE `uploads` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE `extracts` (
+  `row_id` int(11) NOT NULL,
+  `file_id` int(11) NOT NULL,
+  `json` longtext NOT NULL,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`file_id`,`row_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
