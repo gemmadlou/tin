@@ -87,6 +87,60 @@
       </tr>
     </table>
   </div>
+
+  <div class="p-10">
+    <h2 class="mb-10">Create new transformation</h2>
+    <div class="flex space-x-8">
+      <div class="basis-1/2">
+        <table class="table table-zebra">
+          <tr>
+            <td class="w-32">Name</td>
+            <td>
+              <select class="select select-bordered w-full max-w-xs">
+                <option>📦 First Name</option>
+                <option>📦 Last Name</option>
+                <option>📦 Age</option>
+                <option>📦 Address</option>
+                <option>📦 Country</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <table class="table table-zebra">
+          <tr>
+            <td class="w-32">Name</td>
+            <td>
+              <select class="select select-bordered w-full max-w-xs">
+                <option>📦 First Name</option>
+                <option>📦 Last Name</option>
+                <option>📦 Age</option>
+                <option>📦 Address</option>
+                <option>📦 Country</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <table class="table table-zebra">
+          <tr>
+            <td class="w-32">Name</td>
+            <td>
+              <select class="select select-bordered w-full max-w-xs">
+                <option>📦 First Name</option>
+                <option>📦 Last Name</option>
+                <option>📦 Age</option>
+                <option>📦 Address</option>
+                <option>📦 Country</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="basis-1/2">
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -127,17 +181,17 @@ const createSchema = async (event: any) => {
 }
 
 const editSchema = async (schemaData: any) => {
-  schema.value = {...schema, form: schemaData}
+  schema.value = { ...schema, form: schemaData }
   console.log({ schema })
 }
 
 let schemas = (await useFetch('/api/schema')).data.value
 
 interface InputFileEvent extends Event {
-    target: HTMLInputElement;
+  target: HTMLInputElement;
 }
 
-const onFileChange = (e : InputFileEvent) => {
+const onFileChange = (e: InputFileEvent) => {
   upload.value.form.file = e.target.files || null;
 }
 
@@ -152,14 +206,14 @@ const uploadFile = async () => {
   let data = upload.value.form
 
   let response = await axios.postForm('/api/uploads', {
-    files:  data.file
+    files: data.file
   });
 
 }
 
 let uploads = (await useFetch('/api/uploads')).data.value
 
-const extractUpload = async (upload : Upload) => {
+const extractUpload = async (upload: Upload) => {
 
   let response = await axios.post('/api/extracts', {
     fileId: upload.id
