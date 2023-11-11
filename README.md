@@ -59,8 +59,8 @@ Example csv file structure:
 | Name             | Age | Address                                    |
 | ---------------- | --- | ------------------------------------------ |
 | John       Smith | 22  | 44 Lincoln Street, A11 1AA, United Kingdom |
-| Jane      Blogs  | 30  | 20 Paris Lane, A11 1AA, France            |
-| Jack      Black  | 50  | Hollywood Rowe, 1AA A11, United States    |
+| Jane      Blogs  | 30  | 20 Paris Lane, A11 1AA, France             |
+| Jack      Black  | 50  | Hollywood Rowe, 1AA A11, United States     |
 
 Create a new JSON schema of the file structure.
 
@@ -95,13 +95,15 @@ Create a new JSON schema of the file structure.
 
 Define a name for the schema. Paste the JSON schema into *Create Schema* box.
 
-Now, we'll pretend we're uploading a file with a slightly different file structure.
+Now, we'll upload a file with a slightly different file structure.
 
-| First name | Last name | Age | Country        | Address                      |
-| ---------- | --------- | --- | -------------- | ---------------------------- |
+| First name | Last name | Age | Country        | Address                    |
+| ---------- | --------- | --- | -------------- | -------------------------- |
 | John       | Smith     | 22  | United Kingdom | 44 Lincoln Street, A11 1AA |
 | Jane       | Blogs     | 30  | France         | 20 Paris Lane, A11 1AA     |
 | Jack       | Black     | 50  | United States  | Hollywood Rowe, 1AA A11    |
+
+First, create the file.
 
 ```bash
 echo 'First name,Last name,Age,Country,Address,,
@@ -109,6 +111,10 @@ John,Smith,22,United Kingdom,"44 Lincoln Street, A11 1AA",,
 Jane,Blogs,30,France,"20 Paris Lane, A11 1AA",,
 Jack,Black,50,United States,"Hollywood Rowe, 1AA A11",,' > ~/tin.csv
 ```
+
+Upload it via the upload wizard and you'll be able to view the upload in the *Uploads list*.
+
+Extract the data and then view the extracted data.
 
 ## Development Server
 
