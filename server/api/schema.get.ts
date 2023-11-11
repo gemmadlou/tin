@@ -4,7 +4,7 @@ export default defineEventHandler(async () => {
     let conn = await connection()
 
     let response = await conn.query(
-        'select * from `schema`'
+        'select * from `schemas`'
     )
 
     let schemes = JSON.parse(JSON.stringify(response[0]))
