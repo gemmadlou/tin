@@ -1,4 +1,12 @@
-# Nuxt 3 Minimal Starter
+# Tin [Prototype]
+
+> In progress.
+
+Data transformation and conversion as a service.
+
+![](./app.png)
+
+## Built on Nuxt
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
@@ -42,6 +50,64 @@ Migrate db:
 ```bash
 export MYSQL_PWD=tin
 mysql -h 0.0.0.0 --port 30066  < database/migrate.sql
+```
+
+## Example Usage
+
+Example csv file structure:
+
+| Name             | Age | Address                                    |
+| ---------------- | --- | ------------------------------------------ |
+| John       Smith | 22  | 44 Lincoln Street, A11 1AA, United Kingdom |
+| Jane      Blogs  | 30  | 20 Paris Lane, A11 1AA, France            |
+| Jack      Black  | 50  | Hollywood Rowe, 1AA A11, United States    |
+
+Create a new JSON schema of the file structure.
+
+```json
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Address",
+    "definitions": {
+        "Address": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "age": {
+                    "type": "integer"
+                },
+                "address": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "age",
+                "name"
+            ]
+        }
+    }
+}
+```
+
+Define a name for the schema. Paste the JSON schema into *Create Schema* box.
+
+Now, we'll pretend we're uploading a file with a slightly different file structure.
+
+| First name | Last name | Age | Country        | Address                      |
+| ---------- | --------- | --- | -------------- | ---------------------------- |
+| John       | Smith     | 22  | United Kingdom | 44 Lincoln Street, A11 1AA |
+| Jane       | Blogs     | 30  | France         | 20 Paris Lane, A11 1AA     |
+| Jack       | Black     | 50  | United States  | Hollywood Rowe, 1AA A11    |
+
+```bash
+echo 'First name,Last name,Age,Country,Address,,
+John,Smith,22,United Kingdom,"44 Lincoln Street, A11 1AA",,
+Jane,Blogs,30,France,"20 Paris Lane, A11 1AA",,
+Jack,Black,50,United States,"Hollywood Rowe, 1AA A11",,' > ~/tin.csv
 ```
 
 ## Development Server
