@@ -28,7 +28,13 @@ Dump db:
 ```bash
 export MYSQL_PWD=tin
 
-mysqldump -h 0.0.0.0 --port 30066 --compact --column-statistics=0 tin > database/migrate.sql
+mysqldump -h 0.0.0.0 \
+    --port 30066 \
+    --compact \
+    --column-statistics=0 \
+    --no-data \
+    --databases \
+    tin > database/migrate.sql
 ```
 
 Migrate db:

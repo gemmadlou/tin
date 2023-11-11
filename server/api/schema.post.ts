@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     try {
         let conn = await connection()
         let response = await conn.execute(
-            'insert into `schema` (name, json) values (?, ?)',
+            'insert into `schemas` (name, json) values (?, ?)',
             [body.name, body.json]
         )
 
