@@ -79,7 +79,7 @@
 
   <div v-if="extracts.data.length > 0" class="p-10">
     <h2>Extracted data </h2>
-    <table>
+    <table class="table table-zebra">
       <tr v-for="extract in extracts.data">
         <td>{{ extract.file_id }}</td>
         <td>{{ extract.row_id }}</td>
