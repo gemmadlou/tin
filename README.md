@@ -111,6 +111,14 @@ Upload it via the upload wizard and you'll be able to view the upload in the *Up
 
 Extract the data and then view the extracted data.
 
+## Todos
+
+Just an informal list of capabilities todo.
+
+- [ ] Handle multiple headers
+
+...
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:

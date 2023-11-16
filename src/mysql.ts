@@ -1,5 +1,6 @@
 import mysql, { ConnectionOptions } from 'mysql2/promise';
 
+// @todo drive through Dotenv
 const access: ConnectionOptions = {
     user: 'root',
     database: 'tin',

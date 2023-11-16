@@ -121,11 +121,7 @@
             <td class="w-32 capitalize">{{ field }}</td>
             <td>
               <select class="select select-bordered w-full max-w-xs">
-                <option>📦 First Name</option>
-                <option>📦 Last Name</option>
-                <option>📦 Age</option>
-                <option>📦 Address</option>
-                <option>📦 Country</option>
+                <option v-for="field in mapper.uploadFields">📦 {{ field }}</option>
               </select>
             </td>
           </tr>
@@ -247,8 +243,12 @@ let mapper = ref<Mapper>({
 })
 
 const createMapperUi = async () => {
-  let fields = (await useFetch(`/api/schema/${mapper.value.form.schemaId}`)).data.value
-  mapper.value.schemaFields = Object.keys(fields.json.properties)
+  const schemeFields = (await useFetch(`/api/schema/${mapper.value.form.schemaId}`)).data.value
+  mapper.value.schemaFields = Object.keys(schemeFields.json.properties)
+
+  const uploadFields = (await useFetch(`/api/uploads/${mapper.value.form.uploadId}/extracts`)).data.value
+  mapper.value.uploadFields = uploadFields[0].json.filter(i => i)
+
 }
 
 
