@@ -67,29 +67,24 @@ Create a new JSON schema of the file structure.
 ```json
 {
     "$schema": "http://json-schema.org/draft-06/schema#",
-    "$ref": "#/definitions/Address",
-    "definitions": {
-        "Address": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "age": {
-                    "type": "integer"
-                },
-                "address": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "age",
-                "name"
-            ]
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "age": {
+            "type": "integer"
+        },
+        "address": {
+            "type": "string"
         }
-    }
+    },
+    "required": [
+        "address",
+        "age",
+        "name"
+    ]
 }
 ```
 

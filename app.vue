@@ -89,42 +89,36 @@
   </div>
 
   <div class="p-10">
-    <h2 class="mb-10">Create new transformation</h2>
+    <h2 class="mb-10">Create new data map</h2>
+
+    <div class="mb-10 flex space-x-8 items-center ">
+      <div class="form-control w-full max-w-fit">
+        <label class="label">
+          <span class="label-text">Select schema</span>
+        </label>
+        <input v-model="mapper.form.schemaId" type="number" class="input input-bordered w-full max-w-xs" />
+      </div>
+
+      <div class="form-control w-full max-w-fit">
+        <label class="label">
+          <span class="label-text">Select upload</span>
+        </label>
+        <input v-model="mapper.form.uploadId" type="number" class="input input-bordered w-full max-w-xs" />
+      </div>
+      
+      <div class="form-control">
+        <label class="label opacity-0">
+          <span class="label-text">&nbsp;</span>
+        </label>
+        <button v-on:click="createMapperUi" class="btn">Create map</button>
+      </div>
+    </div>
+
     <div class="flex space-x-8">
       <div class="basis-1/2">
-        <table class="table table-zebra">
+        <table v-for="field in mapper.schemaFields" class="table table-zebra">
           <tr>
-            <td class="w-32">Name</td>
-            <td>
-              <select class="select select-bordered w-full max-w-xs">
-                <option>📦 First Name</option>
-                <option>📦 Last Name</option>
-                <option>📦 Age</option>
-                <option>📦 Address</option>
-                <option>📦 Country</option>
-              </select>
-            </td>
-          </tr>
-        </table>
-
-        <table class="table table-zebra">
-          <tr>
-            <td class="w-32">Name</td>
-            <td>
-              <select class="select select-bordered w-full max-w-xs">
-                <option>📦 First Name</option>
-                <option>📦 Last Name</option>
-                <option>📦 Age</option>
-                <option>📦 Address</option>
-                <option>📦 Country</option>
-              </select>
-            </td>
-          </tr>
-        </table>
-
-        <table class="table table-zebra">
-          <tr>
-            <td class="w-32">Name</td>
+            <td class="w-32 capitalize">{{ field }}</td>
             <td>
               <select class="select select-bordered w-full max-w-xs">
                 <option>📦 First Name</option>
@@ -233,5 +227,29 @@ let extracts = reactive({
 const viewExtract = async (upload: Upload) => {
   extracts.data = (await useFetch(`/api/extracts/${upload.id}`)).data.value
 }
+
+type Mapper = {
+  form: {
+    schemaId: number,
+    uploadId: number
+  },
+  schemaFields: string[],
+  uploadFields: string[]
+}
+
+let mapper = ref<Mapper>({
+  form: {
+    schemaId: 1,
+    uploadId: 1
+  },
+  schemaFields: [],
+  uploadFields: []
+})
+
+const createMapperUi = async () => {
+  let fields = (await useFetch(`/api/schema/${mapper.value.form.schemaId}`)).data.value
+  mapper.value.schemaFields = Object.keys(fields.json.properties)
+}
+
 
 </script>
