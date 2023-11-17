@@ -105,7 +105,7 @@
         </label>
         <input v-model="mapper.form.uploadId" type="number" class="input input-bordered w-full max-w-xs" />
       </div>
-      
+
       <div class="form-control">
         <label class="label opacity-0">
           <span class="label-text">&nbsp;</span>
@@ -116,13 +116,16 @@
 
     <div class="flex space-x-8">
       <div class="basis-1/2">
-        <table v-for="field in mapper.schemaFields" class="table table-zebra">
+        <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-sm">
           <tr>
-            <td class="w-32 capitalize">{{ field }}</td>
+            <td class="w-32 capitalize">{{ schema }}</td>
             <td>
-              <select class="select select-bordered w-full max-w-xs">
-                <option v-for="field in mapper.uploadFields">📦 {{ field }}</option>
-              </select>
+              <div v-for="mapped in mappedFields[schema]" class="flex space-x-8">
+                <select class="select select-bordered w-full max-w-xs">
+                  <option v-for="field in mapper.uploadFields">📦 {{ field }}</option>
+                </select>
+                <button v-on:click="addNewField(schema)" class="btn">✚</button>
+              </div>
             </td>
           </tr>
         </table>
@@ -224,6 +227,10 @@ const viewExtract = async (upload: Upload) => {
   extracts.data = (await useFetch(`/api/extracts/${upload.id}`)).data.value
 }
 
+type MappedField = Record<string, unknown[]>;
+
+type SchemaFieldName = string | number;
+
 type Mapper = {
   form: {
     schemaId: number,
@@ -242,13 +249,31 @@ let mapper = ref<Mapper>({
   uploadFields: []
 })
 
+let mappedFields = ref(<MappedField>{})
+
 const createMapperUi = async () => {
-  const schemeFields = (await useFetch(`/api/schema/${mapper.value.form.schemaId}`)).data.value
-  mapper.value.schemaFields = Object.keys(schemeFields.json.properties)
+  let schemeFields = (await useFetch(`/api/schema/${mapper.value.form.schemaId}`)).data.value
+  schemeFields = Object.keys(schemeFields.json.properties)
 
-  const uploadFields = (await useFetch(`/api/uploads/${mapper.value.form.uploadId}/extracts`)).data.value
-  mapper.value.uploadFields = uploadFields[0].json.filter(i => i)
+  let uploadFields = (await useFetch(`/api/uploads/${mapper.value.form.uploadId}/extracts`)).data.value
+  uploadFields = uploadFields[0]
+    .json.filter(i => i)
 
+  mappedFields.value = schemeFields.reduce((mapped : MappedField, schemaField: SchemaFieldName ) => {
+    mapped[schemaField] = [uploadFields[0]]
+    return mapped
+  }, {})
+
+  mapper.value.schemaFields = schemeFields
+  mapper.value.uploadFields = uploadFields
+}
+
+createMapperUi()
+
+const addNewField = async (schema : SchemaFieldName) => {
+  mappedFields.value[schema] = mappedFields.value[schema].concat(mapper.value.uploadFields[0])
+
+  console.log('here', mappedFields)
 }
 
 
