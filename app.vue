@@ -141,6 +141,27 @@
       <div class="basis-1/2">
       </div>
     </div>
+
+    <!-- Mappers: view -->
+    <div>
+      <h2 class="mb-10">Mappers</h2>
+      <table class="table table-zebra">
+        <thead>
+          <tr>
+            <td>Schema Id</td>
+            <td>Upload Id</td>
+            <td>Mapper Config</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="mapper in mappers">
+            <td>{{ mapper.schema_id }}</td>
+            <td>{{ mapper.upload_id }}</td>
+            <td>{{ mapper.mapper_config }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -298,4 +319,6 @@ const saveMapper = async () => {
   createMapperUi()
 }
 
+let mappers = (await useFetch(`/api/mappers`)).data
+console.log(mappers)
 </script>
