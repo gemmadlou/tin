@@ -118,11 +118,11 @@
       <div class="basis-1/2">
         <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-md">
           <tr>
-            <td class="w-32 capitalize">{{ schema }}</td>
+            <td class="w-32 capitalize"><div class="w-32">{{ schema }}</div></td>
             <td>
               <div v-for="(mappedField, mappedIndex) in mappedFields[schema]" class="flex space-x-8">
-                <select class="select select-bordered w-44">
-                  <option v-for="(field) in mapper.uploadFields">📦 {{ field }}</option>
+                <select v-model="mappedFields[schema][mappedIndex]" class="select select-bordered w-44">
+                  <option v-for="(field) in mapper.uploadFields">{{ field }}</option>
                 </select>
                 <div class="flex space-x-2">
                   <button v-on:click="addNewField(schema)" class="btn">✚</button>
@@ -230,7 +230,7 @@ const viewExtract = async (upload: Upload) => {
   extracts.data = (await useFetch(`/api/extracts/${upload.id}`)).data.value
 }
 
-type MappedField = Record<string, unknown[]>;
+type MappedField = Record<string, string[]>;
 
 type SchemaFieldName = string | number;
 
@@ -274,11 +274,11 @@ const createMapperUi = async () => {
 createMapperUi()
 
 const addNewField = async (schema: SchemaFieldName) => {
-  mappedFields.value[schema] = mappedFields.value[schema].concat(mapper.value.uploadFields[0])
+  mappedFields.value[schema].push(mapper.value.uploadFields[0])
 }
 
 const removeNewField = async (schema: SchemaFieldName, index: number) => {
-  mappedFields.value[schema] = mappedFields.value[schema].slice(index, index + 1)
+  mappedFields.value[schema].splice(index, 1)
 }
 
 </script>
