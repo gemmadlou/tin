@@ -118,7 +118,9 @@
       <div class="basis-1/2">
         <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-md">
           <tr>
-            <td class="w-32 capitalize"><div class="w-32">{{ schema }}</div></td>
+            <td class="w-32 capitalize">
+              <div class="w-32">{{ schema }}</div>
+            </td>
             <td>
               <div v-for="(mappedField, mappedIndex) in mappedFields[schema]" class="flex space-x-8">
                 <select v-model="mappedFields[schema][mappedIndex]" class="select select-bordered w-44">
@@ -132,6 +134,9 @@
             </td>
           </tr>
         </table>
+        <div class="">
+          <button class="btn" v-on:click="saveMapper">Save Mapper</button>
+        </div>
       </div>
       <div class="basis-1/2">
       </div>
@@ -279,6 +284,18 @@ const addNewField = async (schema: SchemaFieldName) => {
 
 const removeNewField = async (schema: SchemaFieldName, index: number) => {
   mappedFields.value[schema].splice(index, 1)
+}
+
+const saveMapper = async () => {
+  let data = {
+    upload_id: mapper.value.form.schemaId,
+    schema_id: mapper.value.form.uploadId,
+    mapper_config: mappedFields.value
+  }
+
+  let response = await axios.post('/api/mappers', data);
+
+  createMapperUi()
 }
 
 </script>

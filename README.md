@@ -6,6 +6,15 @@ Data transformation and conversion as a service.
 
 ![](./app.png)
 
+
+## Prototype notes
+
+- Not worried about foreign keys - otherwise truncating tables during the prototype stage isn't fun.
+- Not worried about tests. Iteration is more important.
+- Not worried about getting the schema perfect. As I add more capabilities, the schemas will be refined.
+- Not worried about migration tools or ORM. Working in sql is way faster.
+- No design up front. Prototyping is just iterating over capabilities quickly.
+
 ## Built on Nuxt
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
@@ -111,13 +120,15 @@ Upload it via the upload wizard and you'll be able to view the upload in the *Up
 
 Extract the data and then view the extracted data.
 
-## Todos
+## Data map notes
 
-Just an informal list of capabilities todo.
-
-- [ ] Handle multiple headers
-
-...
+```js
+{
+    item1: ['header1', 'header2'],
+    item2: ['header3'],
+    item3: ['header4', 'header5']
+}
+```
 
 ## Development Server
 
