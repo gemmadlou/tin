@@ -126,7 +126,7 @@
                 </select>
                 <div class="flex space-x-2">
                   <button v-on:click="addNewField(schema)" class="btn">✚</button>
-                  <button v-on:click="removeNewField(schema, mappedIndex)" class="btn">-</button>
+                  <button v-if="mappedIndex > 0" v-on:click="removeNewField(schema, mappedIndex)" class="btn">-</button>
                 </div>
               </div>
             </td>
