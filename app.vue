@@ -116,15 +116,18 @@
 
     <div class="flex space-x-8">
       <div class="basis-1/2">
-        <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-sm">
+        <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-md">
           <tr>
             <td class="w-32 capitalize">{{ schema }}</td>
             <td>
-              <div v-for="mapped in mappedFields[schema]" class="flex space-x-8">
-                <select class="select select-bordered w-full max-w-xs">
-                  <option v-for="field in mapper.uploadFields">📦 {{ field }}</option>
+              <div v-for="(mappedField, mappedIndex) in mappedFields[schema]" class="flex space-x-8">
+                <select class="select select-bordered w-44">
+                  <option v-for="(field) in mapper.uploadFields">📦 {{ field }}</option>
                 </select>
-                <button v-on:click="addNewField(schema)" class="btn">✚</button>
+                <div class="flex space-x-2">
+                  <button v-on:click="addNewField(schema)" class="btn">✚</button>
+                  <button v-on:click="removeNewField(schema, mappedIndex)" class="btn">-</button>
+                </div>
               </div>
             </td>
           </tr>
@@ -259,7 +262,7 @@ const createMapperUi = async () => {
   uploadFields = uploadFields[0]
     .json.filter(i => i)
 
-  mappedFields.value = schemeFields.reduce((mapped : MappedField, schemaField: SchemaFieldName ) => {
+  mappedFields.value = schemeFields.reduce((mapped: MappedField, schemaField: SchemaFieldName) => {
     mapped[schemaField] = [uploadFields[0]]
     return mapped
   }, {})
@@ -270,11 +273,12 @@ const createMapperUi = async () => {
 
 createMapperUi()
 
-const addNewField = async (schema : SchemaFieldName) => {
+const addNewField = async (schema: SchemaFieldName) => {
   mappedFields.value[schema] = mappedFields.value[schema].concat(mapper.value.uploadFields[0])
-
-  console.log('here', mappedFields)
 }
 
+const removeNewField = async (schema: SchemaFieldName, index: number) => {
+  mappedFields.value[schema] = mappedFields.value[schema].slice(index, index + 1)
+}
 
 </script>
