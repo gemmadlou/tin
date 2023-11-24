@@ -15,6 +15,11 @@ http
     post
     localhost:3000/api/mappers/3/map
 
+// View map data
+http
+    post
+    localhost:3000/api/mappers/3/map
+
 
 // POST /api/extracts
 http

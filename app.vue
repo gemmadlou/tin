@@ -163,10 +163,21 @@
             <td>
               <button v-on:click="mapData(mapper.id)" class="btn btn-xs">Map data</button>
             </td>
+            <td>
+              <button v-on:click="viewMappedData(mapper.id)" class="btn btn-xs">View data</button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- Mapped-data: view -->
+
+    <div>
+      <h2 class="mb-10">Mapped data</h2>
+      {{ mappedData }}
+    </div>
+
   </div>
 </template>
 
@@ -329,6 +340,11 @@ let mappers = (await useFetch(`/api/mappers`)).data
 const mapData = async (mapperId: number) => {
   let response = (await axios.post(`/api/mappers/${mapperId}/map`))
   alert('Data mapped')
+}
+
+let mappedData = ref([])
+const viewMappedData = async (mapperId: number) => {
+  mappedData.value = await useFetch(`/api/mappers/${mapperId}/map`)
 }
 
 </script>
