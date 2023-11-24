@@ -1,0 +1,23 @@
+// Create a new mapper
+http 
+    post 
+    localhost:3000/api/mappers 
+    schema_id=1 
+    upload_id=1 
+    mapper_config='{}'
+
+// View mappers
+http
+    localhost:3000/api/mappers
+
+// Map data
+http
+    post
+    localhost:3000/api/mappers/3/map
+
+
+// POST /api/extracts
+http
+    post
+    localhost:3000/api/extracts
+    fileId=1
