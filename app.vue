@@ -114,7 +114,7 @@
       </div>
     </div>
 
-    <div class="flex space-x-8">
+    <div class="flex space-x-8 mb-10">
       <div class="basis-1/2">
         <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-md">
           <tr>
@@ -148,6 +148,7 @@
       <table class="table table-zebra">
         <thead>
           <tr>
+            <td>Mapper Id</td>
             <td>Schema Id</td>
             <td>Upload Id</td>
             <td>Mapper Config</td>
@@ -155,9 +156,13 @@
         </thead>
         <tbody>
           <tr v-for="mapper in mappers">
+            <td>{{ mapper.id }}</td>
             <td>{{ mapper.schema_id }}</td>
             <td>{{ mapper.upload_id }}</td>
             <td>{{ mapper.mapper_config }}</td>
+            <td>
+              <button v-on:click="mapData(mapper.id)" class="btn btn-xs">Map data</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -320,5 +325,10 @@ const saveMapper = async () => {
 }
 
 let mappers = (await useFetch(`/api/mappers`)).data
-console.log(mappers)
+
+const mapData = async (mapperId: number) => {
+  let response = (await axios.post(`/api/mappers/${mapperId}/map`))
+  alert('Data mapped')
+}
+
 </script>
