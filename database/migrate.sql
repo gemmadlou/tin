@@ -9,7 +9,8 @@ CREATE TABLE `extracts` (
   `row_id` int(11) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
   `json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`json`)),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQUE_row_file_id` (`row_id`,`file_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -22,7 +23,7 @@ CREATE TABLE `mapped_data` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_mapper_id_row_id` (`mapper_id`,`row_id`),
   KEY `mapper_id_with_row_id` (`mapper_id`,`row_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;

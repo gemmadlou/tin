@@ -6,7 +6,8 @@ import * as fs from "fs";
 
 // Read and process the CSV file
 const processFile = async (file: string) => {
-    let records: String[] = []
+    let records: string[] = []
+    let header: string[] = [];
     const parser = fs
         .createReadStream(file)
         .pipe(parse({
@@ -14,11 +15,25 @@ const processFile = async (file: string) => {
         }));
     parser.on('readable', function () {
         let record; while ((record = parser.read()) !== null) {
-            // Work with each record
-            records.push(record);
+
+            if (header.length === 0) {
+                header = record.filter(i => i)
+                continue;
+            }
+
+            let recordAsObject = record
+                .filter(i => i)
+                .reduce((obj : Record<string, any>, entry : string, index: number) => {
+                    obj[header[index]] = entry;
+                    return obj;
+                }, {})
+                
+            records.push(recordAsObject);
         }
     });
+
     await finished(parser);
+    
     return records;
 };
 
@@ -32,8 +47,13 @@ export default defineEventHandler(async (event) => {
 
     for (let i = 0; i < processed.length; i++) {
         await conn.execute(
-            'insert into extracts (row_id, file_id, json) values(?, ?, ?)', 
-            [i, body.fileId, JSON.stringify(processed[i])]
+            `insert into extracts (row_id, file_id, json)
+            values(?, ?, ?)
+            on duplicate key update
+                json=?
+            `, 
+            [i, body.fileId, JSON.stringify(processed[i]),
+             JSON.stringify(processed[i])]
         )
     }
 
