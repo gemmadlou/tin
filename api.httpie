@@ -20,6 +20,11 @@ http
     post
     localhost:3000/api/mappers/3/map
 
+// View map data as CSV
+http
+    post
+    localhost:3000/api/mappers/3/map/csv
+
 
 // POST /api/extracts
 http

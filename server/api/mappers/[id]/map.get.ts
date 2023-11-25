@@ -1,6 +1,7 @@
 import { connection } from "~/src/mysql"
 
 
+// @todo dedupe in map/csv.ts
 export default defineEventHandler(async (event) => {
     let conn = await connection();
 

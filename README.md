@@ -130,6 +130,10 @@ Extract the data and then view the extracted data.
 }
 ```
 
+## Todos Next?
+
+- Choose concatenation for multi-mapped fields
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
