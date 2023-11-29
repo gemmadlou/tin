@@ -15,6 +15,26 @@ Data transformation and conversion as a service.
 - Not worried about migration tools or ORM. Working in sql is way faster.
 - No design up front. Prototyping is just iterating over capabilities quickly.
 
+## Milestones
+
+- [ ] Developer can create schema and send user an upload link to import schema
+- [ ] Transformations
+  - [ ] Interpret and format dates 
+  - [ ] Split text into multi schema fields eg. String
+  - [ ] Convert strings into numbers
+  - [ ] Allow for required and nullable properties
+  - [ ] Set custom value not in CSV
+  - [ ] Set custom value not in upload based on condition eg. - if (X="ABC"), then y
+- [ ] Uploads
+  - [ ] Upload and parse JSON
+  - [ ] XML
+  - [ ] YAML
+  - [ ] XLSX
+  - [ ] Xls
+  - [ ] tsv and other delimiters
+  - [ ] HTML
+  - [ ] Multi-HTML
+
 ## Built on Nuxt
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
