@@ -74,7 +74,17 @@ export MYSQL_PWD=tin
 mysql -h 0.0.0.0 --port 30066  < database/migrate.sql
 ```
 
-After making changes to the database, dump db:
+## Development Server
+
+Start the development server on `http://localhost:3000`:
+
+```bash
+bun run dev
+```
+
+## Update schema
+
+A temporary solution in the prototype phase. After making changes to the database, dump db:
 
 ```bash
 export MYSQL_PWD=tin
@@ -169,14 +179,6 @@ Extract the data and then view the extracted data.
 See: https://www.canva.com/design/DAF1MtF0BRY/3PhfA8SIl2tetypkQpn3bA/edit?utm_content=DAF1MtF0BRY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 - Client uploading multiple files per link
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-bun run dev
-```
 
 ## Production
 
