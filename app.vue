@@ -287,7 +287,7 @@ type Mapper = {
 
 let mapper = ref<Mapper>({
   form: {
-    schemaId: 1,
+    schemaId: 2,
     uploadId: 1
   },
   schemaFields: [],
@@ -301,8 +301,7 @@ const createMapperUi = async () => {
   schemeFields = Object.keys(schemeFields.json.properties)
 
   let uploadFields = (await useFetch(`/api/uploads/${mapper.value.form.uploadId}/extracts`)).data.value
-  uploadFields = uploadFields[0]
-    .json.filter(i => i)
+  uploadFields = Object.keys(uploadFields[0].json).filter(i => i)
 
   mappedFields.value = schemeFields.reduce((mapped: MappedField, schemaField: SchemaFieldName) => {
     mapped[schemaField] = [uploadFields[0]]
