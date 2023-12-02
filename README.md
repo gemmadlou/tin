@@ -19,9 +19,13 @@ Data transformation and conversion as a service.
 ## Features
 
 - [ ] Transformations
-  - [ ] Interpret and format dates.
+  - [ ] Mapping
+    - [x] Assign multiple upload fields to a single schema field
+    - [ ] Break text into multiple schema fields.
+  - [ ] Dates
+    - [x] Interpret and format.
+    - [ ] Handle internationalisation.
   - [ ] Trim fields.
-  - [ ] Split text into multi schema fields eg. String.
   - [ ] Convert strings into numbers.
   - [ ] Allow for required and nullable properties.
   - [ ] Set custom value not in CSV for column across all rows of data.
@@ -151,10 +155,10 @@ Now, we'll upload a file with a slightly different file structure.
 First, create the file.
 
 ```bash
-echo 'First name,Last name,Age,Country,Address,,
-John,Smith,22,United Kingdom,"44 Lincoln Street, A11 1AA",,
-Jane,Blogs,30,France,"20 Paris Lane, A11 1AA",,
-Jack,Black,50,United States,"Hollywood Rowe, 1AA A11",,' > ~/tin.csv
+echo 'First name,Last name,Age,Country,Address,Joined,
+John,Smith,22,United Kingdom,"44 Lincoln Street, A11 1AA",11-06-2022,
+Jane,Blogs,30,France,"20 Paris Lane, A11 1AA",22-3-2022,
+Jack,Black,50,United States,"Hollywood Rowe, 1AA A11",4/8/2021,' > ~/tin.csv
 ```
 
 Upload it via the upload wizard and you'll be able to view the upload in the *Uploads list*.
@@ -170,13 +174,6 @@ Extract the data and then view the extracted data.
     item3: ['header4', 'header5']
 }
 ```
-
-## Todos Next?
-
-- Wireframe user flow - nothing fancy. Just to get something working.
-- Choose concatenation per-each multi-mapped fields
-- Define date formats for schema
-- Interpret dates for schema as in, if user enters "15th June 2022" but scheme is YYYY-MM-DD, interpret date into defined format.
 
 ## User flow
 
