@@ -4,7 +4,7 @@ export default defineEventHandler(async () => {
     let conn = await connection()
 
     let response = await conn.query(
-        'select * from `schemas`'
+        'select * from `schemas` where deleted_at is null'
     )
 
     let schemes = JSON.parse(JSON.stringify(response[0]))

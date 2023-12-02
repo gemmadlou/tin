@@ -232,7 +232,7 @@
     console.log({ schema })
   }
   
-  let schemas = (await useFetch('/api/schema')).data.value
+  let schemas = (await useFetch('/api/schemas')).data.value
   
   interface InputFileEvent extends Event {
     target: HTMLInputElement;

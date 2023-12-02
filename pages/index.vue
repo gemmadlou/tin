@@ -29,7 +29,7 @@
                     <button v-on:click="closeSchemaForm" class="btn btn-xs btn-error text-white">Close</button>
                 </div>
 
-                <form v-if="canViewForm" @submit.prevent="saveSchema">
+                <div v-if="canViewForm">
                     <input v-if="form.id" type="hidden" v-model="form.id" />
 
                     <div class="form-control mb-5">
@@ -49,8 +49,9 @@
                             placeholder="JSON Schema"></textarea>
                     </div>
                     <div class="text-right">
-                        <button v-if="!form.id" class="btn btn-primary">Create Schema</button>
-                        <button v-else class="btn btn-primary">Update Schema</button>
+                        <button v-if="form.id" v-on:click="deleteSchema" class="btn btn-error mr-5">Delete Schema</button>
+                        <button v-if="!form.id" v-on:click="saveSchema" class="btn btn-primary">Create Schema</button>
+                        <button v-else v-on:click="saveSchema" class="btn btn-primary">Update Schema</button>
                     </div>
 
                     <div v-if="error" role="alert" class="alert alert-error">
@@ -62,7 +63,7 @@
                         <span>{{ error }}</span>
                     </div>
 
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -78,7 +79,7 @@ import axios from 'axios';
 let schemas = ref<model.Schema[]>([]);
 
 let getSchemas = async () => {
-    schemas.value = (await useFetch('/api/schema')).data.value
+    schemas.value = (await useFetch('/api/schemas')).data.value
 }
 
 let viewSchema = (schema: model.Schema) => {
@@ -130,6 +131,19 @@ let closeSchemaForm = () => {
     form.value.id = undefined
     form.value.name = undefined
     form.value.json = undefined
+}
+
+let deleteSchema = async () => {
+    let response = await axios.delete(`/api/schemas/${form.value.id}`)
+
+    if (response.error) {
+        error = response.error
+        return
+    }
+
+    await closeSchemaForm()
+
+    await getSchemas()
 }
 
 await getSchemas()

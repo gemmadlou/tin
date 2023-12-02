@@ -4,6 +4,12 @@ http
     localhost:3000/api/uploads
     files@~/tin.csv
 
+// Schemes
+// Schemes: delete
+http
+    delete
+    localhost:3000/api/schemas/8
+
 // Create a new mapper
 http 
     post 
