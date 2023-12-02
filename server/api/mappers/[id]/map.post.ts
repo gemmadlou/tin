@@ -40,7 +40,12 @@ export default defineEventHandler(async (event) => {
 
                     // Transform data: Dates
                     if (schemaJson.properties[key]?.format) {
-                        lookupValue = format(new Date(lookupValue), 'yyyy-MM-dd')
+                        try {
+                            lookupValue = format(new Date(lookupValue), 'yyyy-MM-dd')
+                        } catch {
+                            console.log(`Row ${i + 1}: Incorrect date format ${lookupValue}`)
+                            lookupValue = ""
+                        }
                     }
 
                     return lookupValue
