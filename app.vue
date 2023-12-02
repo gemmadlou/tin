@@ -119,7 +119,10 @@
         <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-md">
           <tr>
             <td class="w-32 capitalize">
-              <div class="w-32">{{ schema }}</div>
+              <div class="w-32">
+                {{ schema }}
+                <span v-if="mapper.required.filter(i => i === schema).length">*</span>
+              </div>
             </td>
             <td>
               <div v-for="(mappedField, mappedIndex) in mappedFields[schema]" class="flex space-x-8">
@@ -281,6 +284,7 @@ type Mapper = {
     schemaId: number,
     uploadId: number
   },
+  required: string[],
   schemaFields: string[],
   uploadFields: string[]
 }
@@ -290,6 +294,7 @@ let mapper = ref<Mapper>({
     schemaId: 2,
     uploadId: 1
   },
+  required: [],
   schemaFields: [],
   uploadFields: []
 })
@@ -297,8 +302,8 @@ let mapper = ref<Mapper>({
 let mappedFields = ref(<MappedField>{})
 
 const createMapperUi = async () => {
-  let schemeFields = (await useFetch(`/api/schema/${mapper.value.form.schemaId}`)).data.value
-  schemeFields = Object.keys(schemeFields.json.properties)
+  let schema = (await useFetch(`/api/schema/${mapper.value.form.schemaId}`)).data.value
+  let schemeFields = Object.keys(schema.json.properties)
 
   let uploadFields = (await useFetch(`/api/uploads/${mapper.value.form.uploadId}/extracts`)).data.value
   uploadFields = Object.keys(uploadFields[0].json).filter(i => i)
@@ -308,6 +313,7 @@ const createMapperUi = async () => {
     return mapped
   }, {})
 
+  mapper.value.required = schema.json.required
   mapper.value.schemaFields = schemeFields
   mapper.value.uploadFields = uploadFields
 }
