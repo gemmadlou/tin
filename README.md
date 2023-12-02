@@ -152,7 +152,16 @@ Extract the data and then view the extracted data.
 
 ## Todos Next?
 
-- Choose concatenation for multi-mapped fields
+- Wireframe user flow - nothing fancy. Just to get something working.
+- Choose concatenation per-each multi-mapped fields
+- Define date formats for schema
+- Interpret dates for schema as in, if user enters "15th June 2022" but scheme is YYYY-MM-DD, interpret date into defined format.
+
+## User flow
+
+See: https://www.canva.com/design/DAF1MtF0BRY/3PhfA8SIl2tetypkQpn3bA/edit?utm_content=DAF1MtF0BRY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+- Client uploading multiple files per link
 
 ## Development Server
 
@@ -197,3 +206,8 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Resources
+
+- JTBD - https://www.youtube.com/watch?v=k0NRo3yLqxM&list=TLPQMjQxMTIwMjN4cJ9mzrvatA&index=31
+
