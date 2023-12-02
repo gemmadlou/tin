@@ -114,6 +114,8 @@
       </div>
     </div>
 
+    <h2 class="mb-10">Mapper UI</h2>
+
     <div class="flex space-x-8 mb-10">
       <div class="basis-1/2">
         <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-md">
@@ -121,7 +123,7 @@
             <td class="w-32 capitalize">
               <div class="w-32">
                 {{ schema }}
-                <span v-if="mapper.required.filter(i => i === schema).length">*</span>
+                <span v-if="isRequiredField(schema)">*</span>
               </div>
             </td>
             <td>
@@ -131,7 +133,7 @@
                 </select>
                 <div class="flex space-x-2">
                   <button v-on:click="addNewField(schema)" class="btn">✚</button>
-                  <button v-if="mappedIndex > 0" v-on:click="removeNewField(schema, mappedIndex)" class="btn">-</button>
+                  <button v-if="mappedIndex > 0 || !isRequiredField(schema)" v-on:click="removeNewField(schema, mappedIndex)" class="btn">-</button>
                 </div>
               </div>
             </td>
@@ -352,4 +354,7 @@ const viewMappedData = async (mapperId: number) => {
   mappedData.value = await useFetch(`/api/mappers/${mapperId}/map`)
 }
 
+const isRequiredField = (schema: string) => {
+  return mapper.value.required.filter(i => i === schema).length !== 0
+}
 </script>
