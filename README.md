@@ -14,19 +14,24 @@ Data transformation and conversion as a service.
 - Not worried about getting the schema perfect. As I add more capabilities, the schemas will be refined.
 - Not worried about migration tools or ORM. Working in sql is way faster.
 - No design up front. Prototyping is just iterating over capabilities quickly.
+- No migration tools. Working in things that allow for faster iteration at this stage.
 
-## Milestones
+## Features
 
-- [ ] Developer can create schema and send user an upload link to import schema
 - [ ] Transformations
-  - [ ] Interpret and format dates 
-  - [ ] Split text into multi schema fields eg. String
-  - [ ] Convert strings into numbers
-  - [ ] Allow for required and nullable properties
-  - [ ] Set custom value not in CSV
-  - [ ] Set custom value not in upload based on condition eg. - if (X="ABC"), then y
+  - [ ] Interpret and format dates.
+  - [ ] Trim fields.
+  - [ ] Split text into multi schema fields eg. String.
+  - [ ] Convert strings into numbers.
+  - [ ] Allow for required and nullable properties.
+  - [ ] Set custom value not in CSV for column across all rows of data.
+  - [ ] Set custom value not in upload based on condition eg. - if (X="ABC"), then y for column across all rows of data.
+- [ ] Cleaning
+  - [ ] Change individual data cells.
+  - [ ] Select and remove rows of data.
 - [ ] Uploads
-  - [ ] Upload and parse JSON
+  - [x] Upload and parse CSV.
+  - [ ] JSON
   - [ ] XML
   - [ ] YAML
   - [ ] XLSX
@@ -34,6 +39,8 @@ Data transformation and conversion as a service.
   - [ ] tsv and other delimiters
   - [ ] HTML
   - [ ] Multi-HTML
+- [ ] A developer can create a schema and send the user an upload link to import a file which has a different format.
+- [ ] Auth integration via proxy.
 
 ## Built on Nuxt
 
@@ -60,7 +67,14 @@ docker run \
     mariadb:latest
 ```
 
-Dump db:
+Migrate db:
+
+```bash
+export MYSQL_PWD=tin
+mysql -h 0.0.0.0 --port 30066  < database/migrate.sql
+```
+
+After making changes to the database, dump db:
 
 ```bash
 export MYSQL_PWD=tin
@@ -72,13 +86,6 @@ mysqldump -h 0.0.0.0 \
     --no-data \
     --databases \
     tin > database/migrate.sql
-```
-
-Migrate db:
-
-```bash
-export MYSQL_PWD=tin
-mysql -h 0.0.0.0 --port 30066  < database/migrate.sql
 ```
 
 ## Example Usage
