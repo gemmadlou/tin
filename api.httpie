@@ -1,3 +1,9 @@
+// Upload file
+http
+    -f post
+    localhost:3000/api/uploads
+    files@~/tin.csv
+
 // Create a new mapper
 http 
     post 

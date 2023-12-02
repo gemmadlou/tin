@@ -16,7 +16,8 @@ export default defineEventHandler(async (event) => {
     const filename = files[i].filename;
     const mimetype = files[i].type;
     const data = files[i].data;
-    const filePath = path.resolve(process.cwd(), `./.files/${filename}`);
+
+    const filePath = path.resolve(process.cwd(), `./.files/${crypto.randomUUID()}.${mimetype?.split('/').pop()}`);
 
     await writeFile(filePath, data);
 
@@ -28,9 +29,9 @@ export default defineEventHandler(async (event) => {
     )
 
     return {
+        id: response[0].insertId,
         filename,
         mimetype,
-        data,
         filePath
     }
 })
