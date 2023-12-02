@@ -136,6 +136,9 @@
                   <button v-if="mappedIndex > 0 || !isRequiredField(schema)" v-on:click="removeNewField(schema, mappedIndex)" class="btn">-</button>
                 </div>
               </div>
+              <div v-if="mappedFields[schema].length === 0">
+                <button v-on:click="addNewField(schema)" class="btn">✚</button>
+              </div>
             </td>
           </tr>
         </table>
