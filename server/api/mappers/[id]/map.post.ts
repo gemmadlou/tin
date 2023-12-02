@@ -1,3 +1,4 @@
+import { format } from "date-fns"
 import { connection } from "~/src/mysql"
 
 export default defineEventHandler(async (event) => {
@@ -14,6 +15,12 @@ export default defineEventHandler(async (event) => {
         mapper_config: JSON.parse(mapper[0].mapper_config)
     }
 
+    let [schema] = await conn.query(
+        'select * from `schemas` where id = ?',
+        mapper.schema_id
+    )
+    let schemaJson = JSON.parse(schema[0].json)
+
     let [extracts] = await conn.query(
         'select * from extracts where file_id = ?',
         [mapper.upload_id]
@@ -24,14 +31,23 @@ export default defineEventHandler(async (event) => {
 
     // For each uploaded row of data, convert into the schema
     for (let i = 0; i < extracts.length; i++) {
-        let row = extracts[i]
+        let uploadDataRow = extracts[i]
         let mapped = Object.entries(mapper.mapper_config)
             .reduce((obj : Record<string, any>, [key, value]) => {
                 obj[key] = value.map(val => {
-                    return row[val] || '';
+                    // Get data from uploaded data row
+                    let lookupValue = uploadDataRow[val] || '';
+
+                    // Transform data: Dates
+                    if (schemaJson.properties[key]?.format) {
+                        lookupValue = format(new Date(lookupValue), 'yyyy-MM-dd')
+                    }
+
+                    return lookupValue
                 })
                 return obj
             }, {})
+
 
         await conn.execute(
             `insert into mapped_data
