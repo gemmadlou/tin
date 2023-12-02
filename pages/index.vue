@@ -4,7 +4,7 @@
 
         <div class="h-10"></div>
 
-        <div class="grid grid-cols-4">
+        <div class="grid grid-cols-4 gap-10">
             <div class="col-span-2">
                 <table class="table table-zebra">
                     <thead>
@@ -25,6 +25,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-span-2">
+                <button v-on:click="createSchema" class="btn btn-primary">Create new schema</button>
+            </div>
         </div>
     </div>
 
@@ -40,5 +43,9 @@ schemas = (await useFetch('/api/schema')).data.value
 
 let viewSchema = (schema: model.Schema) => {
     alert('View schema')
+}
+
+let createSchema = () => {
+    alert('Create schema')
 }
 </script>
