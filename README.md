@@ -158,7 +158,7 @@ First, create the file.
 echo 'First name,Last name,Age,Country,Address,Joined,
 John,Smith,22,United Kingdom,"44 Lincoln Street, A11 1AA",11-06-2022,
 Jane,Blogs,30,France,"20 Paris Lane, A11 1AA",22-3-2022,
-Jack,Black,50,United States,"Hollywood Rowe, 1AA A11",4/8/2021,' > ~/tin.csv
+Jack,Black,50,United States," Hollywood Rowe, 1AA A11",4/8/2021,' > ~/tin.csv
 ```
 
 Upload it via the upload wizard and you'll be able to view the upload in the *Uploads list*.

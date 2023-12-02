@@ -38,6 +38,9 @@ export default defineEventHandler(async (event) => {
                     // Get data from uploaded data row
                     let lookupValue = uploadDataRow[val] || '';
 
+                    // Transform data: Trim
+                    lookupValue = lookupValue.trim()
+
                     // Transform data: Dates
                     if (schemaJson.properties[key]?.format) {
                         try {
