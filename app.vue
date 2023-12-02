@@ -324,8 +324,8 @@ const removeNewField = async (schema: SchemaFieldName, index: number) => {
 
 const saveMapper = async () => {
   let data = {
-    upload_id: mapper.value.form.schemaId,
-    schema_id: mapper.value.form.uploadId,
+    upload_id: mapper.value.form.uploadId,
+    schema_id: mapper.value.form.schemaId,
     mapper_config: mappedFields.value
   }
 
