@@ -217,7 +217,7 @@
     let data = schema.value.form
     data.json = JSON.stringify(JSON.parse(data.json))
   
-    let response = await axios('/api/schema', {
+    let response = await axios('/api/schemas', {
       method: data.id ? 'PUT' : 'POST',
       data
     })
