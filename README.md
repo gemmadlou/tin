@@ -124,6 +124,10 @@ Create a new JSON schema of the file structure.
         },
         "address": {
             "type": "string"
+        },
+        "signed_up": {
+            "type": "string",
+            "format": "date"
         }
     },
     "required": [
