@@ -3,7 +3,7 @@ import { connection } from "~/src/mysql"
 
 const CreateSchemaRequest = z.object({
     name: z.string().min(1).trim(),
-    json: z.string().min(2).trim()
+    json: z.string().min(3).trim()
 })
 
 export default defineEventHandler(async (event) => {
