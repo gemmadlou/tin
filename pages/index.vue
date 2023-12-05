@@ -119,6 +119,8 @@ let saveSchema = async (event: any) => {
         return
     }
 
+    closeSchemaForm()
+
     await getSchemas()
 }
 
