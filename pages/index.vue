@@ -54,7 +54,9 @@
                         <button v-else v-on:click="saveSchema" class="btn btn-primary">Update Schema</button>
                     </div>
 
-                    <div v-if="error" role="alert" class="alert alert-error">
+                    <div class="h-5"></div>
+
+                    <div v-if="error.length" role="alert" class="alert alert-error">
                         <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -106,22 +108,27 @@ let form = ref<SchemaForm>({
 let error = ref('');
 
 let saveSchema = async (event: any) => {
-    let data = { ...form.value }
-    data.json = JSON.stringify(JSON.parse(data.json || '{}'))
+    try {
+        let data = { ...form.value }
+        data.json = JSON.stringify(JSON.parse(data.json || '{}'))
 
-    let response = await axios('/api/schemas', {
-        method: data.id ? 'PUT' : 'POST',
-        data
-    })
+        await axios('/api/schemas', {
+            method: data.id ? 'PUT' : 'POST',
+            data
+        })
 
-    if (response.error) {
-        error = response.error
-        return
+        closeSchemaForm()
+
+        await getSchemas()
+    } catch (responseError) {
+        if (responseError.response) {
+            error.value = Object.entries(responseError.response.data.fieldErrors)
+                .map(([key, value]) => `${key} ${value.toString().toLowerCase()}`)
+                .join(",")
+        } else {
+            error.value = "Unknown server error"
+        }
     }
-
-    closeSchemaForm()
-
-    await getSchemas()
 }
 
 let openSchemaForm = () => {
