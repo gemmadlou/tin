@@ -106,8 +106,8 @@ let form = ref<SchemaForm>({
 let error = ref('');
 
 let saveSchema = async (event: any) => {
-    let data = form.value
-    data.json = JSON.stringify(JSON.parse(data.json || ''))
+    let data = { ...form.value }
+    data.json = JSON.stringify(JSON.parse(data.json || '{}'))
 
     let response = await axios('/api/schemas', {
         method: data.id ? 'PUT' : 'POST',

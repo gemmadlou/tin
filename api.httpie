@@ -4,13 +4,19 @@ http
     localhost:3000/api/uploads
     files@~/tin.csv
 
-// Schemes
-// Schemes: delete
+// Schemas -----
+// Schemas: delete
 http
     delete
     localhost:3000/api/schemas/8
 
-// Create a new mapper
+// Schemas: create
+http
+    post
+    localhost:3000/api/schemas
+
+// Mappers -----
+// Mapper: create
 http 
     post 
     localhost:3000/api/mappers 
@@ -37,8 +43,8 @@ http
     post
     localhost:3000/api/mappers/3/map/csv
 
-
-// POST /api/extracts
+// Extracts ----
+// Extracts create
 http
     post
     localhost:3000/api/extracts

@@ -1,14 +1,26 @@
+import { z } from "zod";
 import { connection } from "~/src/mysql"
 
+const CreateSchemaRequest = z.object({
+    name: z.string().min(1).trim(),
+    json: z.string().min(2).trim()
+})
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event)
+    const body = await readBody<typeof CreateSchemaRequest>(event)
+
+    let validated = CreateSchemaRequest.safeParse(body)
+
+    if (!validated.success) {
+        setResponseStatus(event, 400)
+        return validated.error.flatten();
+    }
 
     try {
         let conn = await connection()
         let response = await conn.execute(
             'insert into `schemas` (name, json) values (?, ?)',
-            [body.name, body.json]
+            [validated.data.name, validated.data.json]
         )
 
         return {
