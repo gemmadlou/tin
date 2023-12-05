@@ -112,10 +112,9 @@ let saveSchema = async (event: any) => {
         let data = { ...form.value }
         data.json = JSON.stringify(JSON.parse(data.json || '{}'))
 
-        await axios('/api/schemas', {
-            method: data.id ? 'PUT' : 'POST',
-            data
-        })
+        let url = data.id ? `/api/schemas/${data.id}` : '/api/schemas';
+        let method = data.id ? 'PUT' : 'POST';
+        await axios(url, { method, data })
 
         closeSchemaForm()
 
@@ -124,7 +123,7 @@ let saveSchema = async (event: any) => {
         if (responseError.response) {
             error.value = Object.entries(responseError.response.data.fieldErrors)
                 .map(([key, value]) => `${key} ${value.toString().toLowerCase()}`)
-                .join(",")
+                .join(", ")
         } else {
             error.value = "Unknown server error"
         }

@@ -16,6 +16,14 @@ Data transformation and conversion as a service.
 - No design up front. Prototyping is just iterating over capabilities quickly.
 - No migration tools. Working in things that allow for faster iteration at this stage.
 
+## Todos to remember
+
+- [Prototype] Confirm deletion of schema
+- [Prototype] Validate schema on frontend
+- [Prototype] add custom json error message to ask for Json Schema
+- [Prototype] Validate json schema confirms to structural requirements
+- [Prototype] Confirm change of schema if uploads have already been created - or prevent deletion.
+
 ## Features
 
 - [ ] Transformations
