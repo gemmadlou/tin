@@ -137,6 +137,7 @@ let openSchemaForm = () => {
 
 let closeSchemaForm = () => {
     canViewForm.value = false
+    error.value = ''
     form.value.id = undefined
     form.value.name = undefined
     form.value.json = undefined
