@@ -104,7 +104,11 @@ const openForm = () => {
 }
 
 const closeForm = () => {
-
+    canViewForm.value = false
+    form.value.id = undefined
+    form.value.name = undefined
+    form.value.schema_id = undefined
+    form.value.uuid = undefined
 }
 
 const save = async () => {
