@@ -27,17 +27,66 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-span-2 bg-slate-50 p-10">
+                <button v-if="!canViewForm" v-on:click="openForm" class="btn btn-primary">Create upload link</button>
+                <div v-else class="text-right">
+                    <button v-on:click="closeForm" class="btn btn-xs btn-error text-white">Close</button>
+                </div>
+
+                <div v-if="canViewForm">
+                    <input v-if="form.id" type="hidden" v-model="form.id" />
+
+                    <div class="form-control mb-5">
+                        <label class="label-text">Upload link name</label>
+                        <input v-model="form.name" type="text" placeholder="Type here"
+                            class="input input-bordered w-full max-w-xs" />
+                    </div>
+
+                    <div v-if="form.id" class="form-control mb-5">
+                        <label class="label-text">Upload uuid</label>
+                        <input v-model="form.uuid" type="text" placeholder="Type here"
+                            class="input input-bordered w-full max-w-xs" />
+                    </div>
+
+                    <div class="text-right">
+                        <button v-if="form.id" v-on:click="deleteLink" class="btn btn-error mr-5">Delete Upload Link</button>
+                        <button v-if="!form.id" v-on:click="save" class="btn btn-primary">Generate Upload Link</button>
+                        <button v-else v-on:click="save" class="btn btn-primary">Update Upload Link</button>
+                    </div>
+
+                    <div class="h-5"></div>
+
+                    <div v-if="error.length" role="alert" class="alert alert-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>{{ error }}</span>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-
 import { Schema, UploadLink } from "../../../src/models"
+
 let links = ref<UploadLink[]>([]);
 let link = ref<UploadLink>({});
 let schema = ref<Schema>({});
+let error = ref('')
+let form = ref({
+    schema_id: undefined,
+    id: undefined,
+    name: undefined,
+    uuid: undefined
+})
+let canViewForm = ref<boolean>(false);
+
 const route = useRoute();
 
 const getLinks = async (schemaId: number) => {
@@ -46,6 +95,22 @@ const getLinks = async (schemaId: number) => {
 
 const viewLink = async (link: UploadLink) => {
     link = (await useFetch(`/api/upload-links/${link.id}`)).data.value
+}
+
+const openForm = () => {
+    canViewForm.value = true
+}
+
+const closeForm = () => {
+
+}
+
+const save = () => {
+
+}
+
+const deleteLink = () => {
+
 }
 
 getLinks(route.params.id)
