@@ -25,6 +25,13 @@ http
 http
     localhost:3000/api/schemas/3/upload-links
 
+// Upload links: -----
+// Upload links: update
+http
+    put
+    localhost:3000/api/upload-links/1
+    name=testing
+
 // Upload links: get
 http
     localhost:3000/api/upload-links/1
