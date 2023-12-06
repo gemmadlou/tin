@@ -18,11 +18,11 @@ Data transformation and conversion as a service.
 
 ## Todos to remember
 
-- [Prototype] Confirm deletion of schema
+- [Prototype] Confirm deletion of schema instead of just deleting straight away
 - [Prototype] Validate schema on frontend
-- [Prototype] add custom json error message to ask for Json Schema
-- [Prototype] Validate json schema confirms to structural requirements
+- [Prototype] Validate json schema conforms to structural requirements
 - [Prototype] Confirm change of schema if uploads have already been created - or prevent deletion.
+- [Prototype] Milestone. Mobile friendly.
 
 ## Features
 

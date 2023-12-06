@@ -12,6 +12,7 @@
                             <td>ID</td>
                             <td>Name</td>
                             <td></td>
+                            <td></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -19,6 +20,11 @@
                             <th>{{ schema.id }}</th>
                             <td>{{ schema.name }}</td>
                             <td><button @click="viewSchema(schema)" class="btn btn-outline btn-xs">View</button></td>
+                            <td>
+                                <nuxt-link :to="`/schemes/${schema.id}/links`">
+                                    <button class="btn btn-outline btn-xs">Links</button>
+                                </nuxt-link>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
