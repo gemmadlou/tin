@@ -2,7 +2,7 @@
     <Header />
 
     <div class="container mx-auto p-5">
-        <h1 class="text-xl">Links</h1>
+        <h1 class="text-xl">{{ schema.name }} schema [{{ schema.id }}] links</h1>
 
         <div class="h-10"></div>
 
@@ -32,18 +32,23 @@
 </template>
 
 <script setup lang="ts">
-import { UploadLink } from "../../../src/models"
-let links : UploadLink[] = ref([])
-let link : UploadLink = ref({})
+import { ref } from 'vue'
+
+import { Schema, UploadLink } from "../../../src/models"
+let links = ref<UploadLink[]>([]);
+let link = ref<UploadLink>({});
+let schema = ref<Schema>({});
 const route = useRoute();
 
 const getLinks = async (schemaId: number) => {
     links.value = (await useFetch(`/api/schemas/${schemaId}/upload-links`)).data.value
 }
 
-getLinks(route.params.id)
-
 const viewLink = async (link: UploadLink) => {
     link = (await useFetch(`/api/upload-links/${link.id}`)).data.value
 }
+
+getLinks(route.params.id)
+
+schema.value = (await useFetch(`/api/schemas/${route.params.id}`)).data.value
 </script>
