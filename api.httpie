@@ -25,6 +25,10 @@ http
 http
     localhost:3000/api/schemas/3/upload-links
 
+// Upload links: get
+http
+    localhost:3000/api/upload-links/1
+
 // Mappers -----
 // Mapper: create
 http 
