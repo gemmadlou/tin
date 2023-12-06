@@ -46,7 +46,7 @@
                     <div v-if="form.id" class="form-control mb-5">
                         <label class="label-text">Upload uuid</label>
                         <input v-model="form.uuid" type="text" placeholder="Type here"
-                            class="input input-bordered w-full max-w-xs" />
+                            class="input input-bordered w-full max-w-xs bg-slate-200 cursor-pointer" readonly />
                     </div>
 
                     <div class="text-right">
@@ -74,11 +74,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Schema, UploadLink } from "../../../src/models"
+import { Schema, UploadLink, UploadLinkForm } from "../../../src/models"
 import axios from 'axios';
 
 let links = ref<UploadLink[]>([]);
-let link = ref<UploadLink>({});
 let schema = ref<Schema>({});
 let error = ref('')
 let form = ref({
@@ -96,7 +95,12 @@ const getLinks = async (schemaId: number) => {
 }
 
 const viewLink = async (link: UploadLink) => {
-    link = (await useFetch(`/api/upload-links/${link.id}`)).data.value
+    let data = (await useFetch(`/api/upload-links/${link.id}`)).data.value
+    form.value.id = data.id
+    form.value.name = data.name
+    form.value.schema_id = data.schema_id
+    form.value.uuid = data.uuid
+    canViewForm.value = true
 }
 
 const openForm = () => {
@@ -114,10 +118,11 @@ const closeForm = () => {
 const save = async () => {
     let data = { ...form.value }
 
-    let url = `/api/schemas/${form.value.schema_id || schema.value.id}/upload-links`
-    let method = data.id ? 'PUT' : 'POST'
-
-    await axios(url, { method, data })
+    if (data.id) {
+        await axios.put(`/api/upload-links/${data.id}`, data)
+    } else {
+        await axios.post(`/api/schemas/${schema.value.id}/upload-links`, data)
+    }
     
     await getLinks(route.params.id)
 }

@@ -1,5 +1,9 @@
 export type json = string;
 
+type WithNull<T> = {
+    [P in keyof T]: T[P] | null;
+}
+
 export type Schema = {
     id: number,
     name: string,
@@ -12,3 +16,5 @@ export type UploadLink = {
     uuid: string,
     name: string
 }
+
+export type UploadLinkForm = WithNull<UploadLink>
