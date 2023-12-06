@@ -43,9 +43,9 @@
                             class="input input-bordered w-full max-w-xs" />
                     </div>
 
-                    <div v-if="form.id" class="form-control mb-5">
+                    <div v-if="form.id" class="form-control mb-5 flex">
                         <label class="label-text">Upload uuid</label>
-                        <input v-model="form.uuid" type="text" placeholder="Type here"
+                        <input v-on:click="copyInput" v-model="form.url" type="text" placeholder="Type here"
                             class="input input-bordered w-full max-w-xs bg-slate-200 cursor-pointer" readonly />
                     </div>
 
@@ -84,7 +84,7 @@ let form = ref({
     schema_id: undefined,
     id: undefined,
     name: undefined,
-    uuid: undefined
+    url: ''
 })
 let canViewForm = ref<boolean>(false);
 
@@ -99,7 +99,7 @@ const viewLink = async (link: UploadLink) => {
     form.value.id = data.id
     form.value.name = data.name
     form.value.schema_id = data.schema_id
-    form.value.uuid = data.uuid
+    form.value.url = `${window.location.origin}/upload/${data.uuid}`
     canViewForm.value = true
 }
 
@@ -112,7 +112,7 @@ const closeForm = () => {
     form.value.id = undefined
     form.value.name = undefined
     form.value.schema_id = undefined
-    form.value.uuid = undefined
+    form.value.url = ''
 }
 
 const save = async () => {
@@ -129,6 +129,14 @@ const save = async () => {
 
 const deleteLink = () => {
 
+}
+
+const copyInput = async () => {
+    try {
+        await navigator.clipboard.writeText(form.value.url || '')
+    } catch (e) {
+        alert('Cannot copy')
+    }
 }
 
 getLinks(route.params.id)
