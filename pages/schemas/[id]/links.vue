@@ -35,6 +35,7 @@
 
                 <div v-if="canViewForm">
                     <input v-if="form.id" type="hidden" v-model="form.id" />
+                    <input type="hidden" v-model="schema.id" />
 
                     <div class="form-control mb-5">
                         <label class="label-text">Upload link name</label>
@@ -74,6 +75,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Schema, UploadLink } from "../../../src/models"
+import axios from 'axios';
 
 let links = ref<UploadLink[]>([]);
 let link = ref<UploadLink>({});
@@ -105,8 +107,15 @@ const closeForm = () => {
 
 }
 
-const save = () => {
+const save = async () => {
+    let data = { ...form.value }
 
+    let url = `/api/schemas/${form.value.schema_id || schema.value.id}/upload-links`
+    let method = data.id ? 'PUT' : 'POST'
+
+    await axios(url, { method, data })
+    
+    await getLinks(route.params.id)
 }
 
 const deleteLink = () => {
