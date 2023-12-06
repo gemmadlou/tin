@@ -25,8 +25,6 @@ export default defineEventHandler(async (event) => {
         [event.context?.params?.id, uuid, validated.data.name]
     )
 
-    console.log(response)
-
     return {
         id: response.id,
         uuid,

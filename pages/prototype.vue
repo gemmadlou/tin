@@ -229,7 +229,6 @@
   
   const editSchema = async (schemaData: any) => {
     schema.value = { ...schema, form: schemaData }
-    console.log({ schema })
   }
   
   let schemas = (await useFetch('/api/schemas')).data.value

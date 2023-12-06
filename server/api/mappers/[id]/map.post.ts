@@ -46,7 +46,7 @@ export default defineEventHandler(async (event) => {
                         try {
                             lookupValue = format(new Date(lookupValue), 'yyyy-MM-dd')
                         } catch {
-                            console.log(`Row ${i + 1}: Incorrect date format ${lookupValue}`)
+                            console.info(`Row ${i + 1}: Incorrect date format ${lookupValue}`)
                             lookupValue = ""
                         }
                     }
