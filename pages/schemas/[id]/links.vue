@@ -19,9 +19,9 @@
                     </thead>
                     <tbody>
                         <tr v-for="link in links">
-                            <th>xxxxx</th>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
+                            <th>{{ link.id }}</th>
+                            <td>{{ link.name }}</td>
+                            <td>{{ link.uuid }}</td>
                             <td><button @click="viewLink(link)" class="btn btn-outline btn-xs">View</button></td>
                         </tr>
                     </tbody>
@@ -32,9 +32,18 @@
 </template>
 
 <script setup lang="ts">
-let links = ref([])
+import { UploadLink } from "../../../src/models"
+let links : UploadLink[] = ref([])
+let link : UploadLink = ref({})
+const route = useRoute();
 
-const viewLink = async (link) => {
+const getLinks = async (schemaId: number) => {
+    links.value = (await useFetch(`/api/schemas/${schemaId}/upload-links`)).data.value
+}
 
+getLinks(route.params.id)
+
+const viewLink = async (link: UploadLink) => {
+    link = (await useFetch(`/api/upload-links/${link.id}`)).data.value
 }
 </script>

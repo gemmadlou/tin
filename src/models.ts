@@ -5,3 +5,10 @@ export type Schema = {
     name: string,
     json: json
 }
+
+export type UploadLink = {
+    id: number,
+    schema_id: number,
+    uuid: string,
+    name: string
+}
