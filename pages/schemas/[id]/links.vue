@@ -43,14 +43,18 @@
                             class="input input-bordered w-full max-w-xs" />
                     </div>
 
-                    <div v-if="form.id" class="form-control mb-5 flex">
+                    <div v-if="form.id" class="form-control mb-5">
                         <label class="label-text">Upload uuid</label>
-                        <input v-on:click="copyInput" v-model="form.url" type="text" placeholder="Type here"
-                            class="input input-bordered w-full max-w-xs bg-slate-200 cursor-pointer" readonly />
+                        <div v-on:click="copyInput" class="cursor-pointer flex items-center relative w-full max-w-xs">
+                            <input v-model="form.url" type="text" placeholder="Type here"
+                                class="input input-bordered w-full max-w-xs bg-slate-200 pr-14" readonly />
+                            <span class="absolute right-3 text-4xl">📋</span>
+                        </div>
                     </div>
 
                     <div class="text-right">
-                        <button v-if="form.id" v-on:click="deleteLink(form.id)" class="btn btn-error mr-5">Delete Upload Link</button>
+                        <button v-if="form.id" v-on:click="deleteLink(form.id)" class="btn btn-error mr-5">Delete Upload
+                            Link</button>
                         <button v-if="!form.id" v-on:click="save" class="btn btn-primary">Generate Upload Link</button>
                         <button v-else v-on:click="save" class="btn btn-primary">Update Upload Link</button>
                     </div>
@@ -123,7 +127,7 @@ const save = async () => {
     } else {
         await axios.post(`/api/schemas/${schema.value.id}/upload-links`, data)
     }
-    
+
     await getLinks(route.params.id)
 }
 
@@ -131,7 +135,7 @@ const deleteLink = async (linkId: number) => {
     await axios.delete(`/api/upload-links/${linkId}`)
 
     closeForm()
-    
+
     await getLinks(route.params.id)
 }
 
