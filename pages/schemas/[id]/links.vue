@@ -44,7 +44,10 @@
                     </div>
 
                     <div v-if="form.id" class="form-control mb-5">
-                        <label class="label-text">Upload uuid</label>
+                        <label class="label-text">
+                            Upload uuid 
+                            <span v-if="copied" class="text-xs text-green-600">copied</span>
+                        </label>
                         <div v-on:click="copyInput" class="cursor-pointer flex items-center relative w-full max-w-xs">
                             <input v-model="form.url" type="text" placeholder="Type here"
                                 class="input input-bordered w-full max-w-xs bg-slate-200 pr-14" readonly />
@@ -84,6 +87,7 @@ import axios from 'axios';
 let links = ref<UploadLink[]>([]);
 let schema = ref<Schema>({});
 let error = ref('')
+let copied = ref(false)
 let form = ref({
     schema_id: undefined,
     id: undefined,
@@ -142,6 +146,10 @@ const deleteLink = async (linkId: number) => {
 const copyInput = async () => {
     try {
         await navigator.clipboard.writeText(form.value.url || '')
+        copied.value = true
+        setTimeout(() => {
+            copied.value = false
+        }, 2000)
     } catch (e) {
         alert('Cannot copy')
     }
