@@ -36,6 +36,11 @@ http
 http
     localhost:3000/api/upload-links/1
 
+// Upload links: delete
+http
+    delete
+    localhost:3000/api/upload-links/1
+
 // Mappers -----
 // Mapper: create
 http 
