@@ -130,6 +130,8 @@ const save = async () => {
 const deleteLink = async (linkId: number) => {
     await axios.delete(`/api/upload-links/${linkId}`)
 
+    closeForm()
+    
     await getLinks(route.params.id)
 }
 
