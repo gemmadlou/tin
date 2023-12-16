@@ -32,6 +32,8 @@
                         <button type="submit" class="btn">Upload</button>
                     </div>
                 </form>
+                <div v-if="upload.error" class="text-red-500">{{ upload.error }}</div>
+                <div v-if="upload.success" class="text-green-500">{{ upload.success }}</div>
             </div>
         </div>
 
@@ -50,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 import * as models from "../../src/models"
 import { ref } from "vue"
 
@@ -61,12 +64,41 @@ const schema = ref<models.UndefinedSchema>({
     json: undefined
 })
 
-const uploadFile = async () => {
+const upload = ref({
+    form: {
+        id: false,
+        file: undefined
+    },
+    success: '',
+    error: '',
+})
 
+const uploadFile = async () => {
+    let data = upload.value.form
+
+    try {
+
+        let response = await axios.postForm('/api/uploads', {
+            files: data.file
+        });
+
+        upload.value.success = "File uploaded"
+    } catch (responseError: unknown) {
+        if (responseError.response) {
+            upload.value.error = responseError.response.data.error
+        }
+    }
 }
 
-const onFileChange = async () => {
+interface InputFileEvent extends Event {
+    target: HTMLInputElement;
+}
 
+const onFileChange = async (e: InputFileEvent) => {
+    if (!e.target.files) {
+        return;
+    }
+    upload.value.form.file = e.target.files;
 }
 
 const getUploadLink = async (paramId: string) => {
