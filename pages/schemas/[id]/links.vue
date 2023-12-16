@@ -81,11 +81,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Schema, UploadLink, UploadLinkForm } from "../../../src/models"
+import * as models from "../../../src/models"
 import axios from 'axios';
 
-let links = ref<UploadLink[]>([]);
-let schema = ref<Schema>({});
+let links = ref<models.UploadLink[]>([]);
+let schema = ref<models.Schema>({});
 let error = ref('')
 let copied = ref(false)
 let form = ref({
@@ -102,7 +102,7 @@ const getLinks = async (schemaId: number) => {
     links.value = (await useFetch(`/api/schemas/${schemaId}/upload-links`)).data.value
 }
 
-const viewLink = async (link: UploadLink) => {
+const viewLink = async (link: models.UploadLink) => {
     let data = (await useFetch(`/api/upload-links/${link.id}`)).data.value
     form.value.id = data.id
     form.value.name = data.name
