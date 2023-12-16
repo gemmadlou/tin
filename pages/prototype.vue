@@ -192,7 +192,6 @@
   
   <script setup lang="ts">
   import axios from 'axios'
-  import { VueElement } from 'nuxt/dist/app/compat/capi';
   
   let schema = ref({
     form: {
