@@ -2,7 +2,11 @@
     <Header />
 
     <div class="container mx-auto p-5">
-        <h1 class="text-xl">Import your data file</h1>
+        <h1 class="text-xl">Import your data file
+            <span class="uppercase text-sm font-bold block">
+                Schema {{ schema.id }} - {{ schema.name }}
+            </span>
+        </h1>
 
         <div class="h-10"></div>
 
@@ -45,7 +49,18 @@
     </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import * as models from "../../src/models"
+import { ref } from "vue"
+
+const route = useRoute()
+
+const schema = ref<models.UndefinedSchema>({
+    id: undefined,
+    name: undefined,
+    json: undefined
+})
+
 const uploadFile = async () => {
 
 }
@@ -53,4 +68,19 @@ const uploadFile = async () => {
 const onFileChange = async () => {
 
 }
+
+const getUploadLink = async (paramId: string) => {
+    return (await useFetch(`/api/upload-links/${paramId}`)).data.value
+}
+
+const getSchema = async (paramId: string | number) => {
+    return (await useFetch(`/api/schemas/${paramId}`)).data.value
+}
+
+const setSchemaInfo = async () => {
+    let uploadLink : models.UploadLink = await getUploadLink(route.params.id)
+    schema.value = await getSchema(uploadLink.schema_id)
+}
+
+setSchemaInfo()
 </script>

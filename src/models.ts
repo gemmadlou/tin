@@ -4,11 +4,17 @@ type WithNull<T> = {
     [P in keyof T]: T[P] | null;
 }
 
+type WithUndefined<T> = {
+    [P in keyof T]: T[P] | undefined;
+}
+
 export type Schema = {
     id: number,
     name: string,
     json: json
 }
+
+export type UndefinedSchema = WithUndefined<Schema>
 
 export type UploadLink = {
     id: number,
