@@ -48,10 +48,13 @@
                             Upload uuid 
                             <span v-if="copied" class="text-xs text-green-600">copied</span>
                         </label>
-                        <div v-on:click="copyInput" class="cursor-pointer flex items-center relative w-full max-w-xs">
+                        <div class="flex items-center relative w-full max-w-xs">
                             <input v-model="form.url" type="text" placeholder="Type here"
                                 class="input input-bordered w-full max-w-xs bg-slate-200 pr-14" readonly />
-                            <span class="absolute right-3 text-4xl">📋</span>
+                            <span v-on:click="copyInput" class="cursor-pointer absolute right-3 text-4xl">📋</span>
+                            <nuxt-link class="absolute -right-14 text-4xl hover:bg-teal-200 bg-teal-300 w-10 flex items-center justify-center rounded-md" :to="form.url">
+                                <span>↗️</span>
+                            </nuxt-link>
                         </div>
                     </div>
 
@@ -107,7 +110,7 @@ const viewLink = async (link: models.UploadLink) => {
     form.value.id = data.id
     form.value.name = data.name
     form.value.schema_id = data.schema_id
-    form.value.url = `${window.location.origin}/upload/${data.uuid}`
+    form.value.url = `${window.location.origin}/uploads/${data.uuid}`
     canViewForm.value = true
 }
 
