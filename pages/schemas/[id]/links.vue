@@ -52,7 +52,7 @@
                             <input v-model="form.url" type="text" placeholder="Type here"
                                 class="input input-bordered w-full max-w-xs bg-slate-200 pr-14" readonly />
                             <span v-on:click="copyInput" class="cursor-pointer absolute right-3 text-4xl">📋</span>
-                            <nuxt-link class="absolute -right-14 text-4xl hover:bg-teal-200 bg-teal-300 w-10 flex items-center justify-center rounded-md" :to="form.url">
+                            <nuxt-link class="absolute -right-14 text-4xl hover:bg-gray-200 bg-gray-300 w-10 flex items-center justify-center rounded-md" :to="form.url">
                                 <span>↗️</span>
                             </nuxt-link>
                         </div>
