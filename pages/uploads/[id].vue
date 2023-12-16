@@ -7,7 +7,7 @@
                 Schema {{ schema.id }} - {{ schema.name }}
             </span>
         </h1>
-
+        
         <div class="h-10"></div>
 
         <div class="max-w-4xl grid grid-cols-4 gap-10">
@@ -64,6 +64,14 @@ const schema = ref<models.UndefinedSchema>({
     json: undefined
 })
 
+const link = ref<models.UndefinedUploadLink>({
+    id: undefined,
+    name: undefined,
+    upload_id: undefined,
+    schema_id: undefined,
+    uuid: undefined
+})
+
 const upload = ref({
     form: {
         id: false,
@@ -82,7 +90,14 @@ const uploadFile = async () => {
             files: data.file
         });
 
+        await axios.put(`/api/upload-links/${link.value.id}`, {
+            ...link.value,
+            upload_id: response.data.id
+        })
+
         upload.value.success = "File uploaded"
+
+        link.value = await getUploadLink(link.value.id)
     } catch (responseError: unknown) {
         if (responseError.response) {
             upload.value.error = responseError.response.data.error
@@ -101,7 +116,7 @@ const onFileChange = async (e: InputFileEvent) => {
     upload.value.form.file = e.target.files;
 }
 
-const getUploadLink = async (paramId: string) => {
+const getUploadLink = async (paramId: string | number) => {
     return (await useFetch(`/api/upload-links/${paramId}`)).data.value
 }
 
@@ -110,7 +125,8 @@ const getSchema = async (paramId: string | number) => {
 }
 
 const setSchemaInfo = async () => {
-    let uploadLink : models.UploadLink = await getUploadLink(route.params.id)
+    let uploadLink: models.UploadLink = await getUploadLink(route.params.id)
+    link.value = uploadLink
     schema.value = await getSchema(uploadLink.schema_id)
 }
 

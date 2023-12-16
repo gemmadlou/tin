@@ -19,8 +19,11 @@ export type UndefinedSchema = WithUndefined<Schema>
 export type UploadLink = {
     id: number,
     schema_id: number,
+    upload_id: number,
     uuid: string,
     name: string
 }
+
+export type UndefinedUploadLink = WithUndefined<UploadLink>
 
 export type UploadLinkForm = WithNull<UploadLink>
