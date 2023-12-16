@@ -3,7 +3,8 @@ import { z } from "zod";
 import { connection } from "~/src/mysql"
 
 const UpdateSchemaUploadLink = z.object({
-    name: z.string()
+    name: z.string(),
+    upload_id: z.number().int().positive().nullable()
 })
 
 export default defineEventHandler(async (event) => {
@@ -19,8 +20,8 @@ export default defineEventHandler(async (event) => {
     }
 
     let [response] = await conn.execute(
-        'update schema_upload_links set name=? where id = ?',
-        [validated.data.name, event.context.params?.id]
+        'update schema_upload_links set name=?, upload_id=? where id = ?',
+        [validated.data.name, validated.data.upload_id, event.context.params?.id]
     )
 
     return
