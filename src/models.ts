@@ -27,3 +27,10 @@ export type UploadLink = {
 export type UndefinedUploadLink = WithUndefined<UploadLink>
 
 export type UploadLinkForm = WithNull<UploadLink>
+
+export type Upload = {
+    created: String,
+    id: Number,
+    filename: String,
+    filepath: String
+}
