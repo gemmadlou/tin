@@ -264,9 +264,17 @@ const removeNewField = async (schema: string | number, index: number) => {
     mappedFields.value[schema].splice(index, 1)
 }
 
-const saveMapper = () => {
-
-}
+const saveMapper = async () => {
+    let data = {
+      upload_id: mapper.value.form.uploadId,
+      schema_id: mapper.value.form.schemaId,
+      mapper_config: mappedFields.value
+    }
+  
+    let response = await axios.post('/api/mappers', data);
+  
+    createMapperUi()
+  }
 
 type MappedField = Record<string, string[]>;
 let mappedFields = ref(<MappedField>{})
