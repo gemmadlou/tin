@@ -11,7 +11,7 @@
         <div class="h-10"></div>
 
         <div class="grid grid-cols-5 gap-10">
-            <div class="col-span-2">
+            <div class="col-span-3">
                 <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
                     <div class="col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
                         <div class="flex items-center m-3">
@@ -120,7 +120,7 @@
                     Step 3 - Import file
                 </div>
             </div>
-            <div class="col-span-3">
+            <div class="col-span-2">
 
                 <h2 class="font-bold uppercase mb-5">
                     Extracted file data
@@ -226,7 +226,7 @@ const getUploadFile = async (uploadId: string | number) => {
 }
 
 const removeFile = async () => {
-
+    // @todo
 }
 
 const extractUpload = async (uploadId: number) => {
@@ -249,15 +249,15 @@ const setSchemaInfo = async () => {
     }
 }
 
-const isRequiredField = (schema : string) => {
+const isRequiredField = (schema: string) => {
     return false
 }
 
-const addNewField = (schema : string) => {
+const addNewField = (schema: string) => {
 
 }
 
-const removeNewField = (schema : string) => {
+const removeNewField = (schema: string) => {
 
 }
 
@@ -288,8 +288,25 @@ let mapper = ref<Mapper>({
     uploadFields: []
 })
 
+const createMapperUi = async () => {
+    let schemeFields = Object.keys(schema.value?.json?.properties)
+
+    // let uploadFields = (await useFetch(`/api/uploads/${mapper.value.form.uploadId}/extracts`)).data.value
+    let uploadFields = Object.keys(extractedFileData.value[0].json).filter(i => i)
+
+    mappedFields.value = schemeFields.reduce((mapped: MappedField, schemaField:  string | number) => {
+        mapped[schemaField] = [uploadFields[0]]
+        return mapped
+    }, {})
+
+    mapper.value.required = schema.value?.json?.required
+    mapper.value.schemaFields = schemeFields
+    mapper.value.uploadFields = uploadFields
+}
+
 onMounted(async () => {
     await setSchemaInfo()
+    await createMapperUi()
 })
 
 </script>
