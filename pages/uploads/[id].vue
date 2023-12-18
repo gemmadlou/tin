@@ -74,6 +74,43 @@
                         <h2 class="font-bold uppercase mb-5">
                             Map file
                         </h2>
+                        <div class="flex space-x-8 mb-10">
+                            <div class="basis-1/2">
+                                <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-md">
+                                    <tr>
+                                        <td class="w-32 capitalize">
+                                            <div class="w-32">
+                                                {{ schema }}
+                                                <span v-if="isRequiredField(schema)">*</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div v-for="(mappedField, mappedIndex) in mappedFields[schema]"
+                                                class="flex space-x-8">
+                                                <select v-model="mappedFields[schema][mappedIndex]"
+                                                    class="select select-bordered w-44">
+                                                    <option v-for="(field) in mapper.uploadFields">{{ field }}</option>
+                                                </select>
+                                                <div class="flex space-x-2">
+                                                    <button v-on:click="addNewField(schema)" class="btn">✚</button>
+                                                    <button v-if="mappedIndex > 0 || !isRequiredField(schema)"
+                                                        v-on:click="removeNewField(schema, mappedIndex)"
+                                                        class="btn">-</button>
+                                                </div>
+                                            </div>
+                                            <div v-if="mappedFields[schema].length === 0">
+                                                <button v-on:click="addNewField(schema)" class="btn">✚</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="">
+                                    <button class="btn btn-neutral" v-on:click="saveMapper">Save Mapper</button>
+                                </div>
+                            </div>
+                            <div class="basis-1/2">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -211,6 +248,45 @@ const setSchemaInfo = async () => {
         extractedFileData.value = await getExtractedFileData(uploadLink.upload_id)
     }
 }
+
+const isRequiredField = (schema : string) => {
+    return false
+}
+
+const addNewField = (schema : string) => {
+
+}
+
+const removeNewField = (schema : string) => {
+
+}
+
+const saveMapper = () => {
+
+}
+
+type MappedField = Record<string, string[]>;
+let mappedFields = ref(<MappedField>{})
+
+type Mapper = {
+    form: {
+        schemaId: number,
+        uploadId: number
+    },
+    required: string[],
+    schemaFields: string[],
+    uploadFields: string[]
+}
+
+let mapper = ref<Mapper>({
+    form: {
+        schemaId: 2,
+        uploadId: 1
+    },
+    required: [],
+    schemaFields: [],
+    uploadFields: []
+})
 
 onMounted(async () => {
     await setSchemaInfo()
