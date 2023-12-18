@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     }
 
     let [response] = await conn.execute(
-        'update schema_upload_links set name=?, upload_id=? where id = ?',
+        'update schema_uploads set name=?, upload_id=? where id = ?',
         [validated.data.name, validated.data.upload_id, event.context.params?.id]
     )
 

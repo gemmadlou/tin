@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     let uuid = randomUUID();
 
     let [response] = await conn.execute(
-        'insert into schema_upload_links (schema_id, uuid, name) values (?, ?, ?)',
+        'insert into schema_uploads (schema_id, uuid, name) values (?, ?, ?)',
         [event.context?.params?.id, uuid, validated.data.name]
     )
 

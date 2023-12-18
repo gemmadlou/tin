@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     let conn = await connection()
 
     let [response] = await conn.query(
-        'select * from schema_upload_links where schema_id = ? and deleted_at is null',
+        'select * from schema_uploads where schema_id = ? and deleted_at is null',
         event.context?.params?.id
     )
 

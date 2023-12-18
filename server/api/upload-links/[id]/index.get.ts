@@ -11,12 +11,12 @@ export default defineEventHandler(async (event) => {
 
     if (isUuid(event.context?.params?.id)) {
         [response] = await conn.query(
-            'select * from `schema_upload_links` where uuid = ?',
+            'select * from `schema_uploads` where uuid = ?',
             [event.context?.params?.id]
         )
     } else {
         [response] = await conn.query(
-            'select * from `schema_upload_links` where id = ?',
+            'select * from `schema_uploads` where id = ?',
             [event.context?.params?.id]
         )
     }
