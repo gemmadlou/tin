@@ -104,7 +104,10 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <div class="">
+
+                                <div class="h-5"></div>
+
+                                <div class="text-right">
                                     <button class="btn btn-neutral" v-on:click="saveMapper">Save Mapper</button>
                                 </div>
                             </div>
@@ -254,11 +257,11 @@ const isRequiredField = (schema: string) => {
 }
 
 const addNewField = (schema: string) => {
-
+    mappedFields.value[schema].push(mapper.value.uploadFields[0])
 }
 
-const removeNewField = (schema: string) => {
-
+const removeNewField = async (schema: string | number, index: number) => {
+    mappedFields.value[schema].splice(index, 1)
 }
 
 const saveMapper = () => {
@@ -294,7 +297,7 @@ const createMapperUi = async () => {
     // let uploadFields = (await useFetch(`/api/uploads/${mapper.value.form.uploadId}/extracts`)).data.value
     let uploadFields = Object.keys(extractedFileData.value[0].json).filter(i => i)
 
-    mappedFields.value = schemeFields.reduce((mapped: MappedField, schemaField:  string | number) => {
+    mappedFields.value = schemeFields.reduce((mapped: MappedField, schemaField: string | number) => {
         mapped[schemaField] = [uploadFields[0]]
         return mapped
     }, {})
