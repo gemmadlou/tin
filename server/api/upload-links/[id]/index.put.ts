@@ -4,7 +4,8 @@ import { connection } from "~/src/mysql"
 
 const UpdateSchemaUploadLink = z.object({
     name: z.string(),
-    upload_id: z.number().int().positive().nullable()
+    upload_id: z.number().int().positive().nullable(),
+    mapper_id: z.number().int().positive().nullable()
 })
 
 export default defineEventHandler(async (event) => {
@@ -20,8 +21,13 @@ export default defineEventHandler(async (event) => {
     }
 
     let [response] = await conn.execute(
-        'update schema_uploads set name=?, upload_id=? where id = ?',
-        [validated.data.name, validated.data.upload_id, event.context.params?.id]
+        'update schema_uploads set name=?, upload_id=?, mapper_id=? where id = ?',
+        [
+            validated.data.name,
+            validated.data.upload_id, 
+            validated.data.mapper_id,
+            event.context.params?.id
+        ]
     )
 
     return

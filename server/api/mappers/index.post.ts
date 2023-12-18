@@ -1,9 +1,7 @@
 import { connection } from "~/src/mysql"
 
 type Body = {
-    schema_id: number,
-    upload_id: number,
-    mapper_config: object
+    config: object
 }
 
 export default defineEventHandler(async (event) => {
@@ -11,8 +9,8 @@ export default defineEventHandler(async (event) => {
 
     let conn = await connection()
     const response = await conn.execute(
-        'insert into mappers (schema_id, upload_id, mapper_config) value (?,?,?)',
-        [body.schema_id, body.upload_id, JSON.stringify(body.mapper_config)]
+        'insert into mappers (mapper_config) value (?)',
+        [JSON.stringify(body.config)]
     )
 
     return {

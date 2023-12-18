@@ -266,12 +266,16 @@ const removeNewField = async (schema: string | number, index: number) => {
 
 const saveMapper = async () => {
     let data = {
-      upload_id: mapper.value.form.uploadId,
-      schema_id: mapper.value.form.schemaId,
-      mapper_config: mappedFields.value
+      config: mappedFields.value
     }
   
-    let response = await axios.post('/api/mappers', data);
+    let response = (await axios.post('/api/mappers', data)).data;
+
+    await axios.put(`/api/upload-links/${link.value.id}`, {
+        name: link.value.name,
+        upload_id: link.value.upload_id,
+        mapper_id: response.id
+    })
   
     createMapperUi()
   }
@@ -301,8 +305,6 @@ let mapper = ref<Mapper>({
 
 const createMapperUi = async () => {
     let schemeFields = Object.keys(schema.value?.json?.properties)
-
-    // let uploadFields = (await useFetch(`/api/uploads/${mapper.value.form.uploadId}/extracts`)).data.value
     let uploadFields = Object.keys(extractedFileData.value[0].json).filter(i => i)
 
     mappedFields.value = schemeFields.reduce((mapped: MappedField, schemaField: string | number) => {
