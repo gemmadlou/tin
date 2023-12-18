@@ -39,6 +39,7 @@ CREATE TABLE `schema_upload_links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `schema_id` int(10) unsigned NOT NULL,
   `upload_id` int(10) unsigned DEFAULT NULL,
+  `mapper_id` int(10) unsigned DEFAULT NULL,
   `uuid` varchar(255) NOT NULL,
   `name` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
