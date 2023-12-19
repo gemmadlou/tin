@@ -171,22 +171,17 @@
 
                     <div class="overflow-x-auto">
                         <table class="table">
-                            <!-- head -->
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th>Job</th>
-                                    <th>Favorite Color</th>
+                                    <th>Row</th>
+                                    <th v-for="(field, heading) in mappedData[0].json">{{ heading }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- row 1 -->
-                                <tr>
-                                    <th>1</th>
-                                    <td>Cy Ganderton</td>
-                                    <td>Quality Control Specialist</td>
-                                    <td>Blue</td>
+                                <tr v-for="data in mappedData">
+                                    <th>{{ data.row_id }}</th>
+                                    <td v-for="field in data.json">{{ field.join(' ') }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -345,6 +340,8 @@ let mapper = ref<Mapper>({
     uploadFields: []
 })
 
+let mappedData = ref([])
+
 const createMapperUi = async () => {
     let schemeFields = Object.keys(schema.value?.json?.properties)
     let uploadFields = Object.keys(extractedFileData.value[0].json).filter(i => i)
@@ -362,6 +359,8 @@ const createMapperUi = async () => {
 
     let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
     mappedFields.value = mapperEntity.config
+
+    mappedData.value = (await useFetch(`/api/upload-links/${route.params.id}/map`)).data.value
 }
 
 const mapData = async () => {
