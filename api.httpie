@@ -51,7 +51,7 @@ http
     localhost:3000/api/upload-links/1
 
 // Mappers -----
-// Mapper: create
+// Mappers: create
 http 
     post 
     localhost:3000/api/mappers 
@@ -59,9 +59,13 @@ http
     upload_id=1 
     mapper_config='{}'
 
-// View mappers
+// Mappers: get all
 http
     localhost:3000/api/mappers
+
+// Mappers: get
+http
+    localhost:3000/api/mappers/14
 
 // Map data
 http
