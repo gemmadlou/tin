@@ -28,7 +28,7 @@
                 </table>
             </div>
             <div class="col-span-2 bg-slate-50 p-10">
-                <button v-if="!canViewForm" v-on:click="openForm" class="btn btn-primary">Create upload link</button>
+                <button v-if="!canViewForm" v-on:click="openForm" class="btn btn-neutral">Create upload link</button>
                 <div v-else class="text-right">
                     <button v-on:click="closeForm" class="btn btn-xs btn-error text-white">Close</button>
                 </div>
@@ -61,8 +61,8 @@
                     <div class="text-right">
                         <button v-if="form.id" v-on:click="deleteLink(form.id)" class="btn btn-error mr-5">Delete Upload
                             Link</button>
-                        <button v-if="!form.id" v-on:click="save" class="btn btn-primary">Generate Upload Link</button>
-                        <button v-else v-on:click="save" class="btn btn-primary">Update Upload Link</button>
+                        <button v-if="!form.id" v-on:click="save" class="btn btn-neutral">Generate Upload Link</button>
+                        <button v-else v-on:click="save" class="btn btn-neutral">Update Upload Link</button>
                     </div>
 
                     <div class="h-5"></div>

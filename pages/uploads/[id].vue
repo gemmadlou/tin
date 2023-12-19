@@ -133,7 +133,7 @@
                             View mapped data
                         </h2>
                         <div class="text-right self-end">
-                            <button class="btn btn-neutral">Map Data</button>
+                            <button class="btn btn-neutral" v-on:click="mapData">Map Data</button>
                         </div>
                     </div>
                 </div>
@@ -362,6 +362,15 @@ const createMapperUi = async () => {
 
     let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
     mappedFields.value = mapperEntity.config
+}
+
+const mapData = async () => {
+    try {
+        let response = (await axios.put(`/api/upload-links/${link.value.id}/map`))
+        alert('Successfully mapped')
+    } catch (e) {
+        alert('Error')
+    }
 }
 
 onMounted(async () => {

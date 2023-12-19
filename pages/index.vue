@@ -32,7 +32,7 @@
                 </table>
             </div>
             <div class="col-span-2 bg-slate-50 p-10">
-                <button v-if="!canViewForm" v-on:click="openSchemaForm" class="btn btn-primary">Create new schema</button>
+                <button v-if="!canViewForm" v-on:click="openSchemaForm" class="btn btn-neutral">Create new schema</button>
                 <div v-else class="text-right">
                     <button v-on:click="closeSchemaForm" class="btn btn-xs btn-error text-white">Close</button>
                 </div>
@@ -58,8 +58,8 @@
                     </div>
                     <div class="text-right">
                         <button v-if="form.id" v-on:click="deleteSchema" class="btn btn-error mr-5">Delete Schema</button>
-                        <button v-if="!form.id" v-on:click="saveSchema" class="btn btn-primary">Create Schema</button>
-                        <button v-else v-on:click="saveSchema" class="btn btn-primary">Update Schema</button>
+                        <button v-if="!form.id" v-on:click="saveSchema" class="btn btn-neutral">Create Schema</button>
+                        <button v-else v-on:click="saveSchema" class="btn btn-neutral">Update Schema</button>
                     </div>
 
                     <div class="h-5"></div>
