@@ -12,6 +12,6 @@ export default defineEventHandler(async (event) => {
 
     return {
        ...data[0],
-       config: JSON.parse(data[0].mapper_config)
+       config: JSON.parse(data[0].config)
     }
 })

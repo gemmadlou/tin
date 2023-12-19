@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
     mapper = {
         ...mapper[0],
-        mapper_config: JSON.parse(mapper[0].mapper_config)
+        config: JSON.parse(mapper[0].config)
     }
 
     let [schema] = await conn.query(
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
     // For each uploaded row of data, convert into the schema
     for (let i = 0; i < extracts.length; i++) {
         let uploadDataRow = extracts[i]
-        let mapped = Object.entries(mapper.mapper_config)
+        let mapped = Object.entries(mapper.config)
             .reduce((obj : Record<string, any>, [key, value]) => {
                 obj[key] = value.map(val => {
                     // Get data from uploaded data row

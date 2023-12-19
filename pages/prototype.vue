@@ -168,7 +168,7 @@
               <td>{{ mapper.id }}</td>
               <td>{{ mapper.schema_id }}</td>
               <td>{{ mapper.upload_id }}</td>
-              <td>{{ mapper.mapper_config }}</td>
+              <td>{{ mapper.config }}</td>
               <td>
                 <button v-on:click="mapData(mapper.id)" class="btn btn-xs">Map data</button>
               </td>
@@ -336,7 +336,7 @@
     let data = {
       upload_id: mapper.value.form.uploadId,
       schema_id: mapper.value.form.schemaId,
-      mapper_config: mappedFields.value
+      config: mappedFields.value
     }
   
     let response = await axios.post('/api/mappers', data);

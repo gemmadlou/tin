@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
     let conn = await connection()
     const response = await conn.execute(
-        'insert into mappers (mapper_config) value (?)',
+        'insert into mappers (config) value (?)',
         [JSON.stringify(body.config)]
     )
 

@@ -57,7 +57,7 @@ http
     localhost:3000/api/mappers 
     schema_id=1 
     upload_id=1 
-    mapper_config='{}'
+    config='{}'
 
 // Mappers: get all
 http

@@ -7,5 +7,5 @@ export default defineEventHandler(async (event) => {
         'select * from `mappers`'
     )
 
-    return data.map(i => ({ ...i, mapper_config: JSON.parse(i.mapper_config)}))
+    return data.map(i => ({ ...i, config: JSON.parse(i.config)}))
 })
