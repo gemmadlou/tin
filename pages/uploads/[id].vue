@@ -309,6 +309,8 @@ const createMapperUi = async () => {
     mapper.value.schemaFields = schemeFields
     mapper.value.uploadFields = uploadFields
 
+    link.value = await getUploadLink(route.params.id)
+
     let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
     mappedFields.value = mapperEntity.config
 }
