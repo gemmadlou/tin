@@ -20,6 +20,7 @@ export type UploadLink = {
     id: number,
     schema_id: number,
     upload_id: number,
+    mapper_id: number,
     uuid: string,
     name: string
 }

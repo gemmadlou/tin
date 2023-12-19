@@ -166,6 +166,7 @@ const link = ref<models.UndefinedUploadLink>({
     name: undefined,
     upload_id: undefined,
     schema_id: undefined,
+    mapper_id: undefined,
     uuid: undefined
 })
 
@@ -284,20 +285,12 @@ type MappedField = Record<string, string[]>;
 let mappedFields = ref(<MappedField>{})
 
 type Mapper = {
-    form: {
-        schemaId: number,
-        uploadId: number
-    },
     required: string[],
     schemaFields: string[],
     uploadFields: string[]
 }
 
 let mapper = ref<Mapper>({
-    form: {
-        schemaId: 2,
-        uploadId: 1
-    },
     required: [],
     schemaFields: [],
     uploadFields: []
@@ -315,6 +308,9 @@ const createMapperUi = async () => {
     mapper.value.required = schema.value?.json?.required
     mapper.value.schemaFields = schemeFields
     mapper.value.uploadFields = uploadFields
+
+    let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
+    mappedFields.value = mapperEntity.config
 }
 
 onMounted(async () => {
