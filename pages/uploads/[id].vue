@@ -13,7 +13,7 @@
         <div class="grid grid-cols-5 gap-10">
             <div class="col-span-3">
                 <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
-                    <div class="col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
+                    <div class="h-36 col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
                         <div class="flex items-center m-3">
                             <div class="mr-3 uppercase font-bold">Step</div>
                             <div class="bg-black text-white rounded-full w-12 h-12 flex items-center justify-center">
@@ -32,7 +32,7 @@
                                         <tr>
                                             <th>{{ link.id }}</th>
                                             <td>{{ upload.form.filename }}</td>
-                                            <td>
+                                            <td class="text-right">
                                                 <button v-on:click="extractUpload(upload.form.id)" class="btn btn-neutral">
                                                     Extract
                                                 </button>
@@ -62,7 +62,7 @@
                 <div class="h-10"></div>
 
                 <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
-                    <div class="col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
+                    <div class="h-36 col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
                         <div class="flex items-center m-3">
                             <div class="mr-3 uppercase font-bold">Step</div>
                             <div class="bg-black text-white rounded-full w-12 h-12 flex items-center justify-center">
@@ -119,30 +119,79 @@
 
                 <div class="h-10"></div>
 
-                <div>
-                    Step 3 - Import file
+                <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
+                    <div class="h-36 col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
+                        <div class="flex items-center m-3">
+                            <div class="mr-3 uppercase font-bold">Step</div>
+                            <div class="bg-black text-white rounded-full w-12 h-12 flex items-center justify-center">
+                                3
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-3 flex justify-between items-start">
+                        <h2 class="font-bold uppercase">
+                            View mapped data
+                        </h2>
+                        <div class="text-right self-end">
+                            <button class="btn btn-neutral">Map Data</button>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <div class="col-span-2">
+                <div>
+                    <h2 class="font-bold uppercase mb-5">
+                        Extracted file data
+                    </h2>
 
-                <h2 class="font-bold uppercase mb-5">
-                    Extracted file data
-                </h2>
-
-                <table class="table table-zebra">
-                    <thead>
-                        <tr>
-                            <td>Row</td>
-                            <td v-if="extractedFileData.length" v-for="(extract, heading) in extractedFileData[0].json">
-                                {{ heading }}
-                            </td>
+                    <table class="table table-zebra">
+                        <thead>
+                            <tr>
+                                <td>Row</td>
+                                <td v-if="extractedFileData.length" v-for="(extract, heading) in extractedFileData[0].json">
+                                    {{ heading }}
+                                </td>
+                            </tr>
+                        </thead>
+                        <tr v-for="extract in extractedFileData">
+                            <td>{{ extract.row_id }}</td>
+                            <td v-for="json in extract.json">{{ json }}</td>
                         </tr>
-                    </thead>
-                    <tr v-for="extract in extractedFileData">
-                        <td>{{ extract.row_id }}</td>
-                        <td v-for="json in extract.json">{{ json }}</td>
-                    </tr>
-                </table>
+                    </table>
+                </div>
+
+                <div class="h-10"></div>
+
+                <div>
+
+                    <h2 class="font-bold uppercase mb-5">
+                        Mapped file data
+                    </h2>
+
+                    <div class="overflow-x-auto">
+                        <table class="table">
+                            <!-- head -->
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Job</th>
+                                    <th>Favorite Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- row 1 -->
+                                <tr>
+                                    <th>1</th>
+                                    <td>Cy Ganderton</td>
+                                    <td>Quality Control Specialist</td>
+                                    <td>Blue</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -267,9 +316,9 @@ const removeNewField = async (schema: string | number, index: number) => {
 
 const saveMapper = async () => {
     let data = {
-      config: mappedFields.value
+        config: mappedFields.value
     }
-  
+
     let response = (await axios.post('/api/mappers', data)).data;
 
     await axios.put(`/api/upload-links/${link.value.id}`, {
@@ -277,9 +326,9 @@ const saveMapper = async () => {
         upload_id: link.value.upload_id,
         mapper_id: response.id
     })
-  
+
     createMapperUi()
-  }
+}
 
 type MappedField = Record<string, string[]>;
 let mappedFields = ref(<MappedField>{})
