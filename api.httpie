@@ -50,6 +50,11 @@ http
     delete
     localhost:3000/api/upload-links/1
 
+// Upload links: map
+http
+    put
+    localhost:3000/api/upload-links/8/map
+
 // Mappers -----
 // Mappers: create
 http 
