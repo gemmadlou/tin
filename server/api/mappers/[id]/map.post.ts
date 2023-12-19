@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     let schemaJson = JSON.parse(schema[0].json)
 
     let [extracts] = await conn.query(
-        'select * from extracts where file_id = ?',
+        'select * from extracts where upload_id = ?',
         [mapper.upload_id]
     )
 

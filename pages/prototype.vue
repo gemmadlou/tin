@@ -82,7 +82,7 @@
       <h2>Extracted data </h2>
       <table class="table table-zebra">
         <tr v-for="extract in extracts.data">
-          <td>{{ extract.file_id }}</td>
+          <td>{{ extract.upload_id }}</td>
           <td>{{ extract.row_id }}</td>
           <td v-for="json in extract.json">{{ json }}</td>
         </tr>
@@ -266,7 +266,7 @@
   }
   
   type Extract = {
-    file_id: Number,
+    upload_id: Number,
     row_id: Number,
     json: string
   }

@@ -7,10 +7,10 @@ USE `tin`;
 CREATE TABLE `extracts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `row_id` int(11) DEFAULT NULL,
-  `file_id` int(11) DEFAULT NULL,
+  `upload_id` int(11) DEFAULT NULL,
   `json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`json`)),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQUE_row_file_id` (`row_id`,`file_id`)
+  UNIQUE KEY `UNIQUE_row_upload_id` (`row_id`,`upload_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -31,7 +31,7 @@ CREATE TABLE `mappers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`config`)),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;

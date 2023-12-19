@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
     let conn = await connection()
     
     let [data, fields] = await conn.query(
-        'select * from `extracts` where file_id = ?',
+        'select * from `extracts` where upload_id = ?',
         event.context?.params?.id
     )
 

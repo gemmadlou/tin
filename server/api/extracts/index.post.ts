@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
 
     for (let i = 0; i < processed.length; i++) {
         await conn.execute(
-            `insert into extracts (row_id, file_id, json)
+            `insert into extracts (row_id, upload_id, json)
             values(?, ?, ?)
             on duplicate key update
                 json=?
