@@ -68,13 +68,13 @@ export default defineEventHandler(async (event) => {
 
         await conn.execute(
             `insert into mapped_data
-            (mapper_id, row_id, json)
+            (schema_uploads_id, row_id, json)
             values(?,?,?)
             on duplicate key update
                 json=?
             ;`,
             [
-                schemaUploads.mapperId, i, JSON.stringify(mapped),
+                event.context?.params?.id, i, JSON.stringify(mapped),
                 JSON.stringify(mapped)
             ]
         )
