@@ -9,7 +9,14 @@ const access: ConnectionOptions = {
     password: 'tin'
 };
 
+let connected : mysql.Connection | undefined = undefined;
+
 export const connection = async () : Promise<mysql.Connection> => {
-    let connection = await mysql.createConnection(access);
-    return connection
+    if (connected) {
+        return connected;
+    }
+
+    connected = await mysql.createConnection(access);
+
+    return connected
 }
