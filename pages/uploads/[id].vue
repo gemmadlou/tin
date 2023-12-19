@@ -260,7 +260,7 @@ const uploadFile = async () => {
             files: data.filename
         });
 
-        await axios.put(`/api/upload-links/${link.value.id}`, {
+        await axios.put(`/api/schema-uploads/${link.value.id}`, {
             ...link.value,
             upload_id: response.data.id
         })
@@ -288,7 +288,7 @@ const onFileChange = async (e: InputFileEvent) => {
 }
 
 const getUploadLink = async (paramId: string | number) => {
-    return (await axios.get(`/api/upload-links/${paramId}`)).data
+    return (await axios.get(`/api/schema-uploads/${paramId}`)).data
 }
 
 const getSchema = async (paramId: string | number) => {
@@ -342,7 +342,8 @@ const saveMapper = async () => {
 
     let response = (await axios.post('/api/mappers', data)).data;
 
-    await axios.put(`/api/upload-links/${link.value.id}`, {
+    await axios.put(`/api/schema-uploads/${link.value.id}`, {
+        ...link.value,
         name: link.value.name,
         upload_id: link.value.upload_id,
         mapper_id: response.id
@@ -386,12 +387,12 @@ const createMapperUi = async () => {
     let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
     mappedFields.value = mapperEntity.config
 
-    mappedData.value = (await useFetch(`/api/upload-links/${route.params.id}/map`)).data.value
+    mappedData.value = (await useFetch(`/api/schema-uploads/${route.params.id}/map`)).data.value
 }
 
 const mapData = async () => {
     try {
-        let response = (await axios.put(`/api/upload-links/${link.value.id}/map`))
+        let response = (await axios.put(`/api/schema-uploads/${link.value.id}/map`))
         alert('Successfully mapped')
     } catch (e) {
         alert('Error')
@@ -399,7 +400,7 @@ const mapData = async () => {
 }
 
 const markAsReadyForImport = async () => {
-    await axios.put(`/api/upload-links/${link.value.id}`, {
+    await axios.put(`/api/schema-uploads/${link.value.id}`, {
         ...link.value,
         // @todo put into Enum
         status: "ready_for_import"

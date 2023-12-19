@@ -27,17 +27,17 @@ http
 // Schema upload links: create
 http
     post
-    localhost:3000/api/schemas/3/upload-links
+    localhost:3000/api/schemas/3/schema-uploads
 
 // Schema upload links: get
 http
-    localhost:3000/api/schemas/3/upload-links
+    localhost:3000/api/schemas/3/schema-uploads
 
 // Upload links: -----
 // Upload links: update
 http
     put
-    localhost:3000/api/upload-links/1
+    localhost:3000/api/schema-uploads/1
     name=testing
     upload_id:=1
     mapper_id:=null
@@ -45,22 +45,22 @@ http
 
 // Upload links: get
 http
-    localhost:3000/api/upload-links/1
+    localhost:3000/api/schema-uploads/1
 
 // Upload links: delete
 http
     delete
-    localhost:3000/api/upload-links/1
+    localhost:3000/api/schema-uploads/1
 
 // Upload links: create map
 http
     put
-    localhost:3000/api/upload-links/8/map
+    localhost:3000/api/schema-uploads/8/map
 
 // Upload links: get map
 http
     get
-    localhost:3000/api/upload-links/8/map
+    localhost:3000/api/schema-uploads/8/map
 
 // Mappers -----
 // Mappers: create

@@ -24,6 +24,13 @@ Data transformation and conversion as a service.
 - [Prototype] Confirm change of schema if uploads have already been created - or prevent deletion.
 - [Prototype] Milestone. Mobile friendly.
 
+- [Prototype] if mapper exists, save instead of creating new (to prevent duplicates)
+- [Prototype] toggle between mapped data and extracted data
+- [Prototype] download mapped data as a CSV
+
+- Flatten API urls
+- Remove unnecessary API urls
+
 ## Features
 
 - [ ] Transformations

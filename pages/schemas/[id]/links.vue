@@ -102,11 +102,11 @@ let canViewForm = ref<boolean>(false);
 const route = useRoute();
 
 const getLinks = async (schemaId: number) => {
-    links.value = (await useFetch(`/api/schemas/${schemaId}/upload-links`)).data.value
+    links.value = (await useFetch(`/api/schemas/${schemaId}/schema-uploads`)).data.value
 }
 
 const viewLink = async (link: models.UploadLink) => {
-    let data = (await useFetch(`/api/upload-links/${link.id}`)).data.value
+    let data = (await useFetch(`/api/schema-uploads/${link.id}`)).data.value
     form.value.id = data.id
     form.value.name = data.name
     form.value.schema_id = data.schema_id
@@ -130,16 +130,16 @@ const save = async () => {
     let data = { ...form.value }
 
     if (data.id) {
-        await axios.put(`/api/upload-links/${data.id}`, data)
+        await axios.put(`/api/schema-uploads/${data.id}`, data)
     } else {
-        await axios.post(`/api/schemas/${schema.value.id}/upload-links`, data)
+        await axios.post(`/api/schemas/${schema.value.id}/schema-uploads`, data)
     }
 
     await getLinks(route.params.id)
 }
 
 const deleteLink = async (linkId: number) => {
-    await axios.delete(`/api/upload-links/${linkId}`)
+    await axios.delete(`/api/schema-uploads/${linkId}`)
 
     closeForm()
 
