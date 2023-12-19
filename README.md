@@ -6,16 +6,6 @@ Data transformation and conversion as a service.
 
 ![](./app.png)
 
-
-## Prototype notes
-
-- Not worried about foreign keys - otherwise truncating tables during the prototype stage isn't fun.
-- Not worried about tests. Iteration is more important.
-- Not worried about getting the schema perfect. As I add more capabilities, the schemas will be refined.
-- Not worried about migration tools or ORM. Working in sql is way faster.
-- No design up front. Prototyping is just iterating over capabilities quickly.
-- No migration tools. Working in things that allow for faster iteration at this stage.
-
 ## Todos to remember
 
 - [Prototype] Confirm deletion of schema instead of just deleting straight away
@@ -30,6 +20,8 @@ Data transformation and conversion as a service.
 
 - Flatten API urls
 - Remove unnecessary API urls
+- Add created_at, updated_at and deleted_at to all tables
+- Record events for all requests as audit trail - transactionable
 
 ## Features
 

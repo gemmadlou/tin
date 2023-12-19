@@ -23,18 +23,23 @@ http
     post
     localhost:3000/api/schemas
 
-// Schema upload links -----
-// Schema upload links: create
+// Schema uploads -----
+// Schema uploads: create
 http
     post
     localhost:3000/api/schemas/3/schema-uploads
 
-// Schema upload links: get
+// Schema uploads: get
 http
     localhost:3000/api/schemas/3/schema-uploads
 
-// Upload links: -----
-// Upload links: update
+// Schema uploads: get - with filter
+http
+    localhost:3000/api/schemas/3/schema-uploads
+    status==ready_for_import
+
+// uploads: -----
+// uploads: update
 http
     put
     localhost:3000/api/schema-uploads/1
@@ -43,21 +48,21 @@ http
     mapper_id:=null
     status=ready_for_import
 
-// Upload links: get
+// uploads: get
 http
     localhost:3000/api/schema-uploads/1
 
-// Upload links: delete
+// uploads: delete
 http
     delete
     localhost:3000/api/schema-uploads/1
 
-// Upload links: create map
+// uploads: create map
 http
     put
     localhost:3000/api/schema-uploads/8/map
 
-// Upload links: get map
+// uploads: get map
 http
     get
     localhost:3000/api/schema-uploads/8/map
