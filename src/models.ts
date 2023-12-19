@@ -22,7 +22,10 @@ export type UploadLink = {
     upload_id: number,
     mapper_id: number,
     uuid: string,
-    name: string
+    name: string,
+    status: string | null,
+    created_at: string,
+    deleted_at: string
 }
 
 export type UndefinedUploadLink = WithUndefined<UploadLink>

@@ -40,6 +40,8 @@ http
     localhost:3000/api/upload-links/1
     name=testing
     upload_id:=1
+    mapper_id:=null
+    status=ready_for_import
 
 // Upload links: get
 http

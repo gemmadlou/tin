@@ -42,9 +42,9 @@ CREATE TABLE `schema_uploads` (
   `mapper_id` int(10) unsigned DEFAULT NULL,
   `uuid` varchar(255) NOT NULL,
   `name` text NOT NULL,
+  `status` enum('in_progress','ready_for_import') DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `deleted_at` datetime DEFAULT NULL,
-  `status` enum('in_progress','ready_for_import') DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

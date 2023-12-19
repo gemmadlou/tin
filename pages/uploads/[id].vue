@@ -2,7 +2,7 @@
     <Header />
 
     <div class="container mx-auto p-5">
-        <h1 class="text-xl">Import your data file
+        <h1 class="text-xl">Import your data file / <strong>{{ link.name }}</strong>
             <span class="uppercase text-sm font-bold block">
                 Schema {{ schema.id }} - {{ schema.name }}
             </span>
@@ -138,6 +138,29 @@
                     </div>
                 </div>
 
+                <div class="h-10"></div>
+
+                <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
+                    <div class="h-36 col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
+                        <div class="flex items-center m-3">
+                            <div class="mr-3 uppercase font-bold">Step</div>
+                            <div class="bg-black text-white rounded-full w-12 h-12 flex items-center justify-center">
+                                4
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-3">
+                        <h2 class="font-bold uppercase mb-5">
+                            Complete
+                        </h2>
+                        <p class="mb-5">Mark as ready for integration means we can import it for you.</p>
+                        <div class="text-right self-end">
+                            <button class="btn btn-neutral" v-on:click="markAsReadyForImport">Finish</button>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
             <div class="col-span-2">
                 <div>
@@ -169,7 +192,7 @@
                         Mapped file data
                     </h2>
 
-                    <div class="overflow-x-auto">
+                    <div v-if="mappedData.length" class="overflow-x-auto">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -211,7 +234,10 @@ const link = ref<models.UndefinedUploadLink>({
     upload_id: undefined,
     schema_id: undefined,
     mapper_id: undefined,
-    uuid: undefined
+    uuid: undefined,
+    status: undefined,
+    created_at: undefined,
+    deleted_at: undefined
 })
 
 const upload = ref({
@@ -370,6 +396,14 @@ const mapData = async () => {
     } catch (e) {
         alert('Error')
     }
+}
+
+const markAsReadyForImport = async () => {
+    await axios.put(`/api/upload-links/${link.value.id}`, {
+        ...link.value,
+        // @todo put into Enum
+        status: "ready_for_import"
+    })
 }
 
 onMounted(async () => {
