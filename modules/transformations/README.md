@@ -86,7 +86,7 @@ Designing how things should work for all scenarios up front is probably best; to
 However, to do things differently, I'll work through one problem at a time and slowly build out the mapper configuration
 until we have something that's extendable and modular allowing for additional features in the future.
 
-- [ ] Map headings to extracted data
+- [ ] Map schema headings to extracted data
 - [ ] Format data defined in schema config
 - [ ] Trim data fields
 - [ ] Add ability to concat multiple uploaded fields assigned to schema heading using default and custom configuration
