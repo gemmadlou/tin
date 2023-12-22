@@ -1,8 +1,8 @@
 // @vitest-environment nuxt
 import { expect, test } from 'vitest'
-import { mapHeadingsToExtractedData } from './Transformer'
+import { mapDataHeadingsToSchemaHeadings } from './Transformer'
 
-test('Feature: Map schema headings to extracted data', () => {
+test('Feature: Map schema headings to multiple extracted data fields', () => {
     let extractedData = {
         "First name": "John",
         "Last name": "Smith",
@@ -29,7 +29,7 @@ test('Feature: Map schema headings to extracted data', () => {
         ]
     }
 
-    let actual = mapHeadingsToExtractedData(mapperConfig, extractedData)
+    let actual = mapDataHeadingsToSchemaHeadings(mapperConfig, extractedData)
     let expected = {
         name: [ "John", "Smith" ],
         age: [22],

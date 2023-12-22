@@ -1,4 +1,4 @@
-export const mapHeadingsToExtractedData = (mapperConfig : Record<string, object>, extractedData: Record<string, string|number>) => {
+export const mapDataHeadingsToSchemaHeadings = (mapperConfig : Record<string, object>, extractedData: Record<string, string|number>) => {
     let mapped : Record<string,  Array<string|number>> = {}
 
     for (let [schemaHeading, extractedDataHeadings] of Object.entries(mapperConfig)) {
