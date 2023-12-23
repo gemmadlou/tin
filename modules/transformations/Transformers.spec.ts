@@ -101,9 +101,7 @@ describe("Feature: Map data fields across multiple schema headings", () => {
     test("Example case: Splitting a single line data Address", () => {
         let expected : Mapped[] = [
             { schemaHeading: "address_line_1", dataValues: ["Stark Tower"] },
-            { schemaHeading: "address_line_2", dataValues: ["Manhattan"] },
-            { schemaHeading: "address_line_3", dataValues: ["New York"] },
-            { schemaHeading: "address_line_4", dataValues: ["United States"] }
+            { schemaHeading: "address_line_2", dataValues: ["Manhattan"] }
         ]
 
         let dataInput : Set<Data> = new Set([

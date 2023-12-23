@@ -69,6 +69,20 @@ const getDelimitedData = (
     return mapped;
 }
 
+const trimFields = (
+    mapped : Mapped
+) => {
+    mapped.dataValues = mapped.dataValues
+        .map(value => {
+            if (typeof value === "string") {
+                return value.toString().trim()
+            }
+            return value
+        })
+
+    return mapped
+}
+
 export const mapDataValuesToSchemaHeadings = (
     mapperSet : Set<Mapper>, 
     dataSet: Set<Data>
@@ -83,3 +97,4 @@ export const mapDataValuesToSchemaHeadings = (
 
             return mapped
         })
+        .map(trimFields)
