@@ -25,3 +25,6 @@ logs
 
 .files/**
 !.files/.gitkeep
+
+# Code coverage
+coverage
