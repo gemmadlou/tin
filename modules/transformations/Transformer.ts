@@ -1,11 +1,28 @@
-export const mapDataHeadingsToSchemaHeadings = (mapperConfig : Record<string, object>, extractedData: Record<string, string|number>) => {
-    let mapped : Record<string,  Array<string|number>> = {}
+export type Mapper = { 
+    schemaHeading: string, 
+    dataHeadings: string[]
+}
 
-    for (let [schemaHeading, extractedDataHeadings] of Object.entries(mapperConfig)) {
-        for (let [i, extractedDataHeading] of Object.entries(extractedDataHeadings)) {
-            let mappedField = extractedData[extractedDataHeading]
-            mapped[schemaHeading] = mapped[schemaHeading] || []
-            mapped[schemaHeading].push(mappedField)
+export type Data = { 
+    dataHeading: string, 
+    dataValue: string | number
+}
+
+export const mapDataHeadingsToSchemaHeadings = (
+    mapperSet : Set<Mapper>, 
+    dataSet: Set<Data>
+) => {
+    let mapped : Record<string,  Array<string|number>> = {}
+    
+    for (let mapper of Array.from(mapperSet.values())) {
+
+        for (let dataHeading of mapper.dataHeadings) {
+            let mappedField = Array.from(dataSet.values()).find(data => data.dataHeading === dataHeading)
+
+            if (!mappedField) continue
+    
+            mapped[mapper.schemaHeading] = mapped[mapper.schemaHeading] || []
+            mapped[mapper.schemaHeading].push(mappedField.dataValue)
         }
     }
 
