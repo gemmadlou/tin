@@ -13,28 +13,28 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
         
         let dataInput = new Set<Data>([
             {
-                dataHeading: "First name",
-                dataValue: "John"
+                heading: "First name",
+                value: "John"
             },
             {
-                dataHeading: "Last name",
-                dataValue: "Smith"
+                heading: "Last name",
+                value: "Smith"
             },
             {
-                dataHeading: "Age",
-                dataValue: 22
+                heading: "Age",
+                value: 22
             },
             {
-                dataHeading: "Country",
-                dataValue: "United Kingdom"
+                heading: "Country",
+                value: "United Kingdom"
             },
             {
-                dataHeading: "Address",
-                dataValue: "44 Lincoln Street, A11 1AA"
+                heading: "Address",
+                value: "44 Lincoln Street, A11 1AA"
             },
             {
-                dataHeading: "Joined",
-                dataValue: "11 December 2023"
+                heading: "Joined",
+                value: "11 December 2023"
             }
         ])
     
@@ -70,12 +70,12 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
     
         let dataInput = new Set<Data>([
             {
-                dataHeading: "First name",
-                dataValue: "John"
+                heading: "First name",
+                value: "John"
             },
             {
-                dataHeading: "Last name",
-                dataValue: "Smith"
+                heading: "Last name",
+                value: "Smith"
             }
         ])
     

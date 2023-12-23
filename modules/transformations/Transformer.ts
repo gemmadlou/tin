@@ -4,8 +4,8 @@ export type Mapper = {
 }
 
 export type Data = { 
-    dataHeading: string, 
-    dataValue: string | number
+    heading: string, 
+    value: string | number
 }
 
 export type Mapped = {
@@ -29,11 +29,11 @@ export const mapDataHeadingsToSchemaHeadings = (
         for (let dataHeading of mapper.dataHeadings) {
             let data = Array
                 .from(dataSet.values())
-                .find(data => data.dataHeading === dataHeading)
+                .find(data => data.heading === dataHeading)
 
             if (!data) continue
 
-            mappedItem.dataValues.push(data.dataValue)
+            mappedItem.dataValues.push(data.value)
         }
 
         mapped.push(mappedItem)
