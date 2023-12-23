@@ -1,6 +1,6 @@
 // @vitest-environment nuxt
 import { expect, test, describe } from 'vitest'
-import { type Data, mapDataHeadingsToSchemaHeadings, type Mapper, type Mapped } from './Transformer'
+import { type Data, mapDataValuesToSchemaHeadings, type Mapper, type Mapped } from './Transformer'
 
 describe("Feature: Map schema headings to multiple extracted data fields", () => {
     test('Expected Case:', () => {
@@ -57,7 +57,7 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
             }
         ])
     
-        let actual = mapDataHeadingsToSchemaHeadings(mapper, dataInput)
+        let actual = mapDataValuesToSchemaHeadings(mapper, dataInput)
     
         expect(actual).toEqual(expected)
     })
@@ -90,7 +90,7 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
             }
         ])
     
-        let actual = mapDataHeadingsToSchemaHeadings(mapper, dataInput)
+        let actual = mapDataValuesToSchemaHeadings(mapper, dataInput)
     
         expect(actual).toEqual(expected)
         
