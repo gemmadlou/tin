@@ -13,7 +13,7 @@ export type Mapped = {
     dataValues: (string | number)[]
 }
 
-export const mapDataHeadingsToSchemaHeadings = (
+export const mapDataValuesToSchemaHeadings = (
     mapperSet : Set<Mapper>, 
     dataSet: Set<Data>
 )
