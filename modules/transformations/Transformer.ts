@@ -13,31 +13,29 @@ export type Mapped = {
     dataValues: (string | number)[]
 }
 
+const getMappedData = (
+    mapper: Mapper,
+    dataSet: Set<Data>
+) : Mapped => {
+    let mapped : Mapped = { schemaHeading: mapper.schemaHeading, dataValues: []}
+
+    mapper.dataHeadings.forEach(dataHeading => {
+        let data : Data | undefined = Array
+            .from(dataSet.values())
+            .find(data => data.heading === dataHeading)
+
+        if (!data) return
+
+        mapped.dataValues.push(data.value)
+    })
+
+    return mapped
+}
+
 export const mapDataValuesToSchemaHeadings = (
     mapperSet : Set<Mapper>, 
     dataSet: Set<Data>
-)
-: Mapped[] => {
-    let mapped : Mapped[] = []
-    
-    for (let mapper of Array.from(mapperSet.values())) {
-
-        let mappedItem : Mapped 
-            = mapped.find(mapping => mapping.schemaHeading === mapper.schemaHeading) 
-                || { schemaHeading: mapper.schemaHeading, dataValues: []}
-
-        for (let dataHeading of mapper.dataHeadings) {
-            let data = Array
-                .from(dataSet.values())
-                .find(data => data.heading === dataHeading)
-
-            if (!data) continue
-
-            mappedItem.dataValues.push(data.value)
-        }
-
-        mapped.push(mappedItem)
-    }
-
-    return mapped;
-}
+) 
+: Mapped[] => 
+    Array.from(mapperSet.values())
+        .map(mapper => getMappedData(mapper, dataSet))

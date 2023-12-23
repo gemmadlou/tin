@@ -3,7 +3,7 @@ import { expect, test, describe } from 'vitest'
 import { type Data, mapDataValuesToSchemaHeadings, type Mapper, type Mapped } from './Transformer'
 
 describe("Feature: Map schema headings to multiple extracted data fields", () => {
-    test('Expected Case:', () => {
+    test('Example Case: Similarly structured User Profile', () => {
         let expected : Mapped[] = [
             { schemaHeading: "name", dataValues: [ "John", "Smith" ]},
             { schemaHeading: "age", dataValues: [ 22 ]},
