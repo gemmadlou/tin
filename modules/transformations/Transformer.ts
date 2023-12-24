@@ -6,13 +6,13 @@ export type DataHeading = string | {
     }
 }
 
-export type Mapper = { 
-    schemaHeading: string, 
+export type Mapper = {
+    schemaHeading: string,
     dataHeadings: DataHeading[]
 }
 
-export type Data = { 
-    heading: string, 
+export type Data = {
+    heading: string,
     value: string | number
 }
 
@@ -21,18 +21,44 @@ export type Mapped = {
     dataValues: (string | number)[]
 }
 
+const transformDelimitedData = (
+    dataHeading: DataHeading,
+    data: Data
+): (string | number | undefined) => {
+    if (typeof dataHeading !== "object") {
+        return;
+    }
+    
+    if (!dataHeading.delimitation) {
+        return;
+    }
+
+    let splitted = data.value.toString().split(dataHeading.delimitation.delimiter)
+    return splitted[dataHeading.delimitation.delimitedIndex]
+}
+
 const getMappedData = (
     mapper: Mapper,
     dataSet: Set<Data>
-) : Mapped => {
-    let mapped : Mapped = { schemaHeading: mapper.schemaHeading, dataValues: []}
+): Mapped => {
+    let mapped: Mapped = { schemaHeading: mapper.schemaHeading, dataValues: [] }
 
     mapper.dataHeadings.forEach(dataHeading => {
-        let data : Data | undefined = Array
+        let data: Data | undefined = Array
             .from(dataSet.values())
-            .find(data => data.heading === dataHeading)
+            .find(data =>
+                typeof dataHeading === "object"
+                    ? data.heading === dataHeading.headingName
+                    : data.heading === dataHeading
+            )
 
         if (!data) return
+
+        let delimitedMapped = transformDelimitedData(dataHeading, data)
+        if (delimitedMapped) {
+            mapped.dataValues.push(delimitedMapped)
+            return
+        }
 
         mapped.dataValues.push(data.value)
     })
@@ -40,37 +66,8 @@ const getMappedData = (
     return mapped
 }
 
-const getDelimitedData = (
-    mapper: Mapper,
-    dataSet: Set<Data>
-) : Mapped => {
-    let mapped : Mapped = { schemaHeading: mapper.schemaHeading, dataValues: []}
-
-    mapper.dataHeadings.forEach(dataHeading => {
-            if (typeof dataHeading !== "object") {
-                return;
-            }
-
-            if (!dataHeading.delimitation) {
-                return;
-            }
-
-            let data : Data | undefined = Array
-                .from(dataSet.values())
-                .find(data => data.heading === dataHeading.headingName)
-
-            if (!data) return
-
-            let splitted = data.value.toString().split(dataHeading.delimitation.delimiter)
-            
-            mapped.dataValues.push(splitted[dataHeading.delimitation.delimitedIndex])
-        })
-
-    return mapped;
-}
-
 const trimFields = (
-    mapped : Mapped
+    mapped: Mapped
 ) => {
     mapped.dataValues = mapped.dataValues
         .map(value => {
@@ -84,17 +81,10 @@ const trimFields = (
 }
 
 export const mapDataValuesToSchemaHeadings = (
-    mapperSet : Set<Mapper>, 
+    mapperSet: Set<Mapper>,
     dataSet: Set<Data>
-) 
-: Mapped[] => 
+)
+    : Mapped[] =>
     Array.from(mapperSet.values())
-        .map(mapper => {
-            let mapped = getMappedData(mapper, dataSet)
-            let delimited = getDelimitedData(mapper, dataSet)
-        
-            mapped.dataValues.push(...delimited.dataValues)
-
-            return mapped
-        })
+        .map(mapper => getMappedData(mapper, dataSet))
         .map(trimFields)

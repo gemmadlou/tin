@@ -142,7 +142,52 @@ describe("Feature: Map data fields across multiple schema headings", () => {
         expect(actual).toEqual(expected)
     })
 
-    test.skip("Example case: Mixing field splitting with whole fields", () => {
+    test("Example case: Mixing field splitting with whole fields", () => {
+        let expected : Mapped[] = [
+            { schemaHeading: "address_line_1", dataValues: ["Stark Tower", "ABC"] },
+            { schemaHeading: "address_line_2", dataValues: ["Manhattan"] }
+        ]
 
+        let dataInput : Set<Data> = new Set([
+            {
+                heading: "address",
+                value: "Stark Tower, Manhattan"
+            },
+            {
+                heading: "zipCode",
+                value: "ABC"
+            }
+        ])
+
+        let mapper : Set<Mapper> = new Set([
+            { 
+                schemaHeading: "address_line_1", 
+                dataHeadings: [
+                    {
+                        headingName: "address",
+                        delimitation: {
+                            delimiter: ",", 
+                            delimitedIndex: 0
+                        }
+                    },
+                    "zipCode"
+                ] 
+            }, { 
+                schemaHeading: "address_line_2", 
+                dataHeadings: [
+                    {
+                        headingName: "address",
+                        delimitation: {
+                            delimiter: ",", 
+                            delimitedIndex: 1
+                        }
+                    }
+                ] 
+            }
+        ])
+    
+        let actual = mapDataValuesToSchemaHeadings(mapper, dataInput)
+    
+        expect(actual).toEqual(expected)
     })
 })
