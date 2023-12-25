@@ -1,7 +1,3 @@
-export type StaticDataHeading = {
-    static: string
-}
-
 export type DataHeading = string | {
     headingName: string,
     delimitation: {
@@ -29,14 +25,17 @@ export type Mapped = {
 
 const transformDelimitedData = (
     dataHeading: DataHeading,
-    data: Data
-): (string | number | undefined) => {
+    data: Data,
+    mapped: Mapped
+): Mapped | undefined => {
     if (!(typeof dataHeading === "object" && "delimitation" in dataHeading)) {
         return;
     }
 
     let splitted = data.value.toString().split(dataHeading.delimitation.delimiter)
-    return splitted[dataHeading.delimitation.delimitedIndex]
+    mapped.dataValues.push(splitted[dataHeading.delimitation.delimitedIndex])
+
+    return mapped
 }
 
 const transformStaticValue = (
@@ -50,6 +49,20 @@ const transformStaticValue = (
     mapped.dataValues.push(dataHeading.static)
 
     return { ...mapped }
+}
+
+const transformSimpleMaps = (
+    dataHeading: DataHeading,
+    data: Data,
+    mapped: Mapped
+) : Mapped | undefined => {
+    if (!(typeof dataHeading === "string")) {
+        return
+    }
+
+    mapped.dataValues.push(data.value)
+
+    return mapped;
 }
 
 const getMappedData = (
@@ -73,13 +86,9 @@ const getMappedData = (
 
         if (!data) return
 
-        let delimitedMapped = transformDelimitedData(dataHeading, data)
-        if (delimitedMapped) {
-            mapped.dataValues.push(delimitedMapped)
-            return
-        }
-
-        mapped.dataValues.push(data.value)
+        mapped = transformDelimitedData(dataHeading, data, mapped) || mapped
+        mapped = transformSimpleMaps(dataHeading, data, mapped) ?? mapped
+        
     })
 
     return mapped
