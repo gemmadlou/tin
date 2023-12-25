@@ -28,10 +28,6 @@ const transformDelimitedData = (
     if (typeof dataHeading !== "object") {
         return;
     }
-    
-    if (!dataHeading.delimitation) {
-        return;
-    }
 
     let splitted = data.value.toString().split(dataHeading.delimitation.delimiter)
     return splitted[dataHeading.delimitation.delimitedIndex]
