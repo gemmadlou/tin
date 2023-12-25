@@ -40,8 +40,8 @@ Data transformation and conversion as a service.
   - [x] Trim fields.
   - [ ] Convert strings into numbers. - Real example required
   - [x] Allow for required and nullable properties.
-  - [ ] Set custom value not in CSV for column across all rows of data.
-  - [ ] Set custom value not in upload based on condition eg. - if (X="ABC"), then y for column across all rows of data.
+  - [x] Set static custom value not in CSV for column(s) across all rows of data.
+  - [ ] Set static custom value not in upload based on condition eg. - if (X="ABC"), then y for column across all rows of data.
 - [ ] Cleaning
   - [ ] Change individual data cells.
   - [ ] Select and remove rows of data.
