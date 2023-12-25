@@ -45,7 +45,9 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
             },
             {
                 schemaHeading: "age",
-                dataHeadings: ["Age"]
+                dataHeadings: [{
+                    headingName: "Age"
+                }]
             },
             {
                 schemaHeading: "address",
