@@ -1,19 +1,14 @@
 import { format } from "date-fns"
 
-export type Format = "date"
-
 export type DataHeading = string | {
     headingName: string,
     delimitation?: {
         delimiter: string,
         delimitedIndex: number
     },
-    format?: Format
+    format?: "date"
 } | {
     static: string
-} | {
-    headingName: string,
-    format?: Format
 }
 
 export type Mapper = {
@@ -64,7 +59,7 @@ const transformStaticValue = (
     mapped: Mapped
 ) : Mapped | undefined => {
     if (!(typeof dataHeading === "object" && "static" in dataHeading)) {
-        return
+        return;
     }
 
     mapped.dataValues.push(mapValue(dataHeading, dataHeading.static))
@@ -77,10 +72,10 @@ const transformObjectMaps = (
     data: Data,
     mapped: Mapped
 ) : Mapped | undefined => {
-    if (typeof dataHeading === "object" && "headingName" in dataHeading) {
-        mapped.dataValues.push(mapValue(dataHeading, data.value))
-        return { ...mapped }
-    }
+
+    mapped.dataValues.push(mapValue(dataHeading, data.value))
+
+    return { ...mapped }
 }
 
 const transformSimpleMaps = (
@@ -88,32 +83,10 @@ const transformSimpleMaps = (
     data: Data,
     mapped: Mapped
 ) : Mapped | undefined => {
-    if (!(typeof dataHeading === "string")) {
-        return
-    }
 
     mapped.dataValues.push(mapValue(dataHeading, data.value))
 
     return { ...mapped };
-}
-
-const enum Processor { STATIC, DELIMITED, SIMPLE, OBJECT }
-
-const processOrder = (
-    dataHeading: DataHeading
-) : Processor => {
-    switch (true) {
-        case typeof dataHeading === "string":
-            return Processor.SIMPLE
-        case (typeof dataHeading === "object" && "delimitation" in dataHeading):
-            return Processor.DELIMITED
-        case (typeof dataHeading === "object" && "static" in dataHeading):
-            return Processor.STATIC
-        case (typeof dataHeading === "object"):
-            return Processor.OBJECT
-        default:
-            throw new Error("cannot process this header")
-    }
 }
 
 const getMappedData = (
@@ -133,16 +106,16 @@ const getMappedData = (
                 return data.heading === dataHeading;
             })
 
-        if (data && processOrder(dataHeading) === Processor.DELIMITED) {
+        if (data && typeof dataHeading === "object" && "delimitation" in dataHeading) {
             mapped = transformDelimitedData(dataHeading, data, mapped) ?? mapped
-        } else if (processOrder(dataHeading) === Processor.STATIC) {
+        } else if (typeof dataHeading === "object" && "static" in dataHeading) {
             mapped = transformStaticValue(dataHeading, mapped) ?? mapped
-        } else if (data && processOrder(dataHeading) === Processor.SIMPLE) {
+        } else if (data && typeof dataHeading === "string") {
             mapped = transformSimpleMaps(dataHeading, data, mapped) ?? mapped
-        } else if (data && processOrder(dataHeading) === Processor.OBJECT) {
+        } else if (data && typeof dataHeading === "object") {
             mapped = transformObjectMaps(dataHeading, data, mapped) ?? mapped
         }   
-        
+
     })
 
     return mapped
