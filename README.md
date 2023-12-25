@@ -1,5 +1,7 @@
 # Tin [Prototype]
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3a56e669a3e64504999ca462e4746071)](https://app.codacy.com/gh/gemmadlou/tin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 > In progress.
 
 Data transformation and conversion as a service.
