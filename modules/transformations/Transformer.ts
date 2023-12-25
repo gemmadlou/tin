@@ -1,11 +1,19 @@
+import { format } from "date-fns"
+
+export type Format = "date"
+
 export type DataHeading = string | {
     headingName: string,
-    delimitation: {
+    delimitation?: {
         delimiter: string,
         delimitedIndex: number
-    }
+    },
+    format?: Format
 } | {
     static: string
+} | {
+    headingName: string,
+    format?: Format
 }
 
 export type Mapper = {
@@ -23,17 +31,30 @@ export type Mapped = {
     dataValues: (string | number)[]
 }
 
+const mapValue = (
+    dataHeading: DataHeading,
+    value: string | number
+) : string | number => {
+
+    if (typeof dataHeading === "object" && "format" in dataHeading && dataHeading.format === "date") {
+        return format(new Date(value), 'yyyy-MM-dd')
+    }
+
+    return value;
+}
+
 const transformDelimitedData = (
     dataHeading: DataHeading,
     data: Data,
     mapped: Mapped
 ): Mapped | undefined => {
-    if (!(typeof dataHeading === "object" && "delimitation" in dataHeading)) {
+    if (!(typeof dataHeading === "object" && "delimitation" in dataHeading && dataHeading.delimitation)) {
         return;
     }
 
     let splitted = data.value.toString().split(dataHeading.delimitation.delimiter)
-    mapped.dataValues.push(splitted[dataHeading.delimitation.delimitedIndex])
+    let value = mapValue(dataHeading, splitted[dataHeading.delimitation.delimitedIndex])
+    mapped.dataValues.push(value)
 
     return mapped
 }
@@ -46,9 +67,20 @@ const transformStaticValue = (
         return
     }
 
-    mapped.dataValues.push(dataHeading.static)
+    mapped.dataValues.push(mapValue(dataHeading, dataHeading.static))
 
     return { ...mapped }
+}
+
+const transformObjectMaps = (
+    dataHeading: DataHeading,
+    data: Data,
+    mapped: Mapped
+) : Mapped | undefined => {
+    if (typeof dataHeading === "object" && "headingName" in dataHeading) {
+        mapped.dataValues.push(mapValue(dataHeading, data.value))
+        return { ...mapped }
+    }
 }
 
 const transformSimpleMaps = (
@@ -60,9 +92,28 @@ const transformSimpleMaps = (
         return
     }
 
-    mapped.dataValues.push(data.value)
+    mapped.dataValues.push(mapValue(dataHeading, data.value))
 
-    return mapped;
+    return { ...mapped };
+}
+
+const enum Processor { STATIC, DELIMITED, SIMPLE, OBJECT }
+
+const processOrder = (
+    dataHeading: DataHeading
+) : Processor => {
+    switch (true) {
+        case typeof dataHeading === "string":
+            return Processor.SIMPLE
+        case (typeof dataHeading === "object" && "delimitation" in dataHeading):
+            return Processor.DELIMITED
+        case (typeof dataHeading === "object" && "static" in dataHeading):
+            return Processor.STATIC
+        case (typeof dataHeading === "object"):
+            return Processor.OBJECT
+        default:
+            throw new Error("cannot process this header")
+    }
 }
 
 const getMappedData = (
@@ -82,12 +133,15 @@ const getMappedData = (
                 return data.heading === dataHeading;
             })
 
-        mapped = transformStaticValue(dataHeading, mapped) ?? mapped
-
-        if (!data) return
-
-        mapped = transformDelimitedData(dataHeading, data, mapped) || mapped
-        mapped = transformSimpleMaps(dataHeading, data, mapped) ?? mapped
+        if (data && processOrder(dataHeading) === Processor.DELIMITED) {
+            mapped = transformDelimitedData(dataHeading, data, mapped) ?? mapped
+        } else if (processOrder(dataHeading) === Processor.STATIC) {
+            mapped = transformStaticValue(dataHeading, mapped) ?? mapped
+        } else if (data && processOrder(dataHeading) === Processor.SIMPLE) {
+            mapped = transformSimpleMaps(dataHeading, data, mapped) ?? mapped
+        } else if (data && processOrder(dataHeading) === Processor.OBJECT) {
+            mapped = transformObjectMaps(dataHeading, data, mapped) ?? mapped
+        }   
         
     })
 
