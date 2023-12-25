@@ -28,12 +28,12 @@ Data transformation and conversion as a service.
 - [ ] Transformations
   - [ ] Mapping
     - [x] Assign multiple upload fields to a single schema field
-    - [ ] Break text into multiple schema fields.
+    - [x] Break text into multiple schema fields.
   - [ ] Dates
     - [x] Interpret and format.
     - [ ] Handle internationalisation.
   - [x] Trim fields.
-  - [ ] Convert strings into numbers.
+  - [ ] Convert strings into numbers. - Real example required
   - [x] Allow for required and nullable properties.
   - [ ] Set custom value not in CSV for column across all rows of data.
   - [ ] Set custom value not in upload based on condition eg. - if (X="ABC"), then y for column across all rows of data.
