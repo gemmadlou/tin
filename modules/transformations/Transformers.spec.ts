@@ -191,3 +191,38 @@ describe("Feature: Map data fields across multiple schema headings", () => {
         expect(actual).toEqual(expected)
     })
 })
+
+describe("Feature: Set a static value schema heading", () => {
+    test("Example case: Setting the source field to Google.com", () => {
+        let expected : Mapped[] = [
+            { schemaHeading: "Title", dataValues: ["John Doe went to mars"] },
+            { schemaHeading: "Source", dataValues: ["google.com"] }
+        ]
+
+        let dataInput : Set<Data> = new Set([
+            {
+                heading: "article",
+                value: "John Doe went to mars"
+            }
+        ])
+
+        let mapper : Set<Mapper> = new Set([
+            { 
+                schemaHeading: "Title",
+                dataHeadings: [ "article" ]
+            }, 
+            {
+                schemaHeading: "Source",
+                dataHeadings: [
+                    {
+                        static: "google.com"
+                    }
+                ]
+            }
+        ])
+
+        let actual = mapDataValuesToSchemaHeadings(mapper, dataInput)
+    
+        expect(actual).toEqual(expected)
+    })
+})

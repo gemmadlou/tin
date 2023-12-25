@@ -1,9 +1,15 @@
+export type StaticDataHeading = {
+    static: string
+}
+
 export type DataHeading = string | {
     headingName: string,
     delimitation: {
         delimiter: string,
         delimitedIndex: number
     }
+} | {
+    static: string
 }
 
 export type Mapper = {
@@ -25,12 +31,25 @@ const transformDelimitedData = (
     dataHeading: DataHeading,
     data: Data
 ): (string | number | undefined) => {
-    if (typeof dataHeading !== "object") {
+    if (!(typeof dataHeading === "object" && "delimitation" in dataHeading)) {
         return;
     }
 
     let splitted = data.value.toString().split(dataHeading.delimitation.delimiter)
     return splitted[dataHeading.delimitation.delimitedIndex]
+}
+
+const transformStaticValue = (
+    dataHeading: DataHeading,
+    mapped: Mapped
+) : Mapped | undefined => {
+    if (!(typeof dataHeading === "object" && "static" in dataHeading)) {
+        return
+    }
+
+    mapped.dataValues.push(dataHeading.static)
+
+    return { ...mapped }
 }
 
 const getMappedData = (
@@ -42,11 +61,15 @@ const getMappedData = (
     mapper.dataHeadings.forEach(dataHeading => {
         let data: Data | undefined = Array
             .from(dataSet.values())
-            .find(data =>
-                typeof dataHeading === "object"
-                    ? data.heading === dataHeading.headingName
-                    : data.heading === dataHeading
-            )
+            .find(data => {
+                if (typeof dataHeading === "object" && "headingName" in dataHeading) {
+                    return data.heading === dataHeading.headingName
+                }
+
+                return data.heading === dataHeading;
+            })
+
+        mapped = transformStaticValue(dataHeading, mapped) ?? mapped
 
         if (!data) return
 
