@@ -1,4 +1,5 @@
 <template>
+
     <div v-if="(formatter.state() instanceof Machine.ClosedUnformatted)
         || (formatter.state() instanceof Machine.ClosedFormatted)" class="flex">
         <button class="btn rounded-full text-4xl" v-on:click="open">📄</button>
@@ -11,10 +12,10 @@
     <select v-if="(formatter.state() instanceof Machine.OpenUnformatted)
         || (formatter.state() instanceof Machine.OpenFormatted)"
         class="select select-bordered w-full max-w-xs mr-5"
-        v-on:change="selectFormat">
+        v-on:change="selectFormat"
+        v-model="formatter.format">
         <option>Select option</option>
         <option v-for="(option, name) of options">{{ name }}</option>
-        <option>Email</option>
     </select>
 
     <button v-if="(formatter.state() instanceof Machine.OpenFormatted)
