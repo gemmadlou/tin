@@ -10,7 +10,12 @@ enum FormatState {
 
 export enum Format {
     Date = "date", // Add other JSON spec formats here
-    Email = "email"
+    Email = "email",
+    HostName = "hostname",
+    Ipv4 = "ipv4",
+    Ipv6 = "ipv6",
+    URI = "uri",
+    UUID = "uuid"
 }
 
 type State = {
@@ -38,12 +43,14 @@ export class Formatter {
         this.format = format
     }
 
-    state () : Formatter | undefined {
+    state () : Formatter | never {
         switch ([this._state.display, this._state.format].toString()) {
             case [DisplayState.OPENED, FormatState.UNFORMATTED].toString(): return new OpenUnformatted(this._state, this.format);
             case [DisplayState.CLOSED, FormatState.UNFORMATTED].toString(): return new ClosedUnformatted(this._state, this.format);
             case [DisplayState.OPENED, FormatState.FORMATTED].toString(): return new OpenFormatted(this._state, this.format);
             case [DisplayState.CLOSED, FormatState.FORMATTED].toString(): return new ClosedFormatted(this._state, this.format);
+            /* c8 ignore next */ 
+            default: throw new Error("Invalid state")
         }
     } 
 

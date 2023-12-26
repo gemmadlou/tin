@@ -92,7 +92,7 @@ describe("When Open and Formatted", () => {
     })
 })
 
-describe("When closed and formatter", () => {
+describe("When closed and formatted", () => {
     let formatter = new Formatter;
     formatter = formatter.state().open()
     formatter = formatter.state().selectFormat(Format.Date)
