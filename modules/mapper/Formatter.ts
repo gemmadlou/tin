@@ -22,6 +22,7 @@ type State = {
     display: DisplayState,
     format: FormatState
 }
+
 interface FormatterInterface {
     open() : Formatter | never,
     close() : Formatter | never,
@@ -54,10 +55,10 @@ export class Formatter {
         }
     } 
 
-    open(): Formatter | never { throw new Error; }
-    close(): Formatter | never { throw new Error; }
-    selectFormat(format : Format): Formatter | never { throw new Error; }
-    removeFormat(): Formatter | never { throw new Error; }
+    open(): Formatter | never { throw new Error('Cannot do'); }
+    close(): Formatter | never { throw new Error('Cannot do'); }
+    selectFormat(format : Format): Formatter | never { throw new Error('Cannot do'); }
+    removeFormat(): Formatter | never { throw new Error('Cannot do'); }
 }
 
 export class ClosedUnformatted extends Formatter {

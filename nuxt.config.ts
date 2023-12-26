@@ -9,7 +9,10 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxt/test-utils/module'
+    '@nuxt/test-utils/module',
+
+    // Load Mappers module
+    './modules/mapper',
   ]
   // nitro: {
   //   devServer: {
