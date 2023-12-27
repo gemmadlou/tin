@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     config: {
       /* Extend the Tailwind config here */
       content: [
-        'modules/**/**.vue'
+        'modules/**/**'
       ]
     }
   }
