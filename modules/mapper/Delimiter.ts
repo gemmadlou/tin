@@ -21,6 +21,7 @@ export class Delimiter {
     }
 
     text : string;
+    selectedText: string | undefined;
     delimiter : string | undefined;
     delimiterIndex: number | undefined;
     choiceOfIndices: number[] | undefined;
@@ -39,6 +40,17 @@ export class Delimiter {
         this.choiceOfIndices = choiceOfIndices;
     }
 
+    state () : Delimiter | never {
+        switch ([this._state.display, this._state.delimited].toString()) {
+            case [DisplayState.OPENED, DelimitedState.UNDELIMITED].toString(): return new OpenUndelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices);
+            case [DisplayState.CLOSED, DelimitedState.UNDELIMITED].toString(): return new ClosedUndelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices);
+            case [DisplayState.OPENED, DelimitedState.DELIMITED].toString(): return new OpenDelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices);
+            case [DisplayState.CLOSED, DelimitedState.DELIMITED].toString(): return new ClosedDelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices);
+            /* c8 ignore next */ 
+            default: throw new Error("Invalid state")
+        }
+    } 
+
     open(): Delimiter | never { throw new Error('Cannot do'); }
     close(): Delimiter | never { throw new Error('Cannot do'); }
     updateDelimiter(delimiter: string): Delimiter | never { throw new Error('Cannot do'); }
@@ -46,7 +58,7 @@ export class Delimiter {
     removeDelimiter() : Delimiter | never { throw new Error('Cannot do'); }
 }
 
-export class ClosedUnDelimited extends Delimiter {
+export class ClosedUndelimited extends Delimiter {
     open() : Delimiter {
         this._state.display = DisplayState.OPENED
         return this
