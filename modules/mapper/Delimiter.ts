@@ -27,16 +27,16 @@ export class Delimiter {
 
     constructor (
         text: string,
-        state?: State | undefined, 
-        delimiter?: string | undefined,
-        delimiterIndex?: number | undefined,
-        choiceOfIndices?: number[] | undefined
+        state?: State,
+        delimiter?: string,
+        delimiterIndex?: number,
+        choiceOfIndices?: number[]
     ) {
         this._state = state || this._state
         this.text = text;
-        this.delimiter = delimiter
-        this.delimiterIndex = delimiterIndex
-        this.choiceOfIndices = choiceOfIndices
+        this.delimiter = delimiter;
+        this.delimiterIndex = delimiterIndex;
+        this.choiceOfIndices = choiceOfIndices;
     }
 
     open(): Delimiter | never { throw new Error('Cannot do'); }
