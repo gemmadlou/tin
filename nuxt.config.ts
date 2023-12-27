@@ -1,3 +1,5 @@
+import path from "path";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: {
@@ -10,9 +12,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxt/test-utils/module',
-
-    // Load Mappers module
-    './modules/mapper',
   ],
   tailwindcss: {
     config: {
