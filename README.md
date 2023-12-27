@@ -233,3 +233,9 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 - JTBD - https://www.youtube.com/watch?v=k0NRo3yLqxM&list=TLPQMjQxMTIwMjN4cJ9mzrvatA&index=31
 
+## Credits
+
+- Jake Bennett for introducing the [States Machine pattern](https://www.youtube.com/watch?v=1A1xFtlDyzU)
+- XStately for teaching how to do state machines.
+- Nuxt
+- Canva
