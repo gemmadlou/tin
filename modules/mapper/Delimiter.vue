@@ -27,12 +27,16 @@
 
 <script setup lang="ts">
 import * as Machine from "./Delimiter";
+import { ref } from "vue";
 
 let delimiter = ref(new Machine.Delimiter("Stark Tower, Manhattan, New York, United States"))
 
 const open = () => {
-    // console.log(delimiter.value)
     delimiter.value = delimiter.value.state().open()
+}
+
+const close = () => {
+    delimiter.value = delimiter.value.state().close()
 }
 
 </script>
