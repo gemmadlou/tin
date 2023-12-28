@@ -15,7 +15,7 @@
         v-on:change="selectFormat"
         v-model="formatter.format">
         <option>Select option</option>
-        <option v-for="(option, name) of options">{{ name }}</option>
+        <option v-for="(format, formatName) of Machine.Format">{{ formatName }}</option>
     </select>
 
     <button v-if="(formatter.state() instanceof Machine.OpenFormatted)
@@ -28,7 +28,6 @@ import * as Machine from "./Formatter";
 import { ref } from "vue"
 
 let formatter = ref(new Machine.Formatter)
-let options = Machine.Format
 
 const open = () => {
     formatter.value = formatter.value.state().open()
