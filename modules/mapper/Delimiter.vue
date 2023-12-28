@@ -1,10 +1,11 @@
 <template>
-    {{ delimiter }}
     <div v-if="(delimiter.state() instanceof Machine.ClosedDelimited)
         || (delimiter.state() instanceof Machine.ClosedUndelimited)" class="flex">
         <button class="btn rounded-full text-4xl text-white" v-on:click="open">➗</button>
 
-        <div class="w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center -ml-3">
+        <div 
+            v-if="(delimiter.state() instanceof Machine.ClosedDelimited)"
+            class="w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center -ml-3">
             ↗️
         </div>
     </div>
