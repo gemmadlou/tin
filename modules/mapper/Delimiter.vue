@@ -45,7 +45,11 @@ const close = () => {
 }
 
 const delimiterUpdate = (event) => {
-    delimiter.value = delimiter.value.state().updateDelimiter(event.target.value)
+    if (event.target.value) {
+        delimiter.value = delimiter.value.state().updateDelimiter(event.target.value)
+    } else {
+        delimiter.value = delimiter.value.state().removeDelimiter()
+    }
 }
 
 </script>
