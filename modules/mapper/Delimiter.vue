@@ -18,10 +18,8 @@
             v-model="delimiter.delimiter"
             v-on:change="delimiterUpdate"
         />
-        <select disabled class="select select-bordered w-16">
-            <option selected>1</option>
-            <option>2</option>
-            <option>3</option>
+        <select class="select select-bordered w-20">
+            <option v-for="choice in delimiter.choiceOfIndices">{{ choice }}</option>
         </select>
         <button class="btn rounded-full text-2xl"
             v-on:click="close">
