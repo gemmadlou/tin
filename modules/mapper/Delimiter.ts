@@ -31,21 +31,23 @@ export class Delimiter {
         state?: State,
         delimiter?: string,
         delimiterIndex?: number,
-        choiceOfIndices?: number[]
+        choiceOfIndices?: number[],
+        selectedText?: string
     ) {
         this._state = state || this._state
         this.text = text;
         this.delimiter = delimiter;
         this.delimiterIndex = delimiterIndex;
         this.choiceOfIndices = choiceOfIndices;
+        this.selectedText = selectedText
     }
 
     state () : Delimiter | never {
         switch ([this._state.display, this._state.delimited].toString()) {
-            case [DisplayState.OPENED, DelimitedState.UNDELIMITED].toString(): return new OpenUndelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices);
-            case [DisplayState.CLOSED, DelimitedState.UNDELIMITED].toString(): return new ClosedUndelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices);
-            case [DisplayState.OPENED, DelimitedState.DELIMITED].toString(): return new OpenDelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices);
-            case [DisplayState.CLOSED, DelimitedState.DELIMITED].toString(): return new ClosedDelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices);
+            case [DisplayState.OPENED, DelimitedState.UNDELIMITED].toString(): return new OpenUndelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices, this.selectedText);
+            case [DisplayState.CLOSED, DelimitedState.UNDELIMITED].toString(): return new ClosedUndelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices, this.selectedText);
+            case [DisplayState.OPENED, DelimitedState.DELIMITED].toString(): return new OpenDelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices, this.selectedText);
+            case [DisplayState.CLOSED, DelimitedState.DELIMITED].toString(): return new ClosedDelimited(this.text, this._state, this.delimiter, this.delimiterIndex, this.choiceOfIndices, this.selectedText);
             /* c8 ignore next */ 
             default: throw new Error("Invalid state")
         }
@@ -91,6 +93,7 @@ export class OpenDelimited extends Delimiter {
 
     selectDelimiterIndex(delimiterIndex: number): Delimiter {
         this.delimiterIndex = delimiterIndex
+        this.selectedText = this.text.split(this.delimiter || "")[this.delimiterIndex]
         return this
     }
 
