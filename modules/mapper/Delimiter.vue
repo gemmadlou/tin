@@ -8,15 +8,16 @@
             ↗️
         </div>
     </div>
-    <div v-if="delimiter.state() instanceof Machine.OpenUndelimited
+    <div class="flex items-center" 
+        v-if="delimiter.state() instanceof Machine.OpenUndelimited
         || delimiter.state() instanceof Machine.OpenDelimited
         ">
         <input type="text" class="input input-bordered w-16" v-model="delimiter.delimiter" v-on:change="delimiterUpdate" />
-        <select class="select select-bordered w-20 mr-5" v-on:change="selectDelimiterIndex"
+        <select class="select select-bordered w-20 mr-2" v-on:change="selectDelimiterIndex"
             :disabled="delimiter.choiceOfIndices === undefined">
             <option v-for="choice in delimiter.choiceOfIndices">{{ choice }}</option>
         </select>
-        <button class="btn rounded-full text-2xl mr-5" v-on:click="close">
+        <button class="bg-gray-100 rounded-full p-0 w-10 h-10 text-2xl" v-on:click="close">
             ➖
         </button>
     </div>
