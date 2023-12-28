@@ -18,7 +18,7 @@
             v-model="delimiter.delimiter"
             v-on:change="delimiterUpdate"
         />
-        <select class="select select-bordered w-20">
+        <select class="select select-bordered w-20" :disabled="delimiter.choiceOfIndices === undefined">
             <option v-for="choice in delimiter.choiceOfIndices">{{ choice }}</option>
         </select>
         <button class="btn rounded-full text-2xl"

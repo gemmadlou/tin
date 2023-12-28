@@ -69,9 +69,8 @@ export class OpenUndelimited extends Delimiter {
     updateDelimiter(delimiter: string): Delimiter {
         this._state.delimited = DelimitedState.DELIMITED
         this.delimiter = delimiter
-        this.delimiterIndex = 0
         this.choiceOfIndices = this.text.split(delimiter).map((key, index) => index)
-        this.selectedText = this.text.split(delimiter)[this.delimiterIndex]
+        this.selectedText = this.text.split(delimiter)[this.delimiterIndex ?? 0]
         return this
     }
 
@@ -99,7 +98,7 @@ export class OpenDelimited extends Delimiter {
         this._state.delimited = DelimitedState.UNDELIMITED
         this.delimiter = undefined
         this.delimiterIndex = undefined
-        this.choiceOfIndices = []
+        this.choiceOfIndices = undefined
         return this;
     }
 
