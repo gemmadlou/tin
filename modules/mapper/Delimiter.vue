@@ -15,6 +15,7 @@
         <input 
             type="text" 
             class="input input-bordered w-16" 
+            v-model="delimiter.delimiter"
             v-on:change="delimiterUpdate"
         />
         <select disabled class="select select-bordered w-16">
