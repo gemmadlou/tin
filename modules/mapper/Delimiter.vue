@@ -3,33 +3,25 @@
         || (delimiter.state() instanceof Machine.ClosedUndelimited)" class="flex">
         <button class="btn rounded-full text-4xl text-white" v-on:click="open">➗</button>
 
-        <div 
-            v-if="(delimiter.state() instanceof Machine.ClosedDelimited)"
+        <div v-if="(delimiter.state() instanceof Machine.ClosedDelimited)"
             class="w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center -ml-3">
             ↗️
         </div>
     </div>
-    <div v-if="
-        delimiter.state() instanceof Machine.OpenUndelimited
+    <div v-if="delimiter.state() instanceof Machine.OpenUndelimited
         || delimiter.state() instanceof Machine.OpenDelimited
-    ">
-        <input 
-            type="text" 
-            class="input input-bordered w-16" 
-            v-model="delimiter.delimiter"
-            v-on:change="delimiterUpdate"
-        />
-        <select 
-            class="select select-bordered w-20" 
-            v-on:change="selectDelimiterIndex"
+        ">
+        <input type="text" class="input input-bordered w-16" v-model="delimiter.delimiter" v-on:change="delimiterUpdate" />
+        <select class="select select-bordered w-20 mr-5" v-on:change="selectDelimiterIndex"
             :disabled="delimiter.choiceOfIndices === undefined">
             <option v-for="choice in delimiter.choiceOfIndices">{{ choice }}</option>
         </select>
-        <button class="btn rounded-full text-2xl"
-            v-on:click="close">
+        <button class="btn rounded-full text-2xl mr-5" v-on:click="close">
             ➖
         </button>
     </div>
+    <input v-if="delimiter.state() instanceof Machine.OpenDelimited && delimiter.selectedText" type="text" disabled :value="delimiter.selectedText"
+        class="input input-bordered input-xs w-25 text-center" />
 </template>
 
 <script setup lang="ts">
