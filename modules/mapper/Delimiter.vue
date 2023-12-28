@@ -12,7 +12,11 @@
         delimiter.state() instanceof Machine.OpenUndelimited
         || delimiter.state() instanceof Machine.OpenDelimited
     ">
-        <input type="text" class="input input-bordered w-16" />
+        <input 
+            type="text" 
+            class="input input-bordered w-16" 
+            v-on:change="delimiterUpdate"
+        />
         <select disabled class="select select-bordered w-16">
             <option selected>1</option>
             <option>2</option>
@@ -37,6 +41,10 @@ const open = () => {
 
 const close = () => {
     delimiter.value = delimiter.value.state().close()
+}
+
+const delimiterUpdate = (event) => {
+    delimiter.value = delimiter.value.state().updateDelimiter(event.target.value)
 }
 
 </script>
