@@ -14,7 +14,7 @@
         class="select select-bordered w-full max-w-xs mr-5"
         v-on:change="selectFormat"
         v-model="formatter.format">
-        <option>Select option</option>
+        <option :value="undefined">Select option</option>
         <option v-for="(format, formatName) of Machine.Format">{{ formatName }}</option>
     </select>
 
