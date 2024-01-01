@@ -6,7 +6,7 @@
 
     <dialog class="modal" :style="modalStyle">
         <div class="modal-box">
-            <h3 class="font-bold text-lg">{ Field Name }</h3>
+            <h3 class="font-bold text-lg capitalize">{{ schemaField }} >> {{ dataField }}</h3>
 
             <span class="block h-10"></span>
 
@@ -41,6 +41,11 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+
+defineProps<{
+    schemaField: string
+    dataField: string
+}>()
 
 enum State {
     Simple = "simple",
