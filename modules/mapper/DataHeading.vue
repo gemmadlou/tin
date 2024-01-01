@@ -93,7 +93,7 @@ const changeHeader = (event) => {
 }
 
 const show = () => {
-    modalStyle.value = { opacity: 1, "background-color": "rgb(0 0 0 / 63%)", "pointer-events": "all" }
+    modalStyle.value = { opacity: 1, "background-color": "rgb(0 0 0 / 63%)", "pointer-events": "all", "margin-left": 0 }
 }
 
 const hide = () => {
