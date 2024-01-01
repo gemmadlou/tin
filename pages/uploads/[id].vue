@@ -88,7 +88,11 @@
                                         <td>
                                             <div v-for="(mappedField, mappedIndex) in mappedFields[schema]"
                                                 class="flex space-x-8">
-                                                <DataHeading :schema-field="schema" :data-field="mappedField" />
+                                                <DataHeading 
+                                                    :schema-field="schema" 
+                                                    :data-field="mappedField" 
+                                                    :upload-fields="mapper.uploadFields" 
+                                                    :model-value="mappedFields[schema][mappedIndex]" />
                                                 <select v-model="mappedFields[schema][mappedIndex]"
                                                     class="select select-bordered w-44">
                                                     <option v-for="(field) in mapper.uploadFields">{{ field }}</option>

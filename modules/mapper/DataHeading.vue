@@ -1,5 +1,4 @@
 <template>
-
     <button class="btn text-3xl" v-on:click="show">
         📄
     </button>
@@ -12,7 +11,7 @@
 
             <div class="flex items-center justify-stretch">
                 <div class="basis-32">
-                    Field type
+                    Field type:
                 </div>
                 <div class="flex-1">
                     <select v-model="state.status" v-on:change="changeHeader" class="select select-bordered w-full">
@@ -21,17 +20,31 @@
                 </div>
             </div>
 
+
             <span class="block h-5"></span>
 
-            <div  v-if="state.status === State.Delimited" class="flex items-center justify-stretch">
+            <div class="flex items-center justify-stretch">
                 <div class="basis-32">
-                    Delimiter
+                    Mapped to: {{ model }}
+                </div>
+                <div class="flex-1">
+                    <select :value="props.modelValue" @input="emit('update:modelValue', $event.target.value)" class="select select-bordered w-full">
+                        <option v-for="(field) in uploadFields">{{ field }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <span class="block h-5"></span>
+
+            <div v-if="state.status === State.Delimited" class="flex items-center justify-stretch">
+                <div class="basis-32">
+                    Delimiter:
                 </div>
                 <div class="flex-1">
                     <Delimiter />
                 </div>
             </div>
-            
+
             <div class="modal-action">
                 <button v-on:click="hide" class="btn">Close</button>
             </div>
@@ -42,10 +55,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-defineProps<{
+const props = defineProps<{
     schemaField: string
-    dataField: string
+    dataField: string,
+    uploadFields: string[],
+    modelValue?: string
 }>()
+
+const emit = defineEmits(['update:modelValue'])
 
 enum State {
     Simple = "simple",
@@ -55,6 +72,7 @@ enum State {
 const useDelimited = () => ({
     status: State.Delimited
 })
+
 const useSimple = () => ({
     status: State.Simple
 })
@@ -70,7 +88,7 @@ const changeHeader = (event) => {
 }
 
 const show = () => {
-    modalStyle.value = { opacity: 1, "background-color": "rgb(0 0 0 / 63%)", "pointer-events": "all"}
+    modalStyle.value = { opacity: 1, "background-color": "rgb(0 0 0 / 63%)", "pointer-events": "all" }
 }
 
 const hide = () => {
