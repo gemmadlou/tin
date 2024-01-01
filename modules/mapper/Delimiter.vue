@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center">
         <input placeholder="eg. ," type="text" class="input input-bordered w-20" v-model="delimiter" />
-        <input type="number" v-model="delimiterIndex" class="input input-bordered w-16" />
+        <input type="number" v-model="delimiterIndex" class="input input-bordered w-16 pr-2" />
     </div>
 </template>
 
