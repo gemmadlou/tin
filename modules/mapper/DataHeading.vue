@@ -5,9 +5,10 @@
 
     <dialog class="modal" :style="modalStyle">
         <div class="modal-box">
-            <h3 class="font-bold text-lg capitalize">{{ schemaField }} >> {{ dataField }}</h3>
+            <h3 class="font-bold text-lg capitalize">{{ schemaField }} >> {{ mappedFields[schemaField][modelIndex] }}</h3>
 
             <span class="block h-10"></span>
+import type { string } from "zod";
 
             <div class="flex items-center justify-stretch">
                 <div class="basis-32">
@@ -28,10 +29,7 @@
                     Mapped to:
                 </div>
                 <div class="flex-1">
-                    <select 
-                        :value="props.modelValue" 
-                        v-on:change="emit('update', props.modelSchema, props.modelIndex, $event.target.value)" 
-                        class="select select-bordered w-full">
+                    <select v-model="mappedFields[schemaField][modelIndex]" class="select select-bordered w-full">
                         <option v-for="(field) in uploadFields">{{ field }}</option>
                     </select>
                 </div>
@@ -59,10 +57,9 @@
 import { ref } from "vue";
 
 const props = defineProps<{
-    schemaField: string
-    dataField: string,
+    schemaField: string,
     uploadFields: string[],
-    modelValue: string,
+    mappedFields: Record<string, string[]>,
     modelSchema?: string,
     modelIndex?: number
 }>()

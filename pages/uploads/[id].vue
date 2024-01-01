@@ -88,9 +88,10 @@
                                         <td>
                                             <div v-for="(mappedField, mappedIndex) in mappedFields[schema]">
                                                 <div class="flex space-x-8">
-                                                    <DataHeading :schema-field="schema" :data-field="mappedField"
+                                                    <DataHeading 
+                                                        :schema-field="schema" 
                                                         :upload-fields="mapper.uploadFields"
-                                                        :model-value="mappedFields[schema][mappedIndex]"
+                                                        :mapped-fields="mappedFields"
                                                         :model-schema="schema" :model-index="mappedIndex"
                                                         v-on:update="modelValue" />
                                                     <select v-model="mappedFields[schema][mappedIndex]"
