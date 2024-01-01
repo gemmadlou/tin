@@ -91,8 +91,11 @@
                                                 <DataHeading 
                                                     :schema-field="schema" 
                                                     :data-field="mappedField" 
-                                                    :upload-fields="mapper.uploadFields" 
-                                                    :model-value="mappedFields[schema][mappedIndex]" />
+                                                    :upload-fields="mapper.uploadFields"
+                                                    :model-value="mappedFields[schema][mappedIndex]"
+                                                    :model-schema="schema"
+                                                    :model-index="mappedIndex"
+                                                    v-on:update="modelValue" />
                                                 <select v-model="mappedFields[schema][mappedIndex]"
                                                     class="select select-bordered w-44">
                                                     <option v-for="(field) in mapper.uploadFields">{{ field }}</option>
@@ -417,5 +420,9 @@ onMounted(async () => {
     await setSchemaInfo()
     await createMapperUi()
 })
+
+const modelValue = (schemaHeading, mappingsIndex, value) => {
+    mappedFields.value[schemaHeading][mappingsIndex] = value
+}
 
 </script>

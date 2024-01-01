@@ -25,10 +25,13 @@
 
             <div class="flex items-center justify-stretch">
                 <div class="basis-32">
-                    Mapped to: {{ model }}
+                    Mapped to:
                 </div>
                 <div class="flex-1">
-                    <select :value="props.modelValue" @input="emit('update:modelValue', $event.target.value)" class="select select-bordered w-full">
+                    <select 
+                        :value="props.modelValue" 
+                        v-on:change="emit('update', props.modelSchema, props.modelIndex, $event.target.value)" 
+                        class="select select-bordered w-full">
                         <option v-for="(field) in uploadFields">{{ field }}</option>
                     </select>
                 </div>
@@ -59,10 +62,12 @@ const props = defineProps<{
     schemaField: string
     dataField: string,
     uploadFields: string[],
-    modelValue?: string
+    modelValue: string,
+    modelSchema?: string,
+    modelIndex?: number
 }>()
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update'])
 
 enum State {
     Simple = "simple",
