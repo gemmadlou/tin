@@ -4,11 +4,11 @@
     </button>
 
     <dialog class="modal" :style="modalStyle">
+        <div v-on:click="hide" class="bg-transparent h-full w-full left-0 top-0 absolute pointer"></div>
         <div class="modal-box">
             <h3 class="font-bold text-lg capitalize">{{ schemaField }} >> {{ mappedFields[schemaField][modelIndex] }}</h3>
 
             <span class="block h-10"></span>
-import type { string } from "zod";
 
             <div class="flex items-center justify-stretch">
                 <div class="basis-32">
