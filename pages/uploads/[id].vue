@@ -13,7 +13,7 @@
         <div class="grid grid-cols-5 gap-10">
             <div class="col-span-3">
                 <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
-                    <div class="h-36 col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
+                    <div class="h-36 col-span-1 flex items-center justify-center bg-gray-200 rounded-lg">
                         <div class="flex items-center m-3">
                             <div class="mr-3 uppercase font-bold">Step</div>
                             <div class="bg-black text-white rounded-full w-12 h-12 flex items-center justify-center">
@@ -62,7 +62,7 @@
                 <div class="h-10"></div>
 
                 <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
-                    <div class="h-36 col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
+                    <div class="h-36 col-span-1 flex items-center justify-center bg-gray-200 rounded-lg">
                         <div class="flex items-center m-3">
                             <div class="mr-3 uppercase font-bold">Step</div>
                             <div class="bg-black text-white rounded-full w-12 h-12 flex items-center justify-center">
@@ -76,6 +76,7 @@
                         </h2>
                         <div class="flex space-x-8 mb-10">
                             <div class="basis-1/2">
+
                                 <table v-for="schema in mapper.schemaFields" class="table table-zebra w-full max-w-md">
                                     <tr>
                                         <td class="w-32 capitalize">
@@ -83,6 +84,9 @@
                                                 {{ schema }}
                                                 <span v-if="isRequiredField(schema)">*</span>
                                             </div>
+                                        </td>
+                                        <td>
+                                            <DataHeading />
                                         </td>
                                         <td>
                                             <div v-for="(mappedField, mappedIndex) in mappedFields[schema]"
@@ -120,7 +124,7 @@
                 <div class="h-10"></div>
 
                 <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
-                    <div class="h-36 col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
+                    <div class="h-36 col-span-1 flex items-center justify-center bg-gray-200 rounded-lg">
                         <div class="flex items-center m-3">
                             <div class="mr-3 uppercase font-bold">Step</div>
                             <div class="bg-black text-white rounded-full w-12 h-12 flex items-center justify-center">
@@ -141,7 +145,7 @@
                 <div class="h-10"></div>
 
                 <div class="max-w-4xl grid grid-cols-5 gap-5 bg-gray-50 p-5">
-                    <div class="h-36 col-span-2 flex items-center justify-center bg-gray-200 rounded-lg">
+                    <div class="h-36 col-span-1 flex items-center justify-center bg-gray-200 rounded-lg">
                         <div class="flex items-center m-3">
                             <div class="mr-3 uppercase font-bold">Step</div>
                             <div class="bg-black text-white rounded-full w-12 h-12 flex items-center justify-center">
