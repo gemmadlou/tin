@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { Mapped } from "../transformations/Transformer";
+import Sdk from "../uploads/Sdk";
 import axios from "axios"
 
 const props = defineProps(['schema', 'extractedFileData', 'linkId']);
@@ -48,10 +49,6 @@ const modelValue = (schemaHeading, mappingsIndex, value) => {
     mappedFields.value[schemaHeading][mappingsIndex] = value
 }
 
-const getUploadLink = async (paramId: string | number) => {
-    return (await axios.get(`/api/schema-uploads/${paramId}`)).data
-}
-
 const createMapperUi = async () => {
     let schemeFields = Object.keys(props.schema?.json?.properties)
     let uploadFields = Object.keys(props.extractedFileData[0].json).filter(i => i)
@@ -68,7 +65,7 @@ const createMapperUi = async () => {
     mapper.value.schemaFields = schemeFields
     mapper.value.uploadFields = uploadFields
 
-    link.value = await getUploadLink(props.linkId)
+    link.value = await Sdk.schemaUploads.get(props.linkId)
 
     // @todo get from database
     // let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value

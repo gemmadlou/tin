@@ -189,6 +189,7 @@ import axios from "axios";
 import * as models from "../../src/models"
 import { ref } from "vue"
 import type { DataHeading, Mapped } from "../../modules/transformations/Transformer";
+import Sdk from "../../modules/uploads/Sdk";
 
 const route = useRoute()
 
@@ -239,7 +240,8 @@ const uploadFile = async () => {
 
         upload.value.success = "File uploaded"
 
-        link.value = await getUploadLink(link.value.id)
+        if (link.value.id)
+            link.value = await Sdk.schemaUploads.get(link.value.id)
         // upload.value.form = (await useFetch(`/api/upload/${response.data.id}`)).data.value
     } catch (responseError: unknown) {
         if (responseError.response) {
@@ -257,10 +259,6 @@ const onFileChange = async (e: InputFileEvent) => {
         return;
     }
     upload.value.form.filename = e.target.files;
-}
-
-const getUploadLink = async (paramId: string | number) => {
-    return (await axios.get(`/api/schema-uploads/${paramId}`)).data
 }
 
 const getSchema = async (paramId: string | number) => {
@@ -286,7 +284,7 @@ const getExtractedFileData = async (uploadId: string | number) => {
 }
 
 const setSchemaInfo = async () => {
-    let uploadLink: models.UploadLink = await getUploadLink(route.params.id)
+    let uploadLink: models.UploadLink = await Sdk.schemaUploads.get(route.params.id)
     link.value = uploadLink
     schema.value = await getSchema(uploadLink.schema_id)
     if (uploadLink.upload_id) {
