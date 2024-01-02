@@ -1,15 +1,28 @@
 import { format } from "date-fns"
+import { literal, number, object, optional, string, type Input, union } from "valibot"
 
-export type DataHeading = string | {
-    headingName: string,
-    delimitation?: {
-        delimiter: string,
-        delimitedIndex: number
-    },
-    format?: "date"
-} | {
-    static: string
-}
+const headingString = string()
+
+const headingStatic = object({
+    static: string()
+})
+
+const headingObject = object({
+    headingName: string(),
+    delimitation: optional(
+        object({
+            delimiter: string(),
+            delimitedIndex: number()
+        })
+    ),
+    format: optional(
+        literal("date")
+    )
+})
+
+export const dataHeading = union([headingString, headingStatic, headingObject]);
+
+export type DataHeading = Input<typeof dataHeading>
 
 export type Mapper = {
     schemaHeading: string,
