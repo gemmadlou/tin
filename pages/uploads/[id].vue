@@ -74,7 +74,6 @@
                         <h2 class="font-bold uppercase mb-5">
                             Map file
                         </h2>
-                        {{ mappedFields }}
                         <div class="flex space-x-8 mb-10">
                             <div class="basis-1/2">
                                 <table v-for="(mappedField, mappedFieldIndex) in mappedFields" 
@@ -91,12 +90,11 @@
                                             <div v-for="(values, dataValueIndex) in mappedField.dataValues"
                                                 :key="dataValueIndex">
                                                 <div class="flex space-x-8">
-                                                    <!-- <DataHeading 
-                                                        :schema-field="schema" 
+                                                    <DataHeading 
                                                         :upload-fields="mapper.uploadFields"
-                                                        :mapped-fields="mappedFields"
-                                                        :model-schema="schema" :model-index="mappedIndex"
-                                                        v-on:update="modelValue" /> -->
+                                                        :mapped-field="mappedField"
+                                                        :model-index="dataValueIndex"
+                                                        v-on:update="modelValue" />
                                                         
                                                     <select v-model="mappedField.dataValues[dataValueIndex]"
                                                         class="select select-bordered w-44">

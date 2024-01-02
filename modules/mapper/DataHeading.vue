@@ -6,7 +6,7 @@
     <dialog class="modal" :style="modalStyle">
         <div v-on:click="hide" class="bg-transparent h-full w-full left-0 top-0 absolute pointer"></div>
         <div class="modal-box">
-            <h3 class="font-bold text-lg capitalize">{{ schemaField }} >> {{ mappedFields[schemaField][modelIndex] }}</h3>
+            <h3 class="font-bold text-lg capitalize">{{ mappedField.schemaHeading }} >> {{ mappedField.dataValues[modelIndex] }}</h3>
 
             <span class="block h-10"></span>
 
@@ -21,7 +21,6 @@
                 </div>
             </div>
 
-
             <span class="block h-5"></span>
 
             <div class="flex items-center justify-stretch">
@@ -29,7 +28,7 @@
                     Mapped to:
                 </div>
                 <div class="flex-1">
-                    <select v-model="mappedFields[schemaField][modelIndex]" class="select select-bordered w-full">
+                    <select v-model="mappedField.dataValues[modelIndex]" class="select select-bordered w-full">
                         <option v-for="(field) in uploadFields">{{ field }}</option>
                     </select>
                 </div>
@@ -55,12 +54,11 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import type { Mapped } from "../transformations/Transformer"
 
 const props = defineProps<{
-    schemaField: string,
     uploadFields: string[],
-    mappedFields: Record<string, string[]>,
-    modelSchema?: string,
+    mappedField: Mapped,
     modelIndex?: number
 }>()
 
