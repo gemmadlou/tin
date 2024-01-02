@@ -76,52 +76,11 @@
                         </h2>
                         <div class="flex space-x-8 mb-10">
                             <div class="basis-1/2">
-                                <table v-for="(mappedField, mappedFieldIndex) in mappedFields" 
-                                    :key="mappedField.schemaHeading" class="table table-zebra w-full max-w-md">
-                                    <tr>
-                                        <td class="w-32 capitalize">
-                                            <div class="w-32">
-                                                {{ mappedField.schemaHeading }}
-                                                <span v-if="isRequiredField(mappedField.schemaHeading)">*</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            
-                                            <div v-for="(values, dataValueIndex) in mappedField.dataValues"
-                                                :key="dataValueIndex">
-                                                <div class="flex space-x-8">
-                                                    <DataHeading 
-                                                        :upload-fields="mapper.uploadFields"
-                                                        :mapped-field="mappedField"
-                                                        :model-index="dataValueIndex"
-                                                        v-on:update="modelValue" />
-                                                        
-                                                    <select v-model="mappedField.dataValues[dataValueIndex]"
-                                                        class="select select-bordered w-44">
-                                                        <option v-for="(field) in mapper.uploadFields">{{ field }}</option>
-                                                    </select>
-                                                    <div class="flex space-x-2">
-                                                        <button v-on:click="addNewField(mappedField)" class="btn">✚</button>
-                                                        <button v-if="mappedField.dataValues.length > 0 || !isRequiredField(mappedField.schemaHeading)"
-                                                            v-on:click="removeNewField(mappedField, dataValueIndex)"
-                                                            class="btn">-</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div v-if="mappedField.dataValues.length === 0">
-                                                <button v-on:click="addNewField(mappedField)" class="btn">✚</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <div class="h-5"></div>
-
-                                <div class="text-right">
-                                    <button class="btn btn-neutral" v-on:click="saveMapper">Save Mapper</button>
-                                </div>
-                            </div>
-                            <div class="basis-1/2">
+                                <Mapper 
+                                    v-if="schema.json && extractedFileData.length" 
+                                    :linkId="route.params.id"
+                                    :extractedFileData="extractedFileData"
+                                    :schema="schema" />
                             </div>
                         </div>
                     </div>
@@ -260,6 +219,8 @@ const upload = ref({
     error: '',
 })
 
+let mappedData = ref([]);
+
 const extractedFileData = ref<Record<string, any>[]>([])
 
 const uploadFile = async () => {
@@ -334,78 +295,6 @@ const setSchemaInfo = async () => {
     }
 }
 
-const isRequiredField = (schema: string) => {
-    return false
-}
-
-const addNewField = (mappedField: Mapped) => {
-    mappedField.dataValues.push(mapper.value.uploadFields[0])
-}
-
-const removeNewField = async (mappedField: Mapped, index: number) => {
-    mappedField.dataValues.splice(index, 1)
-}
-
-const saveMapper = async () => {
-    let data = {
-        config: mappedFields.value
-    }
-
-    let response = (await axios.post('/api/mappers', data)).data;
-
-    await axios.put(`/api/schema-uploads/${link.value.id}`, {
-        ...link.value,
-        name: link.value.name,
-        upload_id: link.value.upload_id,
-        mapper_id: response.id
-    })
-
-    createMapperUi()
-}
-
-// type MappedField = Record<string, string[]>;
-
-let mappedFields = ref<Mapped[]>([])
-
-type Mapper = {
-    required: string[],
-    schemaFields: string[],
-    uploadFields: string[]
-}
-
-let mapper = ref<Mapper>({
-    required: [],
-    schemaFields: [],
-    uploadFields: []
-})
-
-let mappedData = ref([])
-
-const createMapperUi = async () => {
-    let schemeFields = Object.keys(schema.value?.json?.properties)
-    let uploadFields = Object.keys(extractedFileData.value[0].json).filter(i => i)
-
-    mappedFields.value = schemeFields.reduce((mapped: Mapped[], schemaHeading: string) => {
-        mapped.push({
-            schemaHeading,
-            dataValues: [uploadFields[0]]
-        })
-        return mapped
-    }, [])
-    console.log(mappedFields.value)
-
-    mapper.value.required = schema.value?.json?.required
-    mapper.value.schemaFields = schemeFields
-    mapper.value.uploadFields = uploadFields
-
-    link.value = await getUploadLink(route.params.id)
-
-    // let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
-    // mappedFields.value = mapperEntity.config
-
-    mappedData.value = (await useFetch(`/api/schema-uploads/${route.params.id}/map`)).data.value
-}
-
 const mapData = async () => {
     try {
         let response = (await axios.put(`/api/schema-uploads/${link.value.id}/map`))
@@ -425,11 +314,8 @@ const markAsReadyForImport = async () => {
 
 onMounted(async () => {
     await setSchemaInfo()
-    await createMapperUi()
-})
 
-const modelValue = (schemaHeading, mappingsIndex, value) => {
-    mappedFields.value[schemaHeading][mappingsIndex] = value
-}
+    mappedData.value = (await useFetch(`/api/schema-uploads/${route.params.id}/map`)).data.value
+})
 
 </script>

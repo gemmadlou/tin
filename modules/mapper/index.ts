@@ -6,18 +6,18 @@ export default defineNuxtModule({
     const resolver = createResolver(import.meta.url)
 
     addComponent({
-      name: 'Formatter', // name of the component to be used in vue templates
-      filePath: resolver.resolve('Formatter.vue')
-    })
-
-    addComponent({
-      name: 'Delimiter', // name of the component to be used in vue templates
+      name: 'Delimiter',
       filePath: resolver.resolve('Delimiter.vue')
     })
 
     addComponent({
-      name: 'DataHeading', // name of the component to be used in vue templates
+      name: 'DataHeading',
       filePath: resolver.resolve('DataHeading.vue')
+    })
+
+    addComponent({
+      name: 'Mapper',
+      filePath: resolver.resolve('Mapper.vue')
     })
   }
 })
