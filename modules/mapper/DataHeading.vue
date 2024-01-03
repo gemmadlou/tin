@@ -82,7 +82,11 @@ let state = ref(useSimple())
 let modalStyle = ref({})
 
 const changeHeader = (event) => {
-    switch (event.target.value) {
+    updateFieldType(event.target.value)
+}
+
+const updateFieldType = (asState: State) => {
+    switch (asState) {
         case State.Simple as string: 
             state.value = useSimple();
             break;
@@ -105,5 +109,7 @@ const show = () => {
 const hide = () => {
     modalStyle.value = {}
 }
+
+updateFieldType(props.mappedField.dataHeadings[props.modelIndex]?.type || State.Simple)
 
 </script>
