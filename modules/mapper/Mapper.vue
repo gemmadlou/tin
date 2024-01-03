@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import type { Mapped } from "../transformations/Transformer";
+import type { Mapper } from "../transformations/Transformer";
 import {Sdk} from "../../packages/uploads"
 import axios from "axios";
 import { ref } from "vue";
 
 const props = defineProps(['schema', 'extractedFileData', 'linkId']);
 
-let mappedFields = ref<Mapped[]>([])
+let mappedFields = ref<Mapper[]>([])
 
-type Mapper = {
+type iMapper = {
     required: string[],
     schemaFields: string[],
     uploadFields: string[]
 }
 
-let mapper = ref<Mapper>({
+let mapper = ref<iMapper>({
     required: [],
     schemaFields: [],
     uploadFields: []
@@ -36,12 +36,14 @@ const isRequiredField = (schema: string) => {
     return false
 }
 
-const addNewField = (mappedField: Mapped) => {
-    mappedField.dataValues.push(mapper.value.uploadFields[0])
+const addNewField = (mappedField: Mapper) => {
+    mappedField.dataHeadings.push({
+        headingName: mapper.value.uploadFields[0]
+    })
 }
 
-const removeNewField = async (mappedField: Mapped, index: number) => {
-    mappedField.dataValues.splice(index, 1)
+const removeNewField = async (mappedField: Mapper, index: number) => {
+    mappedField.dataHeadings.splice(index, 1)
 }
 
 // @todo vue 3.4 - add simpler v-model once Nuxt releases it
@@ -53,12 +55,14 @@ const createMapperUi = async () => {
     let schemeFields = Object.keys(props.schema?.json?.properties)
     let uploadFields = Object.keys(props.extractedFileData[0].json).filter(i => i)
 
-    mappedFields.value = schemeFields.reduce((mapped: Mapped[], schemaHeading: string) => {
-        mapped.push({
+    mappedFields.value = schemeFields.reduce((mapper: Mapper[], schemaHeading: string) => {
+        mapper.push({
             schemaHeading,
-            dataValues: [uploadFields[0]]
+            dataHeadings: [{
+                headingName: uploadFields[0]
+            }]
         })
-        return mapped
+        return mapper
     }, [])
 
     mapper.value.required = props.schema?.json?.required
@@ -67,7 +71,6 @@ const createMapperUi = async () => {
 
     link.value = await Sdk.schemaUploads.get(props.linkId)
 
-    // @todo get from database
     let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
     mappedFields.value = mapperEntity.config
 }
@@ -107,23 +110,26 @@ onMounted(async () => {
             </td>
             <td>
 
-                <div v-for="(values, dataValueIndex) in mappedField.dataValues" :key="dataValueIndex">
+                <div v-for="(values, dataValueIndex) in mappedField.dataHeadings" :key="dataValueIndex">
                     <div class="flex space-x-8">
-                        <DataHeading :upload-fields="mapper.uploadFields" :mapped-field="mappedField"
-                            :model-index="dataValueIndex" v-on:update="modelValue" />
+                        <DataHeading 
+                            :upload-fields="mapper.uploadFields" 
+                            :mapped-field="mappedField"
+                            :model-index="dataValueIndex" 
+                            v-on:update="modelValue" />
 
-                        <select v-model="mappedField.dataValues[dataValueIndex]" class="select select-bordered w-44">
+                        <select v-model="mappedField.dataHeadings[dataValueIndex].headingName" class="select select-bordered w-44">
                             <option v-for="(field) in mapper.uploadFields">{{ field }}</option>
                         </select>
 
                         <div class="flex space-x-2">
                             <button v-on:click="addNewField(mappedField)" class="btn">✚</button>
-                            <button v-if="mappedField.dataValues.length > 0 || !isRequiredField(mappedField.schemaHeading)"
+                            <button v-if="mappedField.dataHeadings.length > 0 || !isRequiredField(mappedField.schemaHeading)"
                                 v-on:click="removeNewField(mappedField, dataValueIndex)" class="btn">-</button>
                         </div>
                     </div>
                 </div>
-                <div v-if="mappedField.dataValues.length === 0">
+                <div v-if="mappedField.dataHeadings.length === 0">
                     <button v-on:click="addNewField(mappedField)" class="btn">✚</button>
                 </div>
             </td>
