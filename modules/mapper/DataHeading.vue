@@ -36,15 +36,14 @@
             </div>
 
             <span class="block h-5"></span>
-
             <div v-if="state.status === State.Delimited" class="flex items-center justify-stretch">
                 <div class="basis-32">
                     Delimiter:
                 </div>
                 <div class="flex-1">
-                    <Delimiter />
+                    <Delimiter 
+                        :data-heading="mappedField.dataHeadings[modelIndex]" />
                 </div>
-                {{ mappedField }}
             </div>
 
             <div class="modal-action">
@@ -84,8 +83,18 @@ let modalStyle = ref({})
 
 const changeHeader = (event) => {
     switch (event.target.value) {
-        case State.Simple as string: state.value = useSimple(); break;
-        case State.Delimited as string: state.value = useDelimited(); break;
+        case State.Simple as string: 
+            state.value = useSimple();
+            break;
+        case State.Delimited as string: 
+            state.value = useDelimited(); 
+            props.mappedField.dataHeadings[props.modelIndex] = {
+                type: "delimited",
+                headingName: props.mappedField.dataHeadings[props.modelIndex].headingName || props.mappedField.dataHeadings[props.modelIndex],
+                delimiter: props.mappedField.dataHeadings[props.modelIndex]?.delimiter || "",
+                delimitedIndex: props.mappedField.dataHeadings[props.modelIndex]?.delimitedIndex || 0
+            }
+            break;
     }
 }
 
