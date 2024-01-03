@@ -68,8 +68,8 @@ const createMapperUi = async () => {
     link.value = await Sdk.schemaUploads.get(props.linkId)
 
     // @todo get from database
-    // let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
-    // mappedFields.value = mapperEntity.config
+    let mapperEntity = (await useFetch(`/api/mappers/${link.value.mapper_id}`)).data.value
+    mappedFields.value = mapperEntity.config
 }
 
 const saveMapper = async () => {
