@@ -1,7 +1,7 @@
-import mysql, { ConnectionOptions } from 'mysql2/promise';
+import mysql from 'mysql2/promise';
 
 // @todo drive through Dotenv
-const access: ConnectionOptions = {
+const access: mysql.ConnectionOptions = {
     user: 'root',
     database: 'tin',
     host: '0.0.0.0',
