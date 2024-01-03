@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import type { Mapped } from "../transformations/Transformer";
-import Sdk from "../uploads/Sdk";
-import axios from "axios"
+import {Sdk} from "../../packages/uploads"
+import axios from "axios";
+import { ref } from "vue";
 
 const props = defineProps(['schema', 'extractedFileData', 'linkId']);
 

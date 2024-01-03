@@ -189,7 +189,7 @@ import axios from "axios";
 import * as models from "../../src/models"
 import { ref } from "vue"
 import type { DataHeading, Mapped } from "../../modules/transformations/Transformer";
-import Sdk from "../../modules/uploads/Sdk";
+import {Sdk} from "../../packages/uploads";
 
 const route = useRoute()
 
