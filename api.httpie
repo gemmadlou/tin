@@ -72,9 +72,9 @@ http
 http 
     post 
     localhost:3000/api/mappers 
-    schema_id=1 
-    upload_id=1 
-    config='{}'
+    'config[0][schemaHeading]=abc'
+    'config[0][dataHeadings][0][type]=simple'
+    'config[0][dataHeadings][0][headingName]=First Name'
 
 // Mappers: get all
 http
@@ -82,7 +82,7 @@ http
 
 // Mappers: get
 http
-    localhost:3000/api/mappers/14
+    localhost:3000/api/mappers/40
 
 // Map data
 http

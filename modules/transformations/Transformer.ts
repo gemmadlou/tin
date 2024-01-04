@@ -1,33 +1,46 @@
 import { format } from "date-fns"
-import { literal, number, object, optional, string, type Input, union } from "valibot"
+import { literal, number, object, optional, string, type Input, union, variant, array } from "valibot"
 
 const headingString = string()
 
-const headingStatic = object({
-    static: string()
-})
-
-const headingObject = object({
-    headingName: string(),
-    delimitation: optional(
-        object({
-            delimiter: string(),
-            delimitedIndex: number()
-        })
-    ),
+const headingSimple = object({
+    type: literal("simple"),
+    headingName: string('headingName is missing'),
     format: optional(
         literal("date")
     )
 })
 
-export const dataHeading = union([headingString, headingStatic, headingObject]);
+const headingStatic = object({
+    type: literal("static"),
+    static: string('Static string required'),
+    format: optional(
+        literal("date")
+    )
+})
+
+const headingDelimiter = object({
+    type: literal("delimited"),
+    headingName: string(),
+    delimiter: string('Delimiter eg. "," required'),
+    delimitedIndex: number('Delimited number required'),
+    format: optional(
+        literal("date")
+    )
+})
+
+export type DataHeadingDelimiter = Input<typeof headingDelimiter>
+
+export const dataHeading = variant('type', [headingSimple, headingStatic, headingDelimiter]);
 
 export type DataHeading = Input<typeof dataHeading>
 
-export type Mapper = {
-    schemaHeading: string,
-    dataHeadings: DataHeading[]
-}
+export const mapper = object({
+    schemaHeading: string('schemaHeading is required'),
+    dataHeadings: array(dataHeading)
+})
+
+export type Mapper = Input<typeof mapper>
 
 export type Data = {
     heading: string,
@@ -56,12 +69,12 @@ const transformDelimitedData = (
     data: Data,
     mapped: Mapped
 ): Mapped | undefined => {
-    if (!(typeof dataHeading === "object" && "delimitation" in dataHeading && dataHeading.delimitation)) {
+    if (!(typeof dataHeading === "object" && dataHeading.type === "delimited")) {
         return;
     }
 
-    let splitted = data.value.toString().split(dataHeading.delimitation.delimiter)
-    let value = mapValue(dataHeading, splitted[dataHeading.delimitation.delimitedIndex])
+    let splitted = data.value.toString().split(dataHeading.delimiter)
+    let value = mapValue(dataHeading, splitted[dataHeading.delimitedIndex])
     mapped.dataValues.push(value)
 
     return mapped
@@ -119,7 +132,7 @@ const getMappedData = (
                 return data.heading === dataHeading;
             })
 
-        if (data && typeof dataHeading === "object" && "delimitation" in dataHeading) {
+        if (data && typeof dataHeading === "object" && dataHeading.type === "delimited") {
             mapped = transformDelimitedData(dataHeading, data, mapped) ?? mapped
         } else if (typeof dataHeading === "object" && "static" in dataHeading) {
             mapped = transformStaticValue(dataHeading, mapped) ?? mapped
