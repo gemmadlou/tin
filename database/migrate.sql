@@ -32,7 +32,7 @@ CREATE TABLE `mappers` (
   `config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`config`)),
   `hashed` char(32) GENERATED ALWAYS AS (md5(`config`)) VIRTUAL,
   PRIMARY KEY (`id`),
-  KEY `hashed_idx` (`hashed`)
+  UNIQUE KEY `hashed_idx` (`hashed`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
