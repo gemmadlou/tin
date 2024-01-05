@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     let conn = await connection()
     const response = await conn.execute<{ insertId: number } & RowDataPacket[]>(
         'insert into mappers (config) value (?)',
-        [JSON.stringify(parsed.output)]
+        [JSON.stringify(parsed.output.config)]
     )
 
     return {
