@@ -1,5 +1,6 @@
 import { format } from "date-fns"
 import { z } from "zod"
+import { Data, Mapper, mapDataValuesToSchemaHeadings } from "~/modules/transformations/Transformer"
 import { connection } from "~/src/mysql"
 
 export default defineEventHandler(async (event) => {
@@ -36,35 +37,17 @@ export default defineEventHandler(async (event) => {
         [schemaUploads.uploadId]
     )
 
-    extracts = extracts
+    let dataRows: Data[][] = extracts
         .map(i => JSON.parse(i.json))
+        .map(i => Object.entries(i).map(([heading, value]) => ({ heading, value })))
 
-    // For each uploaded row of data, convert into the schema
-    for (let i = 0; i < extracts.length; i++) {
-        let uploadDataRow = extracts[i]
-        let mapped = Object.entries(mapper.config)
-            .reduce((obj : Record<string, any>, [key, value]) => {
-                obj[key] = value.map(val => {
-                    // Get data from uploaded data row
-                    let lookupValue = uploadDataRow[val] || '';
-
-                    // Transform data: Trim
-                    lookupValue = lookupValue.trim()
-
-                    // Transform data: Dates
-                    if (schemaConfig.properties[key]?.format) {
-                        try {
-                            lookupValue = format(new Date(lookupValue), 'yyyy-MM-dd')
-                        } catch {
-                            console.info(`Row ${i + 1}: Incorrect date format ${lookupValue}`)
-                            lookupValue = ""
-                        }
-                    }
-
-                    return lookupValue
-                })
-                return obj
-            }, {})
+    let mappedList = []
+    for (let i in dataRows) {
+        let dataRow = dataRows[i]
+        // console.log(dataRow)
+        // return
+        let mapped = mapDataValuesToSchemaHeadings(mapper.config, dataRow)
+        mappedList.push(mapped)
 
         await conn.execute(
             `insert into mapped_data
@@ -80,5 +63,5 @@ export default defineEventHandler(async (event) => {
         )
     }
 
-    return
+    return mappedList
 })

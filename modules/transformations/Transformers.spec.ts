@@ -11,7 +11,7 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
             { schemaHeading: "signed_up", dataValues: ["11 December 2023"] }
         ]
 
-        let dataInput = new Set<Data>([
+        let dataInput = ([
             {
                 heading: "First name",
                 value: "John"
@@ -84,7 +84,7 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
             { schemaHeading: "age", dataValues: [] }
         ]
 
-        let dataInput = new Set<Data>([
+        let dataInput = [
             {
                 heading: "First name",
                 value: "John"
@@ -93,7 +93,7 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
                 heading: "Last name",
                 value: "Smith"
             }
-        ])
+        ]
 
         let mapper = new Set<Mapper>([
             {
@@ -129,14 +129,14 @@ describe("Feature: Map data fields across multiple schema headings", () => {
             { schemaHeading: "address_line_2", dataValues: ["Manhattan"] }
         ]
 
-        let dataInput: Set<Data> = new Set([
+        let dataInput: Data[] = [
             {
                 heading: "address",
                 value: "Stark Tower, Manhattan"
             }
-        ])
+        ]
 
-        let mapper: Set<Mapper> = new Set([
+        let mapper: Mapper[] = [
             {
                 schemaHeading: "address_line_1",
                 dataHeadings: [
@@ -158,7 +158,7 @@ describe("Feature: Map data fields across multiple schema headings", () => {
                     }
                 ]
             }
-        ])
+        ]
 
         let actual = mapDataValuesToSchemaHeadings(mapper, dataInput)
 
@@ -171,7 +171,7 @@ describe("Feature: Map data fields across multiple schema headings", () => {
             { schemaHeading: "address_line_2", dataValues: ["Manhattan"] }
         ]
 
-        let dataInput: Set<Data> = new Set([
+        let dataInput = [
             {
                 heading: "address",
                 value: "Stark Tower, Manhattan"
@@ -180,9 +180,9 @@ describe("Feature: Map data fields across multiple schema headings", () => {
                 heading: "zipCode",
                 value: "ABC"
             }
-        ])
+        ]
 
-        let mapper: Set<Mapper> = new Set([
+        let mapper: Mapper[] = [
             {
                 schemaHeading: "address_line_1",
                 dataHeadings: [
@@ -205,7 +205,7 @@ describe("Feature: Map data fields across multiple schema headings", () => {
                     }
                 ]
             }
-        ])
+        ]
 
         let actual = mapDataValuesToSchemaHeadings(mapper, dataInput)
 
@@ -254,21 +254,22 @@ describe("Feature: format dates", () => {
             { schemaHeading: "Joined", dataValues: ["2025-12-11"] },
         ]
 
-        let dataInput: Set<Data> = new Set([
+        let dataInput: Data[] = [
             { heading: "signed_up", value: "11 December 2025" }
-        ])
+        ]
 
-        let mapper: Set<Mapper> = new Set([
+        let mapper : Mapper[] = [
             {
                 schemaHeading: "Joined",
                 dataHeadings: [
                     {
+                        type: "simple",
                         headingName: "signed_up",
                         format: 'date'
                     }
                 ]
             }
-        ])
+        ]
 
         let actual = mapDataValuesToSchemaHeadings(mapper, dataInput)
 

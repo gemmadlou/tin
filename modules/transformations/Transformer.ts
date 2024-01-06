@@ -117,7 +117,7 @@ const transformSimpleMaps = (
 
 const getMappedData = (
     mapper: Mapper,
-    dataSet: Set<Data>
+    dataSet: Data[]
 ): Mapped => {
     let mapped: Mapped = { schemaHeading: mapper.schemaHeading, dataValues: [] }
 
@@ -125,11 +125,14 @@ const getMappedData = (
         let data: Data | undefined = Array
             .from(dataSet.values())
             .find(data => {
-                if (typeof dataHeading === "object" && "headingName" in dataHeading) {
+                if (dataHeading.type === 'simple' || dataHeading.type === "delimited") {
                     return data.heading === dataHeading.headingName
                 }
 
-                return data.heading === dataHeading;
+                if (typeof dataHeading === "string")
+                    return data.heading === dataHeading;
+
+                return false
             })
 
         if (data && typeof dataHeading === "object" && dataHeading.type === "delimited") {
@@ -162,8 +165,8 @@ const trimFields = (
 }
 
 export const mapDataValuesToSchemaHeadings = (
-    mapperSet: Set<Mapper>,
-    dataSet: Set<Data>
+    mapperSet: Mapper[],
+    dataSet: Data[]
 )
     : Mapped[] =>
     Array.from(mapperSet.values())
