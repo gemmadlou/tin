@@ -94,35 +94,35 @@ enum State {
 let state = ref({ status: State.Simple })
 let modalStyle = ref({})
 
-const changeHeader = (event) => {
-    updateFieldType(event.target.value)
+const changeHeader = (event: Event) => {
+    const target = <HTMLSelectElement>event.target
+    updateFieldType(target.value as State)
 }
 
 const updateFieldType = (asState: State) => {
-    console.log(asState)
+    let heading = props.mappedField.dataHeadings[props.modelIndex]
     switch (asState) {
         case State.Simple as string:
             state.value.status = State.Simple
             props.mappedField.dataHeadings[props.modelIndex] = {
                 type: "simple",
-                headingName: props.mappedField.dataHeadings[props.modelIndex].headingName
-                    || props.uploadFields[0]
+                headingName: heading.type === "simple" ? heading.headingName : props.uploadFields[0]
             }
             break;
         case State.Static as string:
             state.value.status = State.Static
             props.mappedField.dataHeadings[props.modelIndex] = {
                 type: "static",
-                static: props.mappedField.dataHeadings[props.modelIndex]?.static || ""
+                static: heading.type === "static" ? heading.static : ""
             }
             break;
         case State.Delimited as string:
             state.value.status = State.Delimited
             props.mappedField.dataHeadings[props.modelIndex] = {
                 type: "delimited",
-                headingName: props.mappedField.dataHeadings[props.modelIndex].headingName || props.mappedField.dataHeadings[props.modelIndex],
-                delimiter: props.mappedField.dataHeadings[props.modelIndex]?.delimiter || "",
-                delimitedIndex: props.mappedField.dataHeadings[props.modelIndex]?.delimitedIndex || 0
+                headingName: heading.type === "delimited" ? heading.headingName : props.uploadFields[0],
+                delimiter: heading.type === "delimited" ? heading.delimiter : "",
+                delimitedIndex: heading.type === "delimited" ? heading.delimitedIndex : 0
             }
             break;
     }
