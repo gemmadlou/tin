@@ -99,6 +99,7 @@ const changeHeader = (event) => {
 }
 
 const updateFieldType = (asState: State) => {
+    console.log(asState)
     switch (asState) {
         case State.Simple as string:
             state.value.status = State.Simple
@@ -127,6 +128,7 @@ const updateFieldType = (asState: State) => {
 }
 
 const show = () => {
+    updateFieldType(props.mappedField.dataHeadings[props.modelIndex]?.type as State || State.Simple)
     modalStyle.value = { opacity: 1, "background-color": "rgb(0 0 0 / 63%)", "pointer-events": "all", "margin-left": 0 }
 }
 
@@ -134,6 +136,5 @@ const hide = () => {
     modalStyle.value = {}
 }
 
-updateFieldType(props.mappedField.dataHeadings[props.modelIndex]?.type || State.Simple)
 
 </script>
