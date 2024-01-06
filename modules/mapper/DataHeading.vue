@@ -90,7 +90,7 @@ const updateFieldType = (asState: State) => {
         case State.Simple as string: 
             state.value = useSimple();
             props.mappedField.dataHeadings[props.modelIndex] = {
-                type: State.Simple,
+                type: "simple",
                 headingName: props.mappedField.dataHeadings[props.modelIndex].headingName || props.mappedField.dataHeadings[props.modelIndex]
             }
             break;
