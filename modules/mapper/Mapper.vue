@@ -59,6 +59,7 @@ const createMapperUi = async () => {
         mapper.push({
             schemaHeading,
             dataHeadings: [{
+                type: "simple",
                 headingName: uploadFields[0]
             }]
         })
@@ -110,16 +111,16 @@ onMounted(async () => {
             </td>
             <td>
 
-                <div v-for="(values, dataValueIndex) in mappedField.dataHeadings" :key="dataValueIndex">
+                <div v-for="(dataHeading, dataValueIndex) in mappedField.dataHeadings" :key="dataValueIndex">
                     <div class="flex space-x-8">
                         <DataHeading :upload-fields="mapper.uploadFields" :mapped-field="mappedField"
                             :model-index="dataValueIndex" v-on:update="modelValue" />
 
-                        <div v-if="mappedField.dataHeadings[dataValueIndex].type === 'static'">
-                            <input type="text" :value="mappedField.dataHeadings[dataValueIndex].static" class="input input-bordered w-44" disabled />
+                        <div v-if="dataHeading.type === 'static'">
+                            <input type="text" :value="dataHeading.static" class="input input-bordered w-44" disabled />
                         </div>
                         <div v-else>
-                            <select v-model="mappedField.dataHeadings[dataValueIndex].headingName"
+                            <select v-model="dataHeading.headingName"
                                 class="select select-bordered w-44">
                                 <option v-for="(field) in mapper.uploadFields">{{ field }}</option>
                             </select>
