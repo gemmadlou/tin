@@ -17,13 +17,28 @@ export default defineEventHandler(async (event) => {
     }
     
     let conn = await connection()
-    const response = await conn.execute<{ insertId: number } & RowDataPacket[]>(
-        'insert into mappers (config) value (?)',
+    const insert = await conn.execute<{ insertId: number } & RowDataPacket[]>(
+        'insert ignore into mappers (config) value (?)',
+        [JSON.stringify(parsed.output.config)]
+    )
+
+    // Newly created
+    if (insert[0].insertId !== 0) {
+        return {
+            id: insert[0].insertId,
+            ...body,
+        }
+    }
+
+    // Get previous
+    const [query] = await conn.query<{ id: number }[] & RowDataPacket[]>(
+        'select * from mappers where hashed = md5(?)',
         [JSON.stringify(parsed.output.config)]
     )
 
     return {
-        id: response[0].insertId,
-        ...body,
+        id: query[0].id,
+        ...body
     }
+    
 })
