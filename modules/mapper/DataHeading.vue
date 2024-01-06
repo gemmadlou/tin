@@ -105,8 +105,8 @@ const updateFieldType = (asState: State) => {
             state.value.status = State.Simple
             props.mappedField.dataHeadings[props.modelIndex] = {
                 type: "simple",
-                headingName: props.mappedField.dataHeadings[props.modelIndex].headingName 
-                    || props.mappedField.dataHeadings[props.modelIndex,
+                headingName: props.mappedField.dataHeadings[props.modelIndex].headingName
+                    || props.uploadFields[0]
             }
             break;
         case State.Static as string:
