@@ -1,6 +1,8 @@
 <template>
-    <button class="btn text-3xl" v-on:click="show">
+    <button class="btn text-3xl relative" v-on:click="show">
         📄
+        <div v-if="['delimited', 'static'].includes(mappedField.dataHeadings[modelIndex].type)" 
+            class="opacity-40 bg-orange-800 w-3 h-3 rounded-full absolute -right-1 -top-1"></div>
     </button>
 
     <dialog class="modal" :style="modalStyle">
