@@ -173,7 +173,7 @@
                                 <!-- row 1 -->
                                 <tr v-for="data in mappedData">
                                     <th>{{ data.row_id }}</th>
-                                    <td v-for="field in data.json">{{ field.join(' ') }}</td>
+                                    <td v-for="field in data.json">{{ field.dataValues.join(' ') }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -314,6 +314,7 @@ onMounted(async () => {
     await setSchemaInfo()
 
     mappedData.value = (await useFetch(`/api/schema-uploads/${route.params.id}/map`)).data.value
+    console.log(mappedData)
 })
 
 </script>
