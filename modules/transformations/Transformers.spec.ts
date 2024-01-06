@@ -41,22 +41,36 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
         let mapper = new Set<Mapper>([
             {
                 schemaHeading: "name",
-                dataHeadings: ["First name", "Last name"]
-            },
-            {
+                dataHeadings: [{
+                    type: "simple",
+                    headingName: "First name"
+                }, {
+                    type: "simple",
+                    headingName: "Last name"
+                }]
+            }, {
                 schemaHeading: "age",
                 dataHeadings: [{
+                    type: "simple",
                     headingName: "Age"
                 }]
             },
             {
                 schemaHeading: "address",
-                dataHeadings: ["Address", "Country"]
-            },
-            {
+                dataHeadings: [{
+                    type: "simple",
+                    headingName: "Address"
+                },{
+                    type: "simple",
+                    headingName: "Country"
+                }]
+            }, {
                 schemaHeading: "signed_up",
-                dataHeadings: ["Joined"]
-            }
+                dataHeadings: [{
+                    type: "simple",
+                    headingName: "Joined"
+                }]
+            },
         ])
 
         let actual = mapDataValuesToSchemaHeadings(mapper, dataInput)
@@ -84,11 +98,20 @@ describe("Feature: Map schema headings to multiple extracted data fields", () =>
         let mapper = new Set<Mapper>([
             {
                 schemaHeading: "name",
-                dataHeadings: ["First name", "Last name"]
+                dataHeadings: [{
+                    type: "simple",
+                    headingName: "First name"
+                }, {
+                    type: "simple",
+                    headingName: "Last name"
+                }]
             },
             {
                 schemaHeading: "age",
-                dataHeadings: ["Age"]
+                dataHeadings: [{
+                    type: "simple",
+                    headingName: "Age"
+                }]
             }
         ])
 
@@ -118,22 +141,20 @@ describe("Feature: Map data fields across multiple schema headings", () => {
                 schemaHeading: "address_line_1",
                 dataHeadings: [
                     {
+                        type: "delimited",
                         headingName: "address",
-                        delimitation: {
-                            delimiter: ",",
-                            delimitedIndex: 0
-                        }
+                        delimiter: ",",
+                        delimitedIndex: 0
                     }
                 ]
             }, {
                 schemaHeading: "address_line_2",
                 dataHeadings: [
                     {
+                        type: "delimited",
                         headingName: "address",
-                        delimitation: {
-                            delimiter: ",",
-                            delimitedIndex: 1
-                        }
+                        delimiter: ",",
+                        delimitedIndex: 1
                     }
                 ]
             }
@@ -166,11 +187,10 @@ describe("Feature: Map data fields across multiple schema headings", () => {
                 schemaHeading: "address_line_1",
                 dataHeadings: [
                     {
+                        type: "delimited",
                         headingName: "address",
-                        delimitation: {
-                            delimiter: ",",
-                            delimitedIndex: 0
-                        }
+                        delimiter: ",",
+                        delimitedIndex: 0
                     },
                     "zipCode"
                 ]
@@ -178,11 +198,10 @@ describe("Feature: Map data fields across multiple schema headings", () => {
                 schemaHeading: "address_line_2",
                 dataHeadings: [
                     {
+                        type: "delimited",
                         headingName: "address",
-                        delimitation: {
-                            delimiter: ",",
-                            delimitedIndex: 1
-                        }
+                        delimiter: ",",
+                        delimitedIndex: 1
                     }
                 ]
             }
