@@ -33,7 +33,7 @@ const link = ref<models.UndefinedUploadLink>({
 });
 
 const isRequiredField = (schema: string) => {
-    return false
+    return mapper.value.required.includes(schema)
 }
 
 const addNewField = (mappedField: Mapper) => {
@@ -52,10 +52,10 @@ const modelValue = (schemaHeading, mappingsIndex, value) => {
 }
 
 const createMapperUi = async () => {
-    let schemeFields = Object.keys(props.schema?.json?.properties)
+    let schemaFields = Object.keys(props.schema?.json?.properties)
     let uploadFields = Object.keys(props.extractedFileData[0].json).filter(i => i)
 
-    mappedFields.value = schemeFields.reduce((mapper: Mapper[], schemaHeading: string) => {
+    mappedFields.value = schemaFields.reduce((mapper: Mapper[], schemaHeading: string) => {
         mapper.push({
             schemaHeading,
             dataHeadings: [{
@@ -67,7 +67,7 @@ const createMapperUi = async () => {
     }, [])
 
     mapper.value.required = props.schema?.json?.required
-    mapper.value.schemaFields = schemeFields
+    mapper.value.schemaFields = schemaFields
     mapper.value.uploadFields = uploadFields
 
     link.value = await Sdk.schemaUploads.get(props.linkId)
@@ -129,7 +129,7 @@ onMounted(async () => {
                         <div class="flex space-x-2">
                             <button v-on:click="addNewField(mappedField)" class="btn">✚</button>
                             <button
-                                v-if="mappedField.dataHeadings.length > 0 || !isRequiredField(mappedField.schemaHeading)"
+                                v-if="mappedField.dataHeadings.length > 1 || !isRequiredField(mappedField.schemaHeading)"
                                 v-on:click="removeNewField(mappedField, dataValueIndex)" class="btn">-</button>
                         </div>
                     </div>
