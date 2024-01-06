@@ -38,6 +38,7 @@ const isRequiredField = (schema: string) => {
 
 const addNewField = (mappedField: Mapper) => {
     mappedField.dataHeadings.push({
+        type: "simple",
         headingName: mapper.value.uploadFields[0]
     })
 }
