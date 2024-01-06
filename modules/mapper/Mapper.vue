@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Mapper } from "../transformations/Transformer";
-import {Sdk} from "../../packages/uploads"
+import { Sdk } from "../../packages/uploads"
 import axios from "axios";
 import { ref } from "vue";
 
@@ -112,19 +112,23 @@ onMounted(async () => {
 
                 <div v-for="(values, dataValueIndex) in mappedField.dataHeadings" :key="dataValueIndex">
                     <div class="flex space-x-8">
-                        <DataHeading 
-                            :upload-fields="mapper.uploadFields" 
-                            :mapped-field="mappedField"
-                            :model-index="dataValueIndex" 
-                            v-on:update="modelValue" />
+                        <DataHeading :upload-fields="mapper.uploadFields" :mapped-field="mappedField"
+                            :model-index="dataValueIndex" v-on:update="modelValue" />
 
-                        <select v-model="mappedField.dataHeadings[dataValueIndex].headingName" class="select select-bordered w-44">
-                            <option v-for="(field) in mapper.uploadFields">{{ field }}</option>
-                        </select>
+                        <div v-if="mappedField.dataHeadings[dataValueIndex].type === 'static'">
+                            <input type="text" :value="mappedField.dataHeadings[dataValueIndex].static" class="input input-bordered w-44" disabled />
+                        </div>
+                        <div v-else>
+                            <select v-model="mappedField.dataHeadings[dataValueIndex].headingName"
+                                class="select select-bordered w-44">
+                                <option v-for="(field) in mapper.uploadFields">{{ field }}</option>
+                            </select>
+                        </div>
 
                         <div class="flex space-x-2">
                             <button v-on:click="addNewField(mappedField)" class="btn">✚</button>
-                            <button v-if="mappedField.dataHeadings.length > 0 || !isRequiredField(mappedField.schemaHeading)"
+                            <button
+                                v-if="mappedField.dataHeadings.length > 0 || !isRequiredField(mappedField.schemaHeading)"
                                 v-on:click="removeNewField(mappedField, dataValueIndex)" class="btn">-</button>
                         </div>
                     </div>
