@@ -57,6 +57,10 @@ Data transformation and conversion as a service.
 - [ ] A developer can create a schema and send the user an upload link to import a file which has a different format.
 - [ ] Auth integration via proxy.
 
+## Integration notes
+
+![](docs/images/integrations.png)
+
 ## Built on Nuxt
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
