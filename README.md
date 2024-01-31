@@ -1,65 +1,216 @@
-# Tin [Prototype]
+# Tin [Under Development]
 
 ![](https://img.shields.io/github/license/gemmadlou/tin)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3a56e669a3e64504999ca462e4746071)](https://app.codacy.com/gh/gemmadlou/tin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Tests Badge](https://github.com/gemmadlou/tin/actions/workflows/test.yaml/badge.svg)](https://github.com/gemmadlou/tin/actions/workflows/test.yaml)
+![](https://img.shields.io/badge/status-under%20development-purple.svg)
+![](https://img.shields.io/badge/roadmap%20stage-mvp-blue.svg)
 
-> In progress.
+> [!WARNING]
+> In progress. Starting the [MVP](#mvp-) phase now so dont trust the documentation too much. It's also not usable in development or production unless you want to contribute to the project. 😅
 
-Data transformation and conversion as a service.
+## What is Tin?
+
+Imports and data transformation as a service.
 
 ![](./app.png)
 
-## Todos to remember
+## Motivations
 
-- [Prototype] Confirm deletion of schema instead of just deleting straight away
-- [Prototype] Validate schema on frontend
-- [Prototype] Validate json schema conforms to structural requirements
-- [Prototype] Confirm change of schema if uploads have already been created - or prevent deletion.
-- [Prototype] Milestone. Mobile friendly.
+- **Integrating users.** When we develop APIs, not all users will be able to integrate with them directly. Creating a bulk upload is simple enough, but what if we can tack on "Imports as a service" to make it easier to integrate larger users with more complex data?
+  - **What kind of problems do users have?**
+    - Their data format is different from ours.
+    - Their data has validation issues that need solving before the import.
+    - They want an audit history of all the imports.
 
-- [Prototype] if mapper exists, save instead of creating new (to prevent duplicates)
-- [Prototype] toggle between mapped data and extracted data
-- [Prototype] download mapped data as a CSV
+- **Consolidating lots of messy data**. When consolidating lots of data from a variety of sources into a single consistent format, writing custom scripts to transform each is doable, but Tin will drive transformations via a data-driven configuration.
 
-- Flatten API urls
-- Remove unnecessary API urls
-- Add created_at, updated_at and deleted_at to all tables
-- Record events for all requests as audit trail - transactionable
+## Roadmap
+
+As a sole developer, it seems rather overkill to use an app to plan the work where a set of todos will suffice. So instead, I'll be managing the project using [Plain Text Files 🎥](https://www.youtube.com/watch?v=WgV6M1LyfNY), i.e., this Readme.
+
+### POC ✅
+
+A ridiculously basic proof of concept, more to get the idea out of my head and have a basic data transformer.
+
+### Basic prototype ✅
+
+Not much thought went into planning the prototype but it had basic CRUD pages.
+
+The main purpose was to create an extensible schema configuration design that can act as a set of instructions on how to transform data from one format into another. It is by no means complete, but it's a start.
+
+The other purpose was to think about usability, although, no design effort went into it and it wasn't planned up front, just created as I went along.
+
+![](./docs/images/prototype-transformer-page.png)
+
+### MVP 🏗
+
+> [!NOTE]
+> **Under development**. As a side project, there are no timelines, just todos and checklists. Features will be grouped by Roadmap stage.
+
+I've decided that initial MVP will be something the user can install on their machine. The developer can pass them the JSON schema, and then the user can map their data into the correct format. They can use this to import their data.
+
+It's slightly different than what I have in mind for the full version but this allows me to skip authentication entirely for now. It does mean the developer would still need to create a CSV importer on their side with the necessary validation.
+
+### Alpha 🪐
+
+> [!NOTE]
+> This is future work that doesn't fit into the MVP, sadly. But I'm sure in good time, I'll get to it, eventually/hopefully. What it entails is TBC.
+
+Using [story-storming](https://storystorming.com/), I was able to trace the entire path of a user flow for creating schemas as the developer and importing data as the app user. Visualising the flow makes it easier to plan the work. See [features](#features) for the breakdown.
+
+![Alt text](./docs/images/story.png)
 
 ## Features
 
-- [ ] Transformations
-  - [ ] Mapping
-    - [x] Assign multiple upload fields to a single schema field
-    - [x] Break text into multiple schema fields.
-  - [ ] Dates
-    - [x] Interpret and format.
-    - [ ] Handle internationalisation.
-  - [x] Trim fields.
-  - [ ] Convert strings into numbers. - Real example required
-  - [x] Allow for required and nullable properties.
-  - [x] Set static custom value not in CSV for column(s) across all rows of data.
-  - [ ] Set static custom value not in upload based on condition eg. - if (X="ABC"), then y for column across all rows of data.
-- [ ] Cleaning
-  - [ ] Change individual data cells.
-  - [ ] Select and remove rows of data.
-- [ ] Uploads
-  - [x] Upload and parse CSV.
-  - [ ] JSON
-  - [ ] XML
-  - [ ] YAML
-  - [ ] XLSX
-  - [ ] Xls
-  - [ ] tsv and other delimiters
+### Design
+
+#### MVP
+
+- [ ] Dashboard structure.
+
+#### Alpha
+
+- [ ] Mobile friendly.
+
+### Installation
+
+#### MVP
+
+- [ ] Install and run locally
+
+### Schema Management
+
+#### MVP
+
+- [ ] Design schema management
+
+#### Alpha
+
+- [ ] Handle behaviour of deleting/updating schema after data transformations
+- [ ] Schema configuration validation, front and backend. JSON Schema being the format.
+
+### Auth Flows
+
+- [ ] Developer login flow
+- [ ] Import portal login flow
+
+### Auth Proxy
+
+Rather than building authentication into Tin, authentication is added via reverse proxy. This may limit where Tin can be deployed to as it requires private deployments of Tin. The idea is every development team have their own SSO or authentication and will want to use that instead, and if they don't, they can use the ready-made [proxy](https://github.com/gemmadlou/tin.auth.proxy) and [UI](https://github.com/gemmadlou/tin.auth.ui).
+
+![https://github.com/gemmadlou/tin.auth.proxy](https://github.com/gemmadlou/tin.auth.proxy/raw/main/docs/images/diagram.png)
+
+#### Alpha
+
+<details>
+
+<summary>Handles JWT expiration 🚀</summary>
+
+Upon JWT expiry, the proxy will redirect to the dashboard homepage URL. With the [Tin Auth Proxy implementation that uses Clerkjs](https://github.com/gemmadlou/tin.auth.proxy), that means if the session is still active within Clerk, they will not have to sign in again.
+
+</details>
+
+- [ ] Show user + tenant info in apps behind proxy.
+- [ ] Design and development UI.
+- [ ] Readme, install instructions and production steps.
+  - [ ] Caddy setup
+  - [ ] Nginx setup
+- [ ] Tests, linting + GitHub Actions.
+- [ ] Screenshot + gif example usage.
+- [ ] Easy run via single script/binary executable.
+- [ ] Fine grained authorisation controls via biscuitsec
+
+### Multi-tenancy
+
+#### Alpha
+
+- [ ] Add tenant and user ids to all tables
+- [ ] A development-only GUI component that injects tenancy headers to aid development without needing to go through the Auth proxy. It adds fake tenants and users.
+
+### API Integration
+
+#### MVP
+
+- [ ] Developer can create mapping to their API
+- [ ] Developer can setup API key to an API
+
+#### Alpha
+
+- [ ] Developer can distinguish between users and tenants via their authentication proxy setup
+
+### Import Portal
+
+...
+
+#### MVP
+
+- [ ] Redesign from prototype version
+- [ ] Add global state management (Pinia)
+
+### Data Extraction
+
+#### MVP
+
+- [x] csvs
+- [ ] tsv and other delimiters
+- [ ] JSON, XML, YAML
+- [ ] XLSX and XLS
+
+#### Alpha
+
+- [ ] File formats
   - [ ] HTML
   - [ ] Multi-HTML
-- [ ] A developer can create a schema and send the user an upload link to import a file which has a different format.
-- [ ] Auth integration via proxy.
+  - [ ] PDF
+  - [ ] Images (OCR)
+- [ ] Upload via URL link
 
-## Integration notes
+### Transformer
 
-![](docs/images/integrations.png)
+#### MVP
+
+- [ ] Mapping
+  - [x] Assign multiple upload fields to a single schema field
+  - [x] Break text into multiple schema fields via a delimiter.
+  - [ ] Delimiter catch all
+- [ ] Dates
+  - [x] Interpret and format.
+  - [ ] Handle internationalisation.
+- [x] Trim fields.
+- [x] Allow for required and nullable properties.
+- [x] Set static custom value not in CSV for column(s) across all rows of data.
+
+#### Alpha
+
+- [ ] Set static custom value not in upload based on condition eg. - if (X="ABC"), then y for column across all rows of data.
+- [ ] Convert strings into numbers. - Real example required
+
+### Validation
+
+#### MVP
+
+- [ ] Report on invalid date formats
+- [ ] Report on missing fields
+
+### Manual Data Modification
+
+- [ ] Change individual data cells.
+- [ ] Select and remove rows of data.
+
+### House-keeping
+
+#### MVP
+
+- [ ] Add created_at, updated_at and deleted_at to all tables
+
+#### Alpha
+
+- [ ] Remove unnecessary API urls
+- [ ] Record events for all requests as audit trail - transactionable
+- [ ] Add table migration tooling
+- [ ] GitHub Social previews across all repos
+- [ ] Auto Semver across all repos.
 
 ## Built on Nuxt
 
