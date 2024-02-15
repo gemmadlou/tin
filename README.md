@@ -48,11 +48,31 @@ The other purpose was to think about usability, although, no design effort went 
 > [!NOTE]
 > **Under development**. As a side project, there are no timelines, just todos and checklists. Features will be grouped by Roadmap stage.
 
+The UI isn't great, so that'll be improved. Also, the UX doesn't quite work nicely either. So that'll be improved too.
+
 I've decided that initial MVP will be something the user can install on their machine. The developer can pass them the JSON schema, and then the user can map their data into the correct format. They can use this to import their data.
 
 It's slightly different than what I have in mind for the full version but this allows me to skip authentication entirely for now. It does mean the developer would still need to create a CSV importer on their side with the necessary validation.
 
-### Alpha 🪐
+#### Features
+
+- [ ] Users can download and install locally on their desktop potentially via Electron
+- [ ] Users can import or create a schema from a schema JSON input, a file or a URL.
+- [ ] Users can upload delimited data, xlsx, xls, JSON, YAML and really large files against a schema.
+- [ ] Uploads are auto-extracted.
+- [ ] Users can map their data.
+  - [ ] Users can see their data in a spreadsheet-like format
+  - [ ] Users can see rows that cannot be imported due to missing data
+  - [ ] Users can see rows with invalid data cells
+  - [ ] Users can fix invalid data cells
+  - [ ] Users can delete invalid data rows
+- Users can download their mapped data as a csv or delimited data, xlsx, JSON and maybe xls.
+- [ ] Housekeeping
+  - [ ] Add created_at, updated_at and deleted_at to all tables
+  - [ ] Use SQLite Db by default
+  - [ ] Choose component library
+
+### v1 🪐
 
 > [!NOTE]
 > This is future work that doesn't fit into the MVP, sadly. But I'm sure in good time, I'll get to it, eventually/hopefully. What it entails is TBC.
@@ -62,33 +82,6 @@ Using [story-storming](https://storystorming.com/), I was able to trace the enti
 ![Alt text](./docs/images/story.png)
 
 ## Features
-
-### Design
-
-#### MVP
-
-- [ ] Dashboard structure.
-
-#### Alpha
-
-- [ ] Mobile friendly.
-
-### Installation
-
-#### MVP
-
-- [ ] Install and run locally
-
-### Schema Management
-
-#### MVP
-
-- [ ] Design schema management
-
-#### Alpha
-
-- [ ] Handle behaviour of deleting/updating schema after data transformations
-- [ ] Schema configuration validation, front and backend. JSON Schema being the format.
 
 ### Auth Flows
 
@@ -150,15 +143,6 @@ Upon JWT expiry, the proxy will redirect to the dashboard homepage URL. With the
 
 ### Data Extraction
 
-#### MVP
-
-- [x] csvs
-- [ ] tsv and other delimiters
-- [ ] JSON, XML, YAML
-- [ ] XLSX and XLS
-
-#### Alpha
-
 - [ ] File formats
   - [ ] HTML
   - [ ] Multi-HTML
@@ -181,28 +165,12 @@ Upon JWT expiry, the proxy will redirect to the dashboard homepage URL. With the
 - [x] Allow for required and nullable properties.
 - [x] Set static custom value not in CSV for column(s) across all rows of data.
 
-#### Alpha
+#### Alpha
 
 - [ ] Set static custom value not in upload based on condition eg. - if (X="ABC"), then y for column across all rows of data.
 - [ ] Convert strings into numbers. - Real example required
 
-### Validation
-
-#### MVP
-
-- [ ] Report on invalid date formats
-- [ ] Report on missing fields
-
-### Manual Data Modification
-
-- [ ] Change individual data cells.
-- [ ] Select and remove rows of data.
-
 ### House-keeping
-
-#### MVP
-
-- [ ] Add created_at, updated_at and deleted_at to all tables
 
 #### Alpha
 
