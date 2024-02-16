@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen flex bg-gradient-to-bl to-purple-50 from-sky-50 border-r-2" style="min-width: 960px">
+    <div class="relative h-screen flex bg-gradient-to-bl to-purple-50 from-sky-50 border-r-2" style="min-width: 960px">
         <!-- Slim Sidebar with Icons -->
         <nav class="flex h-100 w-16 bg-gradient-to-tr to-purple-950 from-black border-r-2 border-slate-800">
             <!-- Sidebar Content with Icons -->
@@ -46,6 +46,10 @@
 
         <div class="shadow-lg flex-1 overflow-y-auto bg-white mt-2 rounded-tl-lg border-t border-l border-slate-100">
             <!-- Main Content goes here -->
+        </div>
+
+        <div class="absolute bottom-5 right-5 text-purple-500 opacity-45">
+            <span class="material-icons text-3xl">help</span>
         </div>
     </div>
 </template>
