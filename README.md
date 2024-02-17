@@ -56,21 +56,21 @@ It's slightly different than what I have in mind for the full version but this a
 
 #### Features
 
-- [ ] Users can download and install locally on their desktop potentially via Electron
+- [ ] 📖 Users can download and install locally on their desktop potentially via Electron
 - [ ] Users can import or create a schema from a schema JSON input, a file or a URL.
-- [ ] Users can upload delimited data, xlsx, xls, JSON, YAML and really large files against a schema.
-- [ ] Uploads are auto-extracted.
-- [ ] Users can map their data.
+- [ ] 📖 Users can upload delimited data, xlsx, xls, JSON, YAML and really large files against a schema.
+- [ ] 📖 Uploads are auto-extracted.
+- [ ] 📖 Users can map their data.
   - [ ] Users can see their data in a spreadsheet-like format
   - [ ] Users can see rows that cannot be imported due to missing data
   - [ ] Users can see rows with invalid data cells
   - [ ] Users can fix invalid data cells
   - [ ] Users can delete invalid data rows
-- Users can download their mapped data as a csv or delimited data, xlsx, JSON and maybe xls.
-- [ ] Housekeeping
+- [ ] 📖 Users can download their mapped data as a csv or delimited data, xlsx, JSON and maybe xls.
+- [ ] 📖 Housekeeping
   - [ ] Add created_at, updated_at and deleted_at to all tables
   - [ ] Use SQLite Db by default
-  - [ ] Choose component library
+  - [ ] Choose component library 
 
 ### v1 🪐
 
@@ -83,16 +83,15 @@ Using [story-storming](https://storystorming.com/), I was able to trace the enti
 
 ## Features
 
-### Auth Flows
-
-- [ ] Developer login flow
-- [ ] Import portal login flow
-
 ### Auth Proxy
 
 Rather than building authentication into Tin, authentication is added via reverse proxy. This may limit where Tin can be deployed to as it requires private deployments of Tin. The idea is every development team have their own SSO or authentication and will want to use that instead, and if they don't, they can use the ready-made [proxy](https://github.com/gemmadlou/tin.auth.proxy) and [UI](https://github.com/gemmadlou/tin.auth.ui).
 
 ![https://github.com/gemmadlou/tin.auth.proxy](https://github.com/gemmadlou/tin.auth.proxy/raw/main/docs/images/diagram.png)
+
+- [ ] Tin Auth Proxy Integration
+  - [ ] intercept 401 API errors and redirect to session manager
+  - [ ] Add configuration for Tin Auth Proxy iframe to keep users logged in
 
 #### Alpha
 
@@ -112,7 +111,7 @@ Upon JWT expiry, the proxy will redirect to the dashboard homepage URL. With the
 - [ ] Tests, linting + GitHub Actions.
 - [ ] Screenshot + gif example usage.
 - [ ] Easy run via single script/binary executable.
-- [ ] Fine grained authorisation controls via biscuitsec
+- [ ] Fine-grained authorisation controls via biscuitsec
 
 ### Multi-tenancy
 
@@ -123,23 +122,11 @@ Upon JWT expiry, the proxy will redirect to the dashboard homepage URL. With the
 
 ### API Integration
 
-#### MVP
+#### Alpha
 
 - [ ] Developer can create mapping to their API
 - [ ] Developer can setup API key to an API
-
-#### Alpha
-
 - [ ] Developer can distinguish between users and tenants via their authentication proxy setup
-
-### Import Portal
-
-...
-
-#### MVP
-
-- [ ] Redesign from prototype version
-- [ ] Add global state management (Pinia)
 
 ### Data Extraction
 
