@@ -5,12 +5,12 @@
         <nav class="flex h-100 w-16 bg-gradient-to-tr to-purple-950 from-black border-r-2 border-slate-800">
 
             <div class="text-slate-100 h-100 w-16 flex flex-col justify-center items-stretch">
-                <div class="opacity-70 font-bold tracking-widest uppercase p-4">
+                <button class="hover:opacity-100 cursor-pointer opacity-80 font-bold tracking-widest uppercase p-4">
                     Tin
-                </div>
+                </button>
 
                 <div class="flex justify-center mt-auto border-t-2 border-slate-800 p-4">
-                    <i class="material-icons">settings</i>
+                    <button class="cursopr-pointer hover:text-purple-300"><i class="material-icons">settings</i></button>
                 </div>
             </div>
         </nav>
@@ -37,10 +37,14 @@
 
                 <a href="#" class="block py-1 uppercase opacity-80 text-xs mb-3 font-bold">Data</a>
                 <ul class="space-y-2">
-                    <li class="flex items-center space-x-2"><span class="material-icons">save</span><a href="#"
-                            class="block py-1">Uploads</a></li>
-                    <li class="flex items-center space-x-2"><span class="material-icons">tab</span><a href="#"
-                            class="block py-1">Downloads</a></li>
+                    <li class="flex items-center space-x-2 hover:text-purple-700">
+                        <span class="material-icons">save</span>
+                        <a href="#" class="block py-1">Uploads</a>
+                    </li>
+                    <li class="flex items-center space-x-2 hover:text-purple-700">
+                        <span class="material-icons">tab</span>
+                        <a href="#" class="block py-1">Downloads</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -49,8 +53,10 @@
             <!-- Main Content goes here -->
             <div class="mx-auto max-w-screen-xl p-8">
                 <h1 class="text-4xl font-semibold leading-relaxed">Schemas</h1>
-                <p class="text-lg text-slate-500">
-                    Define the structure of data through the schema panel.
+                <p class="text-lg text-slate-500 max-w-lg">
+                    Create new schemas that define the structure and rules of your data imports.
+                    We use JSON Schema to achieve a standardised portable format
+                    that can be used for validation.
                 </p>
 
                 <div class="h-10"></div>
@@ -80,19 +86,19 @@
                                 <td class="px-4 py-2">Property address data</td>
                                 <td class="px-4 py-2">1 day ago</td>
                                 <td class="text-purple-500 px-4 py-2 flex items-center space-x-4 justify-end">
-                                    <button>
+                                    <button class="hover:text-blue-700">
                                         <span class="material-icons">
                                             edit
                                         </span>
                                     </button>
 
-                                    <button>
+                                    <button class="hover:text-blue-700">
                                         <span class="material-icons">
                                             post_add
                                         </span>
                                     </button>
 
-                                    <button>
+                                    <button class="hover:text-blue-700">
                                         <span class="material-icons">
                                             delete
                                         </span>
@@ -101,7 +107,7 @@
                                 <td class="text-right">
 
                                     <button
-                                        class="text-sm items-center flex space-x-4 ml-auto shadow-lg shadow-purple-100 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-700 hover:to-blue-700 text-white p-6 pt-2 pb-2 rounded font-bold">
+                                        class="text-sm items-center flex space-x-4 ml-auto border-solid border-2 border-purple-500 hover:bg-purple-500 hover:text-white text-purple-500 p-6 pt-2 pb-2 rounded font-bold">
                                         <span class="material-icons">
                                             add
                                         </span>
@@ -114,28 +120,27 @@
                                 <td class="px-4 py-2">Property management schema</td>
                                 <td class="px-4 py-2">2 days ago</td>
                                 <td class="text-purple-500 px-4 py-2 flex items-center space-x-4 justify-end">
-                                    <button>
+                                    <button class="hover:text-blue-700">
                                         <span class="material-icons">
                                             edit
                                         </span>
                                     </button>
 
-                                    <button>
+                                    <button class="hover:text-blue-700">
                                         <span class="material-icons">
                                             post_add
                                         </span>
                                     </button>
 
-                                    <button>
+                                    <button class="hover:text-blue-700">
                                         <span class="material-icons">
                                             delete
                                         </span>
                                     </button>
                                 </td>
                                 <td class="text-right">
-
                                     <button
-                                        class="text-sm items-center flex space-x-4 ml-auto shadow-lg shadow-purple-100 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-700 hover:to-blue-700 text-white p-6 pt-2 pb-2 rounded font-bold">
+                                        class="text-sm items-center flex space-x-4 ml-auto border-solid border-2 border-purple-500 hover:bg-purple-500 hover:text-white text-purple-500 p-6 pt-2 pb-2 rounded font-bold">
                                         <span class="material-icons">
                                             add
                                         </span>
@@ -150,7 +155,7 @@
             </div>
         </div>
 
-        <div class="absolute bottom-5 right-5 text-purple-500 opacity-45">
+        <div class="cursor-pointer absolute bottom-5 right-5 text-purple-500 hover:text-purple-700 hover:opacity-60 opacity-45">
             <span class="material-icons text-3xl">help</span>
         </div>
     </div>
