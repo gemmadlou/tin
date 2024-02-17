@@ -42,10 +42,12 @@ CREATE TABLE IF NOT EXISTS schema_uploads (
 -- Create schemas table if it does not exist
 CREATE TABLE IF NOT EXISTS schemas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(45),
+    name VARCHAR(45) NOT NULL,
+	description	VARCHAR(255),
     json JSON,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    deleted_at DATETIME
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at DATETIME,
+    PRIMARY KEY("id")
 );
 
 -- Create uploads table if it does not exist

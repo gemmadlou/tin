@@ -1,4 +1,4 @@
-import { Output, any, custom, flatten, maxLength, minLength, nonOptional, object, optional, parse, record, safeParse, string, toTrimmed } from "valibot";
+import { Output, ValiError, any, custom, maxLength, minLength, nonOptional, object, optional, parse, record, safeParse, string, toTrimmed } from "valibot";
 import { db } from "~/src/sqlite";
 
 const schema = object({
@@ -15,52 +15,48 @@ const schema = object({
             ]
         )
     ),
-    json: record(string(), any([toTrimmed()]), 'JSON schema must be a valid object'),
+    json: record(string(), any(), 'JSON schema must be a valid object'),
 }, 'object body is required')
 
 type Schema = Output<typeof schema>;
 
+// declare function flatten<TSchema extends BaseSchema | BaseSchemaAsync = any>(error: ValiError): FlatErrors<TSchema>;
+const flatten = (error: ValiError) => {
+    return error.issues.map(issue => {
+        let returnable: Record<string, any> = {}
+        let path: string[] = issue.path?.map<string>((item) => item.key) || []
+        returnable.path = ["$"].concat(path).join(".")
+        returnable.error = issue.message
+        return returnable
+    })
+}
+
 export default defineEventHandler(async (event) => {
     const body = await readBody<Schema>(event);
 
-    const parsed = safeParse(schema, { ...body });
+    const parsed = safeParse<typeof schema>(schema, { ...body });
 
     if (!parsed.success) {
-        return parsed.issues.map(issue => {
-            let returnable: Record<string, any> = {}
-            let path: string[] = issue.path?.map<string>((item) => item.key) || []
-            returnable.path = ["$"].concat(path).join(".")
-            returnable.error = issue.message
-            return returnable
-        })
+        setResponseStatus(event, 400)
+        return flatten(parsed)
     }
 
-    let { rows } = await db.execute("SELECT 1");
-    return rows
-    // let validated = CreateSchemaRequest.safeParse(body)
+    try {
+        let res = await db.execute({
+            sql: "INSERT INTO schemas (name, description, json) VALUES (?, ?, ?)",
+            args: [parsed.output.name, parsed.output.description ?? null, JSON.stringify(parsed.output.json)]
+        })
 
-    // if (!validated.success) {
-    //     setResponseStatus(event, 400)
-    //     return validated.error.flatten();
-    // }
-
-    // try {
-    //     let conn = await connection()
-    //     let response = await conn.execute(
-    //         'insert into `schemas` (name, json) values (?, ?)',
-    //         [validated.data.name, validated.data.json]
-    //     )
-
-    //     return {
-    //         id: response[0].insertId,
-    //         ...body,
-    //     }
-
-    // } catch (error) {
-    //     console.error({ error })
-    //     setResponseStatus(event, 500)
-    //     return {
-    //         error: 'Internal server error'
-    //     }
-    // }
+        setResponseStatus(event, 201)
+        return {
+            id: res.lastInsertRowid?.toString(),
+            ...parsed.output
+        }
+    } catch (error) {
+        console.error({ error })
+        setResponseStatus(event, 500)
+        return {
+            error: 'Internal server error'
+        }
+    }
 })
