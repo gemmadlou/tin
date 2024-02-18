@@ -1,4 +1,4 @@
-import { Output, ValiError, any, custom, maxLength, minLength, nonOptional, object, optional, parse, record, safeParse, string, toTrimmed } from "valibot";
+import { BaseSchema, BaseSchemaAsync, Output, SafeParseResult, ValiError, any, custom, maxLength, minLength, nonOptional, object, optional, parse, record, safeParse, string, toTrimmed } from "valibot";
 import { db } from "~/src/sqlite";
 
 const schema = object({
@@ -20,15 +20,16 @@ const schema = object({
 
 type Schema = Output<typeof schema>;
 
-// declare function flatten<TSchema extends BaseSchema | BaseSchemaAsync = any>(error: ValiError): FlatErrors<TSchema>;
-const flatten = (error: ValiError) => {
-    return error.issues.map(issue => {
+const flatten = <TSchema extends BaseSchema | BaseSchemaAsync>(error: SafeParseResult<TSchema>) : Record<string, any> => {
+    return error.issues?.map(issue => {
         let returnable: Record<string, any> = {}
-        let path: string[] = issue.path?.map<string>((item) => item.key) || []
+        let path: string[] = issue.path?.map(
+            (item) => typeof item.key === 'string' ? item.key : ''
+        ) || []
         returnable.path = ["$"].concat(path).join(".")
         returnable.error = issue.message
         return returnable
-    })
+    }) ?? []
 }
 
 export default defineEventHandler(async (event) => {
