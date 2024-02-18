@@ -46,8 +46,7 @@ CREATE TABLE IF NOT EXISTS schemas (
 	description	VARCHAR(255),
     json JSON,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at DATETIME,
-    PRIMARY KEY("id")
+    deleted_at DATETIME
 );
 
 -- Create uploads table if it does not exist
