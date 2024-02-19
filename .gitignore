@@ -29,4 +29,6 @@ logs
 # Code coverage
 coverage
 
+# SQLite
 *.db
+*.db-journal
