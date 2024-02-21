@@ -78,8 +78,7 @@ const formData = ref({
 
 const isLoading = ref(false);
 
-const error = ref({ })
-const success = ref('')
+const error = ref({})
 
 const submitForm = async () => {
     try {
@@ -99,12 +98,17 @@ const submitForm = async () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ json: JSON.parse(formData.value.json)}) // Send formData.value as JSON
+            body: JSON.stringify({ json: JSON.parse(formData.value.json) }) // Send formData.value as JSON
         });
 
         if (response.ok) {
-            success.value = 'Form data successfully submitted!';
+            let responseData = await response.json()
+
+            // Clear form
             formData.value = { json: '' };
+
+            const redirectUrl = `/schemas/${responseData.id}`;
+            window.location.href = redirectUrl;
         } else {
             console.error('Failed to submit form data:', response.statusText);
         }
