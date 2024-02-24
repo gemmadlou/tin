@@ -39,7 +39,6 @@
     <div class="h-5"></div>
 
     <div class="text-slate-600 rounded-sm overflow-hidden p-8 shadow-md shadow-purple-100 bg-purple-50">
-
         <div>
             <label class="block font-bold">
                 Schema configuration
@@ -47,8 +46,7 @@
             <div class="inline-grid grid-cols-2 space-x-4">
                 <div>
                     <textarea v-model="formData.json" rows="10" placeholder="{}"
-                        class="w-96 border border-purple-500 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-purple-500">
-                    </textarea>
+                        class="w-96 border border-purple-500 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-purple-500" />
                 </div>
                 <div class="max-w-64 italic text-slate-400">
                     Add JSON Schema in correct JSON format.
@@ -62,10 +60,17 @@
     <div class="h-10"></div>
 
     <div class="text-right">
+
         <button @click="submitForm"
             class="shadow-lg shadow-purple-100 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-700 hover:to-blue-700 text-white p-8 pt-3 pb-3 rounded font-bold">
             Save
         </button>
+    </div>
+
+    <div :style="loadingStyle"
+        class="fixed top-0 left-0 z-10 flex justify-center items-center h-full w-full opacity-0 transition-opacity duration-300">
+        <div class="absolute top-0 left-0 w-full h-full bg-slate-950 opacity-30"></div>
+        <div class="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-purple-200"></div>
     </div>
 </template>
 
@@ -76,29 +81,34 @@ const formData = ref({
     json: ''
 });
 
-const isLoading = ref(false);
+let isLoading = ref(false);
 
-const error = ref({})
+const error = ref({});
+
+const loadingStyle = computed(() => isLoading.value ? "opacity: 1; z-index: 10;" : "opacity: 0; z-index: -1")
 
 const submitForm = async () => {
+
     try {
 
-        // Check if the form is already loading
         if (isLoading.value) {
             console.warn('Form is already submitting. Please wait.');
             return;
         }
 
-        // Start loading
         isLoading.value = true;
 
-        // Send a POST request with the JSON data
+        let body = JSON.stringify({ json: JSON.parse(formData.value.json) })
+
+        // @todo remove. It's for testing loading
+        // await new Promise(resolve => setTimeout(resolve, 5000));
+
         const response = await fetch('/api/schemas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ json: JSON.parse(formData.value.json) }) // Send formData.value as JSON
+            body
         });
 
         if (response.ok) {
@@ -114,7 +124,7 @@ const submitForm = async () => {
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error('Error submitting form data:', error.message);
+            console.error({ error }, error.stack)
         } else {
             console.error('An unknown error occurred:', error);
         }
