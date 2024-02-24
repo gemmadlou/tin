@@ -1,5 +1,7 @@
 <template>
-    <div class="opacity-65 mb-5">Schemas > Creation</div>
+    <div class="opacity-65 mb-5">
+        <NuxtLink to="/schemas" class="hover:text-slate-900">Schemas</NuxtLink> > Creation
+    </div>
     
     <h1 class="text-4xl font-semibold leading-relaxed">Add new schema</h1>
     <p class="text-lg text-slate-500 max-w-lg">

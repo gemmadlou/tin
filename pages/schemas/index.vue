@@ -2,7 +2,7 @@
     <div class="opacity-65 mb-5">
         Schemas > Overview
     </div>
-    
+
     <h1 class="text-4xl font-semibold leading-relaxed">Schemas</h1>
     <p class="text-lg text-slate-500 max-w-lg">
         Create new schemas that define the structure and rules of your data imports.
@@ -13,10 +13,12 @@
     <div class="h-10"></div>
 
     <div class="text-right">
-        <FormButton
-            class="shadow-lg shadow-purple-100 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-700 hover:to-blue-700 text-white p-8 pt-3 pb-3 rounded font-bold">
-            Add new schema
-        </FormButton>
+        <NuxtLink to="/schemas/create">
+            <FormButton
+                class="shadow-lg shadow-purple-100 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-700 hover:to-blue-700 text-white p-8 pt-3 pb-3 rounded font-bold">
+                Add new schema
+            </FormButton>
+        </NuxtLink>
     </div>
     <div class="h-10"></div>
 
