@@ -52,7 +52,7 @@
                 <div class="max-w-64 italic text-slate-400">
                     Add JSON Schema in correct JSON format.
                     View the documentations at
-                    <a href="https://json-schema.org/" target="_blank">json-schema.org</a>.
+                    <a class="text-slate-500 hover:text-purple-500" href="https://json-schema.org/" target="_blank">json-schema.org</a>.
                 </div>
             </div>
 
@@ -64,7 +64,7 @@
                 </label>
                 <div class="bg-red-200 p-6 pt-4 pb-4 rounded-lg">
                     <span class="block"
-                        v-for="i in error.map((i: any) => `${i.path} ${i.error}`)">{{
+                        v-for="i in error.map((i: any) => `${i.path.replace('$.json','$')} ${i.error}`)">{{
                             i }}</span>
                 </div>
             </div>
@@ -130,7 +130,7 @@ const submitForm = async () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body
+            body: JSON.stringify(body)
         });
 
         if (response.ok) {
