@@ -52,7 +52,8 @@
                 <div class="max-w-64 italic text-slate-400">
                     Add JSON Schema in correct JSON format.
                     View the documentations at
-                    <a class="text-slate-500 hover:text-purple-500" href="https://json-schema.org/" target="_blank">json-schema.org</a>.
+                    <a class="text-slate-500 hover:text-purple-500" href="https://json-schema.org/"
+                        target="_blank">json-schema.org</a>.
                 </div>
             </div>
 
@@ -63,9 +64,8 @@
                     Errors
                 </label>
                 <div class="bg-red-200 p-6 pt-4 pb-4 rounded-lg">
-                    <span class="block"
-                        v-for="i in error.map((i: any) => `${i.path.replace('$.json','$')} ${i.error}`)">{{
-                            i }}</span>
+                    <span class="block" v-for="i in error.map((i: any) => `${i.path.replace('$.json', '$')} ${i.error}`)">{{
+                        i }}</span>
                 </div>
             </div>
         </div>
@@ -102,6 +102,8 @@ const error = ref([]);
 
 const loadingStyle = computed(() => isLoading.value ? "opacity: 1; z-index: 10;" : "opacity: 0; z-index: -1")
 const hasError = computed(() => error.value.length > 0 || false)
+
+const failure = ref('')
 
 const submitForm = async () => {
 
@@ -150,6 +152,7 @@ const submitForm = async () => {
         } else {
             console.error('An unknown error occurred:', error);
         }
+        failure.value = "An unknown error has occurred. See logs."
     } finally {
         isLoading.value = false
     }
