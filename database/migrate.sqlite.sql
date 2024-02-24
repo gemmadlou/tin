@@ -1,3 +1,5 @@
+PRAGMA journal_mode = WAL;
+
 -- Create extracts table if it does not exist
 CREATE TABLE IF NOT EXISTS extracts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
