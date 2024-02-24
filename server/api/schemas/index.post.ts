@@ -1,38 +1,28 @@
 import { BaseSchema, BaseSchemaAsync, Output, SafeParseResult, ValiError, any, array, custom, intersect, literal, maxLength, minLength, nonOptional, object, optional, parse, record, safeParse, string, toTrimmed, union } from "valibot";
 import { db } from "~/src/sqlite";
+import { defineEventHandler } from 'h3';
+import { flatten } from "~/utils/Flatten";
 
-const flatten = <TSchema extends BaseSchema | BaseSchemaAsync>(error: SafeParseResult<TSchema>): Record<string, any> => {
-    return error.issues?.map(issue => {
-        let returnable: Record<string, any> = {}
-        let path: string[] = issue.path?.map(
-            (item) => typeof item.key === 'string' ? item.key : ''
-        ) || []
-        returnable.path = ["$"].concat(path).join(".")
-        returnable.error = issue.message
-        return returnable
-    }) ?? []
-}
-
-const schema = object({
+export const schema = object({
     json: object({
-        $schema: string("Schema id is required"),
-        title: string("Title is required", [toTrimmed(), minLength(1)]),
+        $schema: string("is required"),
+        title: string("is required", [toTrimmed(), minLength(1)]),
         description: string(
-            "Description must be a string",
+            "must be a string",
             [
                 toTrimmed(),
                 custom(
                     (input) => input.length > 3 && input.length <= 200,
-                    "Description length must be between 3 and 200 characters"
+                    "length must be between 3 and 200 characters"
                 )
             ]
         ),
-        type: literal("object"),
+        type: literal("object", "Must be 'object'"),
         properties: record(string(), object({
             type: string("JSON schema property type is required"),
             format: optional(string("Valid JSON schema format type is required"))
-        })),
-        required: array(string())
+        }), 'must be a valid array'),
+        required: array(string(), 'must be a valid array')
     }, 'JSON schema must be a valid object'),
 }, 'object body is required')
 
@@ -49,7 +39,7 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        let res = await db.execute({
+        let res = await db().execute({
             sql: "INSERT INTO schemas (name, description, json) VALUES (?, ?, ?)",
             args: [parsed.output.json.title, parsed.output.json?.description ?? null, JSON.stringify(parsed.output.json)]
         })

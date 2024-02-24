@@ -4,6 +4,10 @@ const config = {
     url: "file:local.db"
 };
 
-const db = createClient(config);
+let _db;
 
-export { db };
+export const db = () => {
+    _db = createClient(config);
+
+    return _db
+}

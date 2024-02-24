@@ -40,9 +40,10 @@
 
     <div class="text-slate-600 rounded-sm overflow-hidden p-8 shadow-md shadow-purple-100 bg-purple-50">
         <div>
-            <label class="block font-bold">
+            <label class="block font-bold mb-5">
                 Schema configuration
             </label>
+
             <div class="inline-grid grid-cols-2 space-x-4">
                 <div>
                     <textarea v-model="formData.json" rows="10" placeholder="{}"
@@ -54,13 +55,25 @@
                     <a href="https://json-schema.org/" target="_blank">json-schema.org</a>.
                 </div>
             </div>
+
+            <div class="h-5"></div>
+
+            <div v-if="hasError">
+                <label class="block font-bold mb-5">
+                    Errors
+                </label>
+                <div class="bg-red-200 p-6 pt-4 pb-4 rounded-lg">
+                    <span class="block"
+                        v-for="i in error.map((i: any) => `${i.path} ${i.error}`)">{{
+                            i }}</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="h-10"></div>
 
     <div class="text-right">
-
         <button @click="submitForm"
             class="shadow-lg shadow-purple-100 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-700 hover:to-blue-700 text-white p-8 pt-3 pb-3 rounded font-bold">
             Save
@@ -76,6 +89,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { schema } from "../../server/api/schemas/index.post"
+import { safeParse } from 'valibot';
 
 const formData = ref({
     json: ''
@@ -83,14 +98,14 @@ const formData = ref({
 
 let isLoading = ref(false);
 
-const error = ref({});
+const error = ref([]);
 
 const loadingStyle = computed(() => isLoading.value ? "opacity: 1; z-index: 10;" : "opacity: 0; z-index: -1")
+const hasError = computed(() => error.value.length > 0 || false)
 
 const submitForm = async () => {
 
     try {
-
         if (isLoading.value) {
             console.warn('Form is already submitting. Please wait.');
             return;
@@ -98,7 +113,14 @@ const submitForm = async () => {
 
         isLoading.value = true;
 
-        let body = JSON.stringify({ json: JSON.parse(formData.value.json) })
+        let body = { json: JSON.parse(formData.value.json || '{}') }
+
+        let validated = safeParse(schema, body)
+
+        if (!validated.success) {
+            error.value = flatten(validated);
+            return;
+        }
 
         // @todo remove. It's for testing loading
         // await new Promise(resolve => setTimeout(resolve, 5000));
