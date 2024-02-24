@@ -32,7 +32,7 @@
                     </li>
                     <li class="relative flex items-center space-x-2 text-purple-700">
                         <span class="material-icons">data_object</span>
-                        <a href="#" class="block py-1">Schemas</a>
+                        <NuxtLink to="/schemas" class="block py-1">Schemas</NuxtLink>
                         <span class="bg-purple-500 h-10 w-1 absolute -right-9 -top-2"></span>
                     </li>
                 </ul>

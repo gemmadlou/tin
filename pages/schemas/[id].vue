@@ -1,5 +1,7 @@
 <template>
-    <div class="opacity-65 mb-5">Schemas > {{ schema.name }}</div>
+    <div class="opacity-65 mb-5">
+        <NuxtLink to="/schemas" class="hover:text-slate-900">Schemas</NuxtLink> > {{ schema.name }}
+    </div>
 
     <h1 class="text-4xl font-semibold leading-relaxed">Schema Configuration</h1>
     <p class="text-lg text-slate-500 max-w-lg">
