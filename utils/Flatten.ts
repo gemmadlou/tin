@@ -3,7 +3,7 @@ import type { BaseSchema, BaseSchemaAsync, SafeParseResult } from "valibot"
 /**
  * Flattens Valibot errors
  */
-export const flatten = <TSchema extends BaseSchema | BaseSchemaAsync>(error: SafeParseResult<TSchema>): Record<string, any> => {
+export const flatten = <TSchema extends BaseSchema | BaseSchemaAsync>(error: SafeParseResult<TSchema>): Record<string, any>[] => {
     return error.issues?.map(issue => {
         let returnable: Record<string, any> = {}
         let path: string[] = issue.path?.map(

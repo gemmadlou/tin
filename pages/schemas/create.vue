@@ -98,7 +98,7 @@ const formData = ref({
 
 let isLoading = ref(false);
 
-const error = ref([]);
+const error = ref<Record<string, any>[]>([]);
 
 const loadingStyle = computed(() => isLoading.value ? "opacity: 1; z-index: 10;" : "opacity: 0; z-index: -1")
 const hasError = computed(() => error.value.length > 0 || false)
@@ -138,7 +138,6 @@ const submitForm = async () => {
         if (response.ok) {
             let responseData = await response.json()
 
-            // Clear form
             formData.value = { json: '' };
 
             const redirectUrl = `/schemas/${responseData.id}`;
