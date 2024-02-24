@@ -1,4 +1,6 @@
 <template>
+    <div class="opacity-65 mb-5">Schemas > Creation</div>
+    
     <h1 class="text-4xl font-semibold leading-relaxed">Add new schema</h1>
     <p class="text-lg text-slate-500 max-w-lg">
         Define, import or upload your schema configuration.
