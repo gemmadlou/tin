@@ -1,15 +1,17 @@
-import { connection } from "~/src/mysql"
+import { db, transformData } from "~/src/sqlite";
+
+
 
 export default defineEventHandler(async (event) => {
-    let conn = await connection()
+    let sql = 'select * from `schemas` where id = ?';
+    let args = [event.context.params?.id ?? -1]
 
-    let response = await conn.query(
-        'select * from `schemas` where id = ?',
-        event.context?.params?.id
-    )
+    let res = await db().execute({ sql, args })
+    
+    let data = transformData(res)[0]
 
     return {
-        ...response[0][0],
-        json: JSON.parse(response[0][0].json)
+        ...data,
+        json: JSON.parse(data.json)
     }
 })

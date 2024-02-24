@@ -1,6 +1,39 @@
 import { describe, expect, test } from "vitest";
 
 let schemaId = null;
+const schema = {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "type": "object",
+    "title": "Address",
+    "description": "A UK property address",
+    "additionalProperties": false,
+    "properties": {
+        "tenant_name": {
+            "type": "string"
+        },
+        "address_1": {
+            "type": "string"
+        },
+        "address_2": {
+            "type": "string"
+        },
+        "address_3": {
+            "type": "string"
+        },
+        "postcode": {
+            "type": "string"
+        },
+        "date_built": {
+            "type": "string",
+            "format": "date"
+        }
+    },
+    "required": [
+        "address_1",
+        "address_2",
+        "postcode"
+    ]
+}
 
 describe('[POST] /api/schemas', () => {
     describe('validation failure', async () => {
@@ -19,39 +52,6 @@ describe('[POST] /api/schemas', () => {
     })
 
     describe('saving a default schema', async () => {
-        const schema = {
-            "$schema": "http://json-schema.org/draft-06/schema#",
-            "type": "object",
-            "title": "Address",
-            "description": "A UK property address",
-            "additionalProperties": false,
-            "properties": {
-                "tenant_name": {
-                    "type": "string"
-                },
-                "address_1": {
-                    "type": "string"
-                },
-                "address_2": {
-                    "type": "string"
-                },
-                "address_3": {
-                    "type": "string"
-                },
-                "postcode": {
-                    "type": "string"
-                },
-                "date_built": {
-                    "type": "string",
-                    "format": "date"
-                }
-            },
-            "required": [
-                "address_1",
-                "address_2",
-                "postcode"
-            ]
-        }
 
         const data = {
             json: schema
@@ -82,7 +82,34 @@ describe('[POST] /api/schemas', () => {
 
 })
 
-describe('[DELETE] /api/schemas/', () => {
+describe('[GET] /api/schemas/<id>', () => {
+    describe('success', async () => {
+        const res = await fetch(`http://localhost:3000/api/schemas/${schemaId}`)
+        const body = await res.json()
+
+        test('status code to be 200', async () => {
+            expect(res.status).toStrictEqual(200)
+        })
+
+        test('schemaId to be returned', async () => {
+            expect(body.id).toEqual(parseInt(schemaId))
+        })
+
+        test('returned properties to be same as json schema properties', async () => {
+            expect(body.json.properties).toEqual(schema.properties)
+        })
+
+        test('returned name to be same as json title', async () => {
+            expect(body.name).toEqual(schema.title)
+        })
+
+        test('returned description to be same as json description', async () => {
+            expect(body.description).toEqual(schema.description)
+        })
+    })
+});
+
+describe('[DELETE] /api/schemas/<id>', () => {
 
     describe('validation failure: does not exist', async () => {
         const res = await fetch(`http://localhost:3000/api/schemas/99999999`, { method: 'DELETE' })
