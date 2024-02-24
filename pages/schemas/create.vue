@@ -6,42 +6,10 @@
         helps us map future uploads to conform to the configuration.
     </p>
 
-    <div class="h-10"></div>
-
-    <div class="text-slate-600 rounded-sm overflow-hidden p-8 shadow-md shadow-purple-100 bg-purple-50">
-        <label class="font-bold">
-            Create schema by:
-        </label>
-        <div class="grid grid-cols-3 gap-4 max-w-3xl">
-            <div class="flex items-center space-x-3 p-4 pl-0">
-                <input type="radio" name="options" class="h-4 w-4" checked />
-                <label class="block">
-                    JSON schema input
-                </label>
-            </div>
-
-            <div class="hidden items-center space-x-3 p-4 pl-0">
-                <input type="radio" name="options" class="h-4 w-4" />
-                <label class="block">
-                    Upload file
-                </label>
-            </div>
-
-            <div class="hidden items-center space-x-3 p-4 pl-0">
-                <input type="radio" name="options" class="h-4 w-4" />
-                <label class="block">
-                    Connect to URL
-                </label>
-            </div>
-        </div>
-    </div>
-
     <div class="h-5"></div>
 
     <div class="text-slate-600 rounded-sm overflow-hidden p-8 shadow-md shadow-purple-100 bg-purple-50">
-        <label class="block font-bold mb-5">
-            Schema configuration
-        </label>
+        <label class="block font-bold mb-5">Schema configuration</label>
 
         <div class="inline-grid grid-cols-2 space-x-4">
             <div>
@@ -59,9 +27,7 @@
         <div class="h-5"></div>
 
         <div v-if="hasError">
-            <label class="block font-bold mb-5">
-                Errors
-            </label>
+            <label class="block font-bold mb-5">Errors</label>
             <div class="bg-red-200 p-6 pt-4 pb-4 rounded-lg">
                 <span class="block" v-for="i in error.map((i: any) => `${i.path.replace('$.json', '$')} ${i.error}`)">{{
                     i }}</span>
