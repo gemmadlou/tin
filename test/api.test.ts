@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
 
-describe('POST /api/schemas', () => {
+let schemaId = null;
+
+describe('[POST] /api/schemas', () => {
     describe('validation failure', async () => {
         const res = await fetch("http://localhost:3000/api/schemas", { method: 'POST' })
         const body = await res.json()
@@ -65,21 +67,46 @@ describe('POST /api/schemas', () => {
                 body: JSON.stringify(data)
             }
         )
+        const body = await res.json()
+
+        schemaId = body.id
 
         test('success', async () => {
-            const body = await res.json()
+
             expect(res.status).toEqual(201)
             expect(body.id).not.toBeUndefined()
         })
+        
 
     })
 
-    describe.skip('saving an uploaded schema file', () => {
+})
 
+describe('[DELETE] /api/schemas/', () => {
+
+    describe('validation failure: does not exist', async () => {
+        const res = await fetch(`http://localhost:3000/api/schemas/99999999`, { method: 'DELETE' })
+        const body = await res.text()
+
+        test('status code to be 404', async () => {
+            expect(res.status).toStrictEqual(404)
+        })
+
+        test('body to be empty', async () => {
+            expect(body).toEqual('')
+        })
     })
 
-    describe.skip('saving a url pointed schema', () => {
+    describe('success', async () => {
+        const res = await fetch(`http://localhost:3000/api/schemas/${schemaId}`, { method: 'DELETE' })
+        const body = await res.text()
 
+        test('status code to be 204', async () => {
+            expect(res.status).toStrictEqual(204)
+        })
+
+        test('body to be empty', async () => {
+            expect(body).toEqual('')
+        })
     })
-
 })
