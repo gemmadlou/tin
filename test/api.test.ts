@@ -83,6 +83,13 @@ describe('[POST] /api/schemas', () => {
 })
 
 describe('[GET] /api/schemas/<id>', () => {
+    describe('404', async() => {
+        const res = await fetch(`http://localhost:3000/api/schemas/9999999999`)
+        test('status code to be 404', async () => {
+            expect(res.status).toStrictEqual(404)
+        })
+    })
+
     describe('success', async () => {
         const res = await fetch(`http://localhost:3000/api/schemas/${schemaId}`)
         const body = await res.json()

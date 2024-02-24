@@ -60,7 +60,7 @@ const schema = ref({
 })
 
 let data = await $fetch(`/api/schemas/${schemaId}`)
-console.log({ data })
+
 if (data) {
     schema.value = data
     schema.value.json = JSON.stringify(data.json, null, 4)
