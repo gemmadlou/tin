@@ -57,7 +57,7 @@ It's slightly different than what I have in mind for the full version but this a
 #### Features
 
 - [ ] 📖 Users can download and install locally on their desktop potentially via Electron
-- [ ] Users can import or create a schema from a schema JSON input, a file or a URL.
+- [✅] Users can import or create a schema from a schema JSON input, view and delete schemas.
 - [ ] 📖 Users can upload delimited data, xlsx, xls, JSON, YAML and really large files against a schema.
 - [ ] 📖 Uploads are auto-extracted.
 - [ ] 📖 Users can map their data.
@@ -69,17 +69,17 @@ It's slightly different than what I have in mind for the full version but this a
 - [ ] 📖 Users can download their mapped data as a csv or delimited data, xlsx, JSON and maybe xls.
 - [ ] 📖 Housekeeping
   - [ ] Add created_at, updated_at and deleted_at to all tables
-  - [ ] Use SQLite Db by default
-  - [ ] Choose component library 
+  - [✅] Use SQLite DB.
+  - [ ] Create a new homepage where it's clearer how to upload to a new schema
 
-### v1 🪐
+### v0 🪐
 
 > [!NOTE]
 > This is future work that doesn't fit into the MVP, sadly. But I'm sure in good time, I'll get to it, eventually/hopefully. What it entails is TBC.
 
-Using [story-storming](https://storystorming.com/), I was able to trace the entire path of a user flow for creating schemas as the developer and importing data as the app user. Visualising the flow makes it easier to plan the work. See [features](#features) for the breakdown.
-
-![Alt text](./docs/images/story.png)
+- [ ] Users can import or create a schema from a JSON schema file or a URL, and edit schemas.
+- [ ] Pagination of list items
+- [ ] fix type errors from API response when using useFetch - see: https://github.com/unjs/nitro/issues/1138. eg. https://github.com/gemmadlou/tin/blob/9d792d13947177d63d80de5fadee2742cef1338d/pages/schemas/index.vue#L38
 
 ## Features
 
@@ -239,7 +239,8 @@ Create a new JSON schema of the file structure.
 {
     "$schema": "http://json-schema.org/draft-06/schema#",
     "type": "object",
-    "additionalProperties": false,
+    "title": "User",
+    "description": "User information",
     "properties": {
         "name": {
             "type": "string"
