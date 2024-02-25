@@ -34,60 +34,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="px-4 py-2">Address</td>
-                    <td class="px-4 py-2">Property address data</td>
-                    <td class="px-4 py-2">1 day ago</td>
+                <tr v-for="schema in schemas">
+                    <td class="px-4 py-2">{{ schema.name }}</td>
+                    <td class="px-4 py-2">{{ schema.description }}</td>
+                    <td class="px-4 py-2">{{ schema.created_at }}</td>
                     <td class="text-purple-500 px-4 py-2 flex items-center space-x-4 justify-end">
                         <button class="hover:text-blue-700">
                             <span class="material-icons">
-                                edit
-                            </span>
-                        </button>
-
-                        <button class="hover:text-blue-700">
-                            <span class="material-icons">
-                                post_add
-                            </span>
-                        </button>
-
-                        <button class="hover:text-blue-700">
-                            <span class="material-icons">
-                                delete
-                            </span>
-                        </button>
-                    </td>
-                    <td class="text-right">
-
-                        <button
-                            class="text-sm items-center flex space-x-4 ml-auto border-solid border-2 border-purple-500 hover:bg-purple-500 hover:text-white text-purple-500 p-6 pt-2 pb-2 rounded font-bold">
-                            <span class="material-icons">
-                                add
-                            </span>
-                            Import new file
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-4 py-2">Property</td>
-                    <td class="px-4 py-2">Property management schema</td>
-                    <td class="px-4 py-2">2 days ago</td>
-                    <td class="text-purple-500 px-4 py-2 flex items-center space-x-4 justify-end">
-                        <button class="hover:text-blue-700">
-                            <span class="material-icons">
-                                edit
-                            </span>
-                        </button>
-
-                        <button class="hover:text-blue-700">
-                            <span class="material-icons">
-                                post_add
-                            </span>
-                        </button>
-
-                        <button class="hover:text-blue-700">
-                            <span class="material-icons">
-                                delete
+                                visibility
                             </span>
                         </button>
                     </td>
@@ -105,3 +59,8 @@
         </table>
     </div>
 </template>
+
+<script setup lang="ts">
+const { data: schemas } = await useFetch('/api/schemas')
+
+</script>
