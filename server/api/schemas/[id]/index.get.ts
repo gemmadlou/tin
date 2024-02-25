@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
         return { error: "Internal server error" }
     }
 
-    let sql = 'select * from `schemas` where id = ?';
+    let sql = 'select * from `schemas` where id = ? and deleted_at is null';
     let args = [event.context.params?.id]
     let res = await db().execute({ sql, args })
 
