@@ -51,8 +51,7 @@
             <FormButtonDelete @click="showDeleteModal = true">Delete</FormButtonDelete>
         </div>
     </div>
-
-    <Modal :show-modal="showDeleteModal" @close-modal="showDeleteModal = false" @delete-item="deleteItem" />
+    <Modal :show-modal="showDeleteModal" :failure-message="failure" @close-modal="showDeleteModal = false; failure = ''" @delete-item="deleteItem" />
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showModal" class="fixed top-0 left-0 h-full w-full flex justify-center items-center">
+    <div v-if="showModal" class="fixed top-0 left-0 h-full w-full flex flex-col justify-center items-center">
         <!-- Background overlay -->
         <div class="absolute top-0 left-0 h-full w-full bg-slate-800 opacity-80" @click="$emit('closeModal')"></div>
         {{ showModal }}
@@ -27,6 +27,10 @@
                 @click="$emit('deleteItem')">{{ confirmText }}</button>
             </div>
         </div>
+
+        <div v-if="failureMessage" class="mt-2 w-full bg-red-500 text-white relative rounded-lg shadow-md p-8 pt-4 pb-4 max-w-96">
+            {{ failureMessage }}
+        </div>
     </div>
 </template>
 
@@ -52,6 +56,7 @@ const props = defineProps({
     confirmText: {
         type: String,
         default: 'Delete schema'
-    }
+    },
+    failureMessage: String
 });
 </script>
