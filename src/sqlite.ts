@@ -12,14 +12,15 @@ export const db = () => {
     return _db
 }
 
-export const transformData = <T>(input: ResultSet): Record<string, T>[] => {
+export const transformData = <T extends Record<string, unknown>>(input: ResultSet): T[] => {
     const columns = input.columns;
     const rows = input.rows;
 
     return rows.map(row => {
-        const obj: Record<string, T> = {}; // Specify type for obj
+        const obj = {} as T; // Specify type for obj
         columns.forEach((column, index) => {
-            obj[column] = row[index] as T; // Cast row[index] to type T
+            // Use type assertion for obj[column] to satisfy the TypeScript compiler
+            obj[column as keyof T] = row[index] as T[keyof T];
         });
         return obj;
     });

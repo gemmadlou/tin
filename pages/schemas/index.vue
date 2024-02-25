@@ -34,8 +34,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="schema in schemas">
-                    <td class="px-4 py-2">{{ schema.name }}</td>
+                <tr v-for="schema in schemas" :key="schema.id">
+                    <td class="px-4 py-2">{{ schema?.name }}</td>
                     <td class="px-4 py-2">{{ schema.description }}</td>
                     <td class="px-4 py-2">{{ schema.created_at }}</td>
                     <td class="text-purple-500 px-4 py-2 flex items-center space-x-4 justify-end">
@@ -64,5 +64,4 @@
 
 <script setup lang="ts">
 const { data: schemas } = await useFetch('/api/schemas')
-
 </script>
