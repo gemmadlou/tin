@@ -39,11 +39,13 @@
                     <td class="px-4 py-2">{{ schema.description }}</td>
                     <td class="px-4 py-2">{{ schema.created_at }}</td>
                     <td class="text-purple-500 px-4 py-2 flex items-center space-x-4 justify-end">
-                        <button class="hover:text-blue-700">
-                            <span class="material-icons">
-                                visibility
-                            </span>
-                        </button>
+                        <NuxtLink :to="`/schemas/${schema.id}`">
+                            <button class="hover:text-blue-700">
+                                <span class="material-icons">
+                                    visibility
+                                </span>
+                            </button>
+                        </NuxtLink>
                     </td>
                     <td class="text-right">
                         <button
