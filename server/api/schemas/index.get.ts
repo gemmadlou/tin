@@ -1,12 +1,15 @@
-import { connection } from "~/src/mysql"
+import { db, transformData } from "~/src/sqlite";
 
-export default defineEventHandler(async () => {
-    let conn = await connection()
+export default defineEventHandler(async (evnet) => {
+    let sql = 'select * from `schemas` where deleted_at is null';
+    let res = await db().execute({ sql, args: [] })
 
-    let response = await conn.query(
-        'select * from `schemas` where deleted_at is null'
-    )
+    let data = transformData<any>(res)
 
-    let schemes = JSON.parse(JSON.stringify(response[0]))
-    return schemes
+    return data.map((row) => {
+        return {
+            ...row,
+            json: JSON.parse(row.json)
+        }
+    })
 })

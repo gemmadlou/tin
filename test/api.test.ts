@@ -116,6 +116,22 @@ describe('[GET] /api/schemas/<id>', () => {
     })
 });
 
+describe('[GET] /api/schemas', () => {
+
+    describe('success', async () => {
+        const res = await fetch(`http://localhost:3000/api/schemas`)
+        const body = await res.json()
+
+        test('status code to be 200', async () => {
+            expect(res.status).toStrictEqual(200)
+        })
+
+        test('received an array of schemas', async () => {
+            expect(body.length).toBeGreaterThan(0)
+        })
+    })
+});
+
 describe('[DELETE] /api/schemas/<id>', () => {
 
     describe('validation failure: does not exist', async () => {
